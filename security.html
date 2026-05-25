@@ -89,6 +89,172 @@
     a.legal-link:hover {
       color: rgba(255, 255, 255, 0.7);
     }
+
+    /* Premium Compact Footer Styles */
+    footer[aria-label="Footer"] {
+      background-color: #000000 !important;
+      border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+      padding: 60px 20px 30px 20px !important;
+    }
+    .footer-container {
+      max-width: 1440px !important;
+      margin: 0 auto !important;
+      width: 100% !important;
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 40px !important;
+    }
+    .footer-upper {
+      display: flex !important;
+      flex-direction: row !important;
+      justify-content: space-between !important;
+      align-items: flex-start !important;
+      gap: 40px !important;
+      flex-wrap: wrap !important;
+    }
+    .footer-brand {
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 16px !important;
+      max-width: 320px !important;
+    }
+    .footer-logo {
+      height: 16px !important;
+      width: auto !important;
+      opacity: 0.9 !important;
+    }
+    .footer-tagline {
+      color: rgba(255, 255, 255, 0.5) !important;
+      font-size: 13px !important;
+      line-height: 1.6 !important;
+      font-family: var(--font-sans), sans-serif !important;
+    }
+    .footer-links-grid {
+      display: flex !important;
+      flex-direction: row !important;
+      gap: 60px !important;
+      flex-wrap: wrap !important;
+    }
+    .footer-link-col {
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 16px !important;
+      min-width: 100px !important;
+    }
+    .footer-col-title {
+      color: rgba(255, 255, 255, 0.3) !important;
+      font-size: 11px !important;
+      font-weight: 600 !important;
+      text-transform: uppercase !important;
+      letter-spacing: 0.1em !important;
+      font-family: var(--font-favorit), sans-serif !important;
+    }
+    .footer-col-links {
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 10px !important;
+    }
+    .footer-col-links a {
+      color: rgba(255, 255, 255, 0.6) !important;
+      font-size: 13px !important;
+      text-decoration: none !important;
+      transition: color 0.15s ease-in-out !important;
+      font-family: var(--font-favorit), sans-serif !important;
+      text-transform: uppercase !important;
+    }
+    .footer-col-links a:hover {
+      color: #ffffff !important;
+    }
+    .footer-lower {
+      border-top: 1px solid rgba(255, 255, 255, 0.05) !important;
+      padding-top: 24px !important;
+      display: flex !important;
+      justify-content: space-between !important;
+      align-items: center !important;
+    }
+    .footer-copyright {
+      color: rgba(255, 255, 255, 0.4) !important;
+      font-size: 11px !important;
+      text-transform: uppercase !important;
+      letter-spacing: 0.05em !important;
+      font-family: var(--font-favorit), sans-serif !important;
+    }
+    
+    @media (max-width: 768px) {
+      footer[aria-label="Footer"] {
+        padding: 40px 20px 20px 20px !important;
+      }
+      .footer-upper {
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 30px !important;
+      }
+      .footer-brand {
+        max-width: 100% !important;
+      }
+      .footer-links-grid {
+        gap: 30px !important;
+        display: grid !important;
+        grid-template-cols: repeat(2, 1fr) !important;
+      }
+    }
+
+    /* Marquee Styles */
+    .marquee-container {
+      display: flex;
+      overflow: hidden;
+      width: 100%;
+      mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+      -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    }
+    .marquee-track {
+      display: flex;
+      width: max-content;
+      animation: marquee 22s linear infinite;
+      will-change: transform;
+    }
+    .marquee-track.reverse {
+      animation: marquee-reverse 22s linear infinite;
+    }
+    .marquee-content {
+      display: flex;
+      gap: 8rem;
+      padding-right: 8rem;
+      flex-shrink: 0;
+    }
+    @keyframes marquee {
+      0% { transform: translate3d(0, 0, 0); }
+      100% { transform: translate3d(-50%, 0, 0); }
+    }
+    @keyframes marquee-reverse {
+      0% { transform: translate3d(-50%, 0, 0); }
+      100% { transform: translate3d(0, 0, 0); }
+    }
+    .marquee-content img {
+      height: 60px;
+      width: 60px;
+      object-fit: contain;
+      filter: brightness(1.1);
+      transition: filter 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
+                  transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
+                  background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
+                  box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      border-radius: 50%;
+      padding: 10px;
+    }
+    @media (min-width: 768px) {
+      .marquee-content img {
+        height: 80px;
+        width: 80px;
+        padding: 12px;
+      }
+    }
+    .marquee-content img:hover {
+      background-color: rgba(255, 255, 255, 0.08);
+      box-shadow: 0 0 24px rgba(255, 255, 255, 0.15);
+      filter: brightness(1.4);
+      transform: scale(1.15);
+    }
   </style>
 </head>
 <body class="antialiased">
@@ -151,6 +317,24 @@
             const tempDiv = document.createElement('div');
             tempDiv.innerHTML = html.trim();
             const newElement = tempDiv.firstElementChild;
+            
+            // Execute styles inside dynamically loaded modular components
+            const styles = newElement.querySelectorAll('style');
+            styles.forEach(oldStyle => {
+              const newStyle = document.createElement('style');
+              newStyle.textContent = oldStyle.textContent;
+              oldStyle.parentNode.replaceChild(newStyle, oldStyle);
+            });
+
+            // Execute scripts inside dynamically loaded modular components
+            const scripts = newElement.querySelectorAll('script');
+            scripts.forEach(oldScript => {
+              const newScript = document.createElement('script');
+              newScript.textContent = oldScript.textContent;
+              Array.from(oldScript.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value));
+              oldScript.parentNode.replaceChild(newScript, oldScript);
+            });
+            
             placeholder.replaceWith(newElement);
           }
         }
