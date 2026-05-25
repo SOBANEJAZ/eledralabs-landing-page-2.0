@@ -5,7 +5,11 @@ This changelog presents a comprehensive, granular list of every feature added an
 
 ---
 
-### 🚀 0. Deployment & Analytics
+### 🎨 0. Hero Section & Branding
+*   **Changed**: Increased the size of the main "Eledralabs" hero title to make it more prominent (`text-[5.5rem]`/`text-[6.5rem]`).
+*   **Removed**: Removed the "Precision automation" subtitle line from the main hero heading for a cleaner aesthetic.
+
+### 🚀 1. Deployment & Analytics
 *   **Added**: Configured `vercel.json` with the production project namespace for Vercel CLI deployments.
 *   **Added**: Installed `@vercel/speed-insights` package and injected Vanilla JS snippet into `index.html` to track Real Experience Scores (Core Web Vitals).
 *   **Added**: Installed `@vercel/analytics` package and injected Vanilla JS snippet into `index.html` to automatically track unique visitors and pageviews.
