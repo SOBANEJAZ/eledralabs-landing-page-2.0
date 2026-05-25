@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="preload" as="image" href="icons/eledralabs-logo.svg" />
+  <link rel="stylesheet" href="_next/static/css/22fc3ddbcea4d99d.css" />
+  <link rel="stylesheet" href="_next/static/css/30e18030616558b6.css" />
+  <title>Security Policy - Eledralabs</title>
+  <meta name="description" content="Eledralabs Security Policy. Understand our engineering protocols, infrastructure protection, and vulnerability disclosure programs." />
+  <link rel="icon" href="favicon.ico%3Fe708dcf1b77b3a3b" type="image/x-icon" sizes="48x48" />
+  
+  <style>
+    /* Lenis Smooth Scroll Recommended CSS */
+    html.lenis, html.lenis body {
+      height: auto;
+    }
+    .lenis.lenis-smooth {
+      scroll-behavior: auto !important;
+    }
+    .lenis.lenis-smooth [data-lenis-prevent] {
+      overscroll-behavior: contain;
+    }
+    .lenis.lenis-stopped {
+      overflow: hidden;
+    }
+    .lenis.lenis-scrolling iframe {
+      pointer-events: none;
+    }
+
+    body {
+      background-color: #000000;
+      color: rgba(255, 255, 255, 0.7);
+      font-family: var(--font-sans), sans-serif;
+      transition: opacity 0.15s ease-in-out;
+    }
+    .legal-container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding-top: 8rem;
+      padding-bottom: 6rem;
+    }
+    .legal-content h1 {
+      color: #ffffff;
+      font-size: 2.25rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.5rem;
+      font-family: var(--font-sans), sans-serif;
+    }
+    .legal-content h2 {
+      color: #ffffff;
+      font-size: 1.35rem;
+      font-weight: 600;
+      margin-top: 2.5rem;
+      margin-bottom: 1rem;
+      font-family: var(--font-sans), sans-serif;
+      letter-spacing: -0.01em;
+    }
+    .legal-content p {
+      line-height: 1.7;
+      margin-bottom: 1.25rem;
+      font-size: 0.95rem;
+    }
+    .legal-content ul {
+      margin-bottom: 1.5rem;
+      padding-left: 1.25rem;
+      list-style-type: square;
+    }
+    .legal-content li {
+      margin-bottom: 0.5rem;
+      line-height: 1.6;
+      font-size: 0.95rem;
+    }
+    .legal-meta {
+      color: rgba(255, 255, 255, 0.4);
+      font-size: 0.75rem;
+      margin-bottom: 3rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-family: var(--font-favorit), monospace;
+    }
+    a.legal-link {
+      color: #ffffff;
+      text-decoration: underline;
+      text-underline-offset: 4px;
+      transition: color 0.15s ease;
+    }
+    a.legal-link:hover {
+      color: rgba(255, 255, 255, 0.7);
+    }
+  </style>
+</head>
+<body class="antialiased">
+  
+  <!-- Dynamic Header Placeholder -->
+  <header id="header-placeholder" class="fixed top-0 left-0 right-0 z-50 bg-transparent h-16" aria-hidden="true"></header>
+
+  <!-- Legal Main Content -->
+  <div class="px-5">
+    <main class="legal-container">
+      <div class="legal-content">
+        <h1>Security at Eledralabs</h1>
+        <div class="legal-meta">Last Updated: May 25, 2026</div>
+
+        <p>At Eledralabs, trust and system security are deeply embedded in our engineering culture. As we build precision-engineered Web and AI workflows for enterprise stacks, we enforce rigorous defensive controls to secure your data, integrations, and operational infrastructures.</p>
+
+        <h2>1. Infrastructure Protection</h2>
+        <p>Our automation engines and computing servers are hosted inside premier, ISO 27001, SOC 2 Type II certified cloud environments. We leverage microservice isolation and containerized sandboxes to host and deploy automated workflows. No two customer tenants run inside the same computing segment, ensuring strict data boundaries.</p>
+
+        <h2>2. Data Encryption</h2>
+        <p>We secure data at all stages of its lifecycle:</p>
+        <ul>
+          <li><strong>Data in Transit:</strong> All communication between your browsers, remote APIs, and Eledralabs servers is encrypted using TLS 1.3 cryptographic pathways. We enforce HTTP Strict Transport Security (HSTS) globally.</li>
+          <li><strong>Data at Rest:</strong> Internal operational databases, logs, and system credentials are encrypted using industry-leading AES-256 standard encryption keys.</li>
+        </ul>
+
+        <h2>3. API & Third-Party Integration Security</h2>
+        <p>Eledralabs integrates securely with your existing tech stacks. API keys, access secrets, and third-party oauth tokens are locked inside specialized hardware security modules (HSM) and cloud vaults. We strictly follow the Principle of Least Privilege (PoLP) when requesting API permissions from your platforms.</p>
+
+        <h2>4. Zero-Trust Access Control</h2>
+        <p>Only essential core engineers have administrative credentials to Eledralabs infrastructure. All employee access requires multi-factor authentication (MFA) and is authorized exclusively through audited, secure virtual private networks. System logs are captured and monitored continuously for anomalous activities.</p>
+
+        <h2>5. Vulnerability Management</h2>
+        <p>We actively scan our software dependencies, libraries, and containers for emerging security threats and security issues daily. Patching operations are implemented automatically. Additionally, we run continuous automated code analysis to detect potential architectural exploits before they hit production.</p>
+
+        <h2>6. Responsible Vulnerability Disclosure</h2>
+        <p>If you identify a potential security flaw or architectural exploit within our systems, we encourage you to report it immediately. We are dedicated to working constructively with independent security researchers who report issues responsibly:</p>
+        <ul>
+          <li>Please send encrypted vulnerability details directly to <a class="legal-link" href="mailto:security@eledralabs.com">security@eledralabs.com</a>.</li>
+          <li>Provide a reproducible proof-of-concept to assist our patching team.</li>
+          <li>Allow our team a reasonable timeframe to analyze and patch the exploit before publishing details publicly.</li>
+        </ul>
+      </div>
+    </main>
+  </div>
+
+  <!-- Dynamic Footer Placeholder -->
+  <footer id="footer-placeholder"></footer>
+
+  <!-- Dynamic Component Loader Script -->
+  <script>
+    async function loadComponent(placeholderId, url) {
+      try {
+        const cacheBustUrl = url + (url.includes('?') ? '&' : '?') + 't=' + Date.now();
+        const response = await fetch(cacheBustUrl);
+        if (response.ok) {
+          const html = await response.text();
+          const placeholder = document.getElementById(placeholderId);
+          if (placeholder) {
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = html.trim();
+            const newElement = tempDiv.firstElementChild;
+            placeholder.replaceWith(newElement);
+          }
+        }
+      } catch (err) {
+        console.error("Error loading component " + url + ":", err);
+      }
+    }
+    
+    document.addEventListener("DOMContentLoaded", () => {
+      Promise.all([
+        loadComponent("header-placeholder", "components/header.html"),
+        loadComponent("footer-placeholder", "components/footer.html")
+      ]).then(() => {
+        document.dispatchEvent(new Event("ComponentsLoaded"));
+      });
+    });
+  </script>
+
+  <!-- Buttery smooth scrolling (Lenis) -->
+  <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const lenis = new Lenis({
+        duration: 1.1,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        direction: 'vertical',
+        gestureDirection: 'vertical',
+        smooth: true,
+        smoothTouch: false,
+        touchMultiplier: 1.5,
+        infinite: false,
+      });
+
+      function raf(time) {
+        lenis.raf(time);
+        requestAnimationFrame(raf);
+      }
+      requestAnimationFrame(raf);
+      
+      window.lenis = lenis;
+    });
+  </script>
+</body>
+</html>
