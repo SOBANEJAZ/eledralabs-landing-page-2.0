@@ -15,7 +15,7 @@
   <meta property="og:description" content="Architectural automation. We build precision-engineered Web and AI workflows that reduce operational drag and automate critical systems." />
   <meta property="og:url" content="https://eledralabs.com" />
   <meta property="og:site_name" content="Eledralabs" />
-  <meta property="og:image" content="https://eledralabs.com/backgrounds/lab-cover.png?v=2" />
+  <meta property="og:image" content="https://eledralabs.com/screenshots/eledra%20labs%20welcome%20post.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta property="og:image:alt" content="Eledralabs" />
@@ -23,11 +23,28 @@
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Eledralabs - Precision Automation for Your Stack" />
   <meta name="twitter:description" content="Architectural automation. We build precision-engineered Web and AI workflows that reduce operational drag and automate critical systems." />
-  <meta name="twitter:image" content="https://eledralabs.com/backgrounds/lab-cover.png?v=2" />
+  <meta name="twitter:image" content="https://eledralabs.com/screenshots/eledra%20labs%20welcome%20post.png" />
   <link rel="icon" href="favicon.ico%3Fe708dcf1b77b3a3b" type="image/x-icon" sizes="48x48" />
   <link rel="icon" href="https://eledralabs.com/icons/logo-icon.png" />
   <link rel="apple-touch-icon" href="https://eledralabs.com/icons/logo-icon.png" />
   <style>
+    /* Lenis Smooth Scroll Recommended CSS */
+    html.lenis, html.lenis body {
+      height: auto;
+    }
+    .lenis.lenis-smooth {
+      scroll-behavior: auto !important;
+    }
+    .lenis.lenis-smooth [data-lenis-prevent] {
+      overscroll-behavior: contain;
+    }
+    .lenis.lenis-stopped {
+      overflow: hidden;
+    }
+    .lenis.lenis-scrolling iframe {
+      pointer-events: none;
+    }
+
     body {
       transition: opacity 0.15s ease-in-out;
     }
@@ -270,16 +287,20 @@
       mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
       -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
     }
+    .marquee-track {
+      display: flex;
+      width: max-content;
+      animation: marquee 22s linear infinite;
+      will-change: transform;
+    }
+    .marquee-track.reverse {
+      animation: marquee-reverse 22s linear infinite;
+    }
     .marquee-content {
       display: flex;
       gap: 8rem;
       padding-right: 8rem;
-      animation: marquee 22s linear infinite;
-      width: max-content;
-      will-change: transform;
-    }
-    .marquee-content.reverse {
-      animation: marquee-reverse 22s linear infinite;
+      flex-shrink: 0;
     }
     @keyframes marquee {
       0% { transform: translate3d(0, 0, 0); }
@@ -291,18 +312,27 @@
     }
     .marquee-content img {
       height: 60px;
-      width: auto;
+      width: 60px;
       object-fit: contain;
-      filter: brightness(1.1) drop-shadow(0 0 8px rgba(255,255,255,0.08));
-      transition: filter 0.3s ease, transform 0.3s ease;
+      filter: brightness(1.1);
+      transition: filter 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
+                  transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
+                  background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
+                  box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      border-radius: 50%;
+      padding: 10px;
     }
     @media (min-width: 768px) {
       .marquee-content img {
         height: 80px;
+        width: 80px;
+        padding: 12px;
       }
     }
     .marquee-content img:hover {
-      filter: brightness(1.4) drop-shadow(0 0 24px rgba(255,255,255,0.5));
+      background-color: rgba(255, 255, 255, 0.08);
+      box-shadow: 0 0 24px rgba(255, 255, 255, 0.15);
+      filter: brightness(1.4);
       transform: scale(1.15);
     }
   </style>
@@ -311,7 +341,7 @@
   <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NVBMZCW5" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   
   <!-- Header Placeholder -->
-  <header id="header-placeholder" class="fixed top-0 left-0 right-0 z-50 bg-black/40 backdrop-blur-md border-b border-white/5 h-16 flex items-center justify-center text-white/50 font-favorit text-xs uppercase">Loading Header...</header>
+  <header id="header-placeholder" class="fixed top-0 left-0 right-0 z-50 bg-transparent h-16" aria-hidden="true"></header>
   <div class="max-w-360 mx-auto px-4 md:px-5">
     <main class="min-h-screen">
       <!-- Section Placeholders -->
@@ -389,8 +419,12 @@
           const solutionsSection = document.getElementById("solutions"); // already exists
           // SPA Navigation Handler
           const navigateTo = (hash) => {
-            // Reset scrolling
-            window.scrollTo({ top: 0, behavior: "smooth" });
+            // Reset scrolling via Lenis if loaded, otherwise natively
+            if (window.lenis) {
+              window.lenis.scrollTo(0, { immediate: true });
+            } else {
+              window.scrollTo({ top: 0, behavior: "auto" });
+            }
             // Fade transition effect
             const fadeTransition = (showCallback) => {
               document.body.style.opacity = 0;
@@ -477,7 +511,7 @@
             // Support logo returning to home
             if (href === "index.html" || href === "/" || href === "") {
               e.preventDefault();
-              history.pushState(null, "", "index.html");
+              history.pushState(null, "", window.location.pathname.replace("index.html", "") || "/");
               navigateTo("");
               return;
             }
@@ -502,6 +536,34 @@
           }
         });
       </script>
+  <!-- Buttery smooth scrolling (Lenis) -->
+  <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // Initialize Lenis
+      const lenis = new Lenis({
+        duration: 1.1, // Duration in seconds
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Seamless desmos exponential easing curve
+        direction: 'vertical',
+        gestureDirection: 'vertical',
+        smooth: true,
+        smoothTouch: false, // Keep native touch controls untouched
+        touchMultiplier: 1.5,
+        infinite: false,
+      });
+
+      // Frame animation hook
+      function raf(time) {
+        lenis.raf(time);
+        requestAnimationFrame(raf);
+      }
+      requestAnimationFrame(raf);
+
+      // Save to window for global access
+      window.lenis = lenis;
+    });
+  </script>
+
   <!-- Vercel Speed Insights (Vanilla JS) -->
   <script>
     window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
