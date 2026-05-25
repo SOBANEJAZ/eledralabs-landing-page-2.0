@@ -1,3 +1,4 @@
 {
-  "name": "eledralabs-website"
+  "name": "eledralabs-website",
+  "cleanUrls": true
 }
