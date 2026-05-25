@@ -1,4 +1,4 @@
-# Eledralabs — High-Performance Automation & Web Architecture
+# Eledralabs — precision-engineered Web and AI workflows
 
 Eledralabs is an architectural automation and bespoke engineering landing platform designed from the ground up to showcase state-of-the-art Web and AI systems. Built with ultra-high contrast dark aesthetics, responsive layouts, modular client-side loading, and micro-animations.
 
