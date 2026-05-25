@@ -516,9 +516,12 @@
               return;
             }
             // Support hash-driven SPA pages
-            if (href.startsWith("#") || href.startsWith("/contact") || href.startsWith("/solutions") || href.startsWith("/industries") || href.startsWith("/faq")) {
+            if (href.startsWith("#") || href.startsWith("/#") || href.startsWith("/contact") || href.startsWith("/solutions") || href.startsWith("/industries") || href.startsWith("/faq")) {
               e.preventDefault();
               let targetHash = href;
+              if (href.startsWith("/#")) {
+                targetHash = href.substring(1);
+              }
               if (href === "/contact") targetHash = "#contact";
               if (href === "/solutions") targetHash = "#solutions";
               if (href === "/industries") targetHash = "#products";
