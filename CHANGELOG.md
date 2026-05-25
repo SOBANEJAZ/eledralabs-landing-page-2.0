@@ -5,6 +5,12 @@ This changelog presents a comprehensive, granular list of every feature added an
 
 ---
 
+### 🚀 0. Deployment & Analytics
+*   **Added**: Configured `vercel.json` with the production project namespace for Vercel CLI deployments.
+*   **Added**: Installed `@vercel/speed-insights` package and injected Vanilla JS snippet into `index.html` to track Real Experience Scores (Core Web Vitals).
+*   **Added**: Installed `@vercel/analytics` package and injected Vanilla JS snippet into `index.html` to automatically track unique visitors and pageviews.
+*   **Added**: Updated `.gitignore` to prevent committing the `.vercel` project cache folder.
+
 ### 🌐 1. Navigation Header & Menu Changes
 *   **Added**: Dynamic height-shrinking transition that contracts the navbar height from `64px` (un-scrolled) down to a compact `52px` (scrolled).
 *   **Added**: Smooth transition timing parameters (`0.4s`) utilizing custom premium curves (`cubic-bezier(0.16, 1, 0.3, 1)`).
