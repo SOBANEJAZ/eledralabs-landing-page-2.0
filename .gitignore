@@ -39,3 +39,8 @@ next-env.d.ts
 
 # scratch temporary files
 /scratch/
+
+# legacy static-site artifacts (removed — project is now Next.js)
+/backups/
+/bun.lock
+next-env.d.ts
