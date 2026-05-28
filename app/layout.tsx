@@ -6,6 +6,7 @@ import { SpeedInsights } from '@vercel/speed-insights/next'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import LenisInit from '@/components/LenisInit'
+import TiltInit from '@/components/TiltInit'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -73,6 +74,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
         {/* Lenis Smooth Scroll */}
         <LenisInit />
+
+        {/* 3D Tilt Hover Dynamic Initializer */}
+        <TiltInit />
 
         {/* Google Analytics */}
         <Script

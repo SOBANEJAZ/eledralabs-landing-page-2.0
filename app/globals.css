@@ -2039,3 +2039,47 @@ a.legal-link {
 a.legal-link:hover {
   color: rgba(255, 255, 255, 0.7);
 }
+
+/* ============================================
+   3D TILT HOVER & PREMIUM GLARE STYLES
+   ============================================ */
+/* Setup perspective parent containers to enable true 3D spatial transforms */
+.pillar-stage,
+.bento-grid,
+#solutions .grid,
+#products .grid,
+#solutions-testimonials-section,
+.svc-row {
+  perspective: 1200px !important;
+}
+
+/* Ensure child elements are processed with preserve-3d and transition smoothly */
+.pillar-card,
+.bento-card,
+.sol-feature-card,
+.product-detail-card,
+.product-pricing-card,
+#solutions-testimonials-section a,
+.svc-row .svc-content-col,
+.svc-row .svc-img-col {
+  transform-style: preserve-3d !important;
+  will-change: transform !important;
+  position: relative;
+  /* Premium, elegant, slow easing transitions */
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.8s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+/* Specific glare container class */
+.card-glare-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 99;
+  mix-blend-mode: overlay;
+  opacity: 0;
+  /* Match parent's border radius dynamically */
+  border-radius: inherit;
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: background, opacity;
+}
+
