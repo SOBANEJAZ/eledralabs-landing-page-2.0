@@ -19,6 +19,9 @@ export default function TiltInit() {
 
     let activeCard: HTMLElement | null = null
 
+    const isProductCard = (card: HTMLElement) =>
+      card.classList.contains('product-detail-card') || card.classList.contains('product-pricing-card')
+
     const updateCard = (card: HTMLElement, e: MouseEvent) => {
       const rect = card.getBoundingClientRect()
       const x = e.clientX - rect.left
@@ -27,8 +30,13 @@ export default function TiltInit() {
       const centerX = rect.width / 2
       const centerY = rect.height / 2
 
-      // Subtle, elegant 3D tilt (max 9 degrees, inverted so the hovered edge pops up)
-      const maxRotation = 9
+      // Page-aware tilt intensity — product cards get a gentler effect
+      const subtle = isProductCard(card)
+      const maxRotation = subtle ? 3 : 9
+      const scale = subtle ? 1.01 : 1.04
+      const zLift = subtle ? 8 : 24
+      const glareAlpha = subtle ? 0.06 : 0.12
+
       const rotateX = -((centerY - y) / centerY) * maxRotation
       const rotateY = -((x - centerX) / centerX) * maxRotation
 
@@ -43,7 +51,7 @@ export default function TiltInit() {
       }
 
       // Elegant lift & tilt and bring active card to top
-      card.style.transform = `perspective(1200px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) scale3d(1.04, 1.04, 1.04) translateZ(24px)${extraTransforms}`
+      card.style.transform = `perspective(1200px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) scale3d(${scale}, ${scale}, ${scale}) translateZ(${zLift}px)${extraTransforms}`
       card.style.zIndex = '50'
 
       // Create/Get glare element dynamically
@@ -57,7 +65,7 @@ export default function TiltInit() {
       // Track glare coordinates
       const glareX = (x / rect.width) * 100
       const glareY = (y / rect.height) * 100
-      glare.style.background = `radial-gradient(circle at ${glareX.toFixed(2)}% ${glareY.toFixed(2)}%, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0) 65%)`
+      glare.style.background = `radial-gradient(circle at ${glareX.toFixed(2)}% ${glareY.toFixed(2)}%, rgba(255, 255, 255, ${glareAlpha}) 0%, rgba(255, 255, 255, 0) 65%)`
       glare.style.opacity = '1'
     }
 
