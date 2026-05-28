@@ -19,6 +19,18 @@ const techLogos = [
   { src: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/graphql/graphql-plain.svg', alt: 'GraphQL' },
 ]
 
+function Letters({ text, className }: { text: string; className?: string }) {
+  return (
+    <>
+      {text.split('').map((char, i) => (
+        <span key={i} className={`letter${className ? ` ${className}` : ''}`} style={{ '--i': i } as React.CSSProperties}>
+          {char === ' ' ? '\u00A0' : char}
+        </span>
+      ))}
+    </>
+  )
+}
+
 export default function Hero() {
   const [introPhase, setIntroPhase] = useState<'loading' | 'ready' | 'bursting' | 'gone'>(
     'loading',
@@ -26,7 +38,7 @@ export default function Hero() {
   const [minimumLoaded, setMinimumLoaded] = useState(false)
 
   useEffect(() => {
-    const minimumTimer = window.setTimeout(() => setMinimumLoaded(true), 1400)
+    const minimumTimer = window.setTimeout(() => setMinimumLoaded(true), 400)
     return () => {
       window.clearTimeout(minimumTimer)
     }
@@ -80,7 +92,7 @@ export default function Hero() {
               muted
               loop
               playsInline
-              preload="auto"
+              preload="metadata"
               poster="/backgrounds/pi-glass-loop-poster.webp"
               className="absolute inset-0 h-full w-full translate-x-36 -translate-y-22 -scale-x-160 scale-y-160 object-cover object-[90%_98%] max-[560px]:translate-x-20 max-[560px]:-translate-y-10 max-[560px]:-scale-x-145 max-[560px]:scale-y-145 max-[560px]:object-[78%_92%] xl:translate-x-6 xl:-translate-y-16 xl:-scale-x-110 xl:scale-y-160 xl:object-[62%_98%]"
             >
@@ -108,16 +120,15 @@ export default function Hero() {
           <div className="flex flex-1 flex-col items-start">
             <h1
               className="hero-el-h1 leading-110 tracking-[0.08em]"
-              style={{ fontSize: 'clamp(3.1rem, 6.3vw, 5.5rem)' }}
+              style={{ fontSize: 'clamp(2.5rem, 5.8vw, 4.9rem)' }}
             >
               <span className="block">
-                <span className="text-white font-bold">eledra</span>
-                <span className="text-[#888888] font-normal"> labs</span>
+                <span className="text-white font-bold"><Letters text="eledra" /></span>
+                <span className="text-[#888888] font-normal"><Letters text=" labs" /></span>
               </span>
             </h1>
             <p className="hero-el-sub max-w-100 leading-normal text-white/50 mt-5">
-              We build precision-engineered Web and AI workflows that reduce operational drag and
-              automate critical systems.
+              <Letters text="We build precision-engineered Web and AI workflows that reduce operational drag and automate critical systems." />
             </p>
             <div className="hero-el-cta flex items-center gap-1 font-favorit mt-10">
               <Link

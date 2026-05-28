@@ -47,9 +47,21 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={GeistSans.variable}>
       <head>
+        {/* Critical image preloads */}
         <link rel="preload" as="image" href="/icons/eledralabs-logo.svg" />
         <link rel="preload" as="image" href="/backgrounds/lab.png" />
         <link rel="preload" as="image" href="/backgrounds/landing.png" />
+        <link rel="preload" as="image" href="/backgrounds/pi-glass-loop-poster.webp" />
+
+        {/* Font preloads — eliminates FOUT for ABC Favorit Mono */}
+        <link rel="preload" as="font" type="font/woff2" href="/fonts/ABCFavoritMono-Regular-Trial.woff2" crossOrigin="anonymous" />
+        <link rel="preload" as="font" type="font/woff2" href="/fonts/ABCFavoritMono-Medium-Trial.woff2" crossOrigin="anonymous" />
+
+        {/* Preconnect to external CDNs used for logos and smooth scroll */}
+        <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+        <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
+        <link rel="preconnect" href="https://unpkg.com" />
+        <link rel="dns-prefetch" href="https://unpkg.com" />
       </head>
       <body className="antialiased" suppressHydrationWarning>
         {/* Google Tag Manager (noscript fallback) */}

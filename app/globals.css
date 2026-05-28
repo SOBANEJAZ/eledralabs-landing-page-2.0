@@ -592,6 +592,25 @@ body:has(.hero-intro-overlay) {
   }
 }
 
+/* Hero content hover shake — per-letter */
+.hero-el-h1 .letter,
+.hero-el-sub .letter {
+  display: inline-block;
+  transition: transform 0.15s ease;
+}
+.hero-el-h1 .letter:hover,
+.hero-el-sub .letter:hover {
+  animation: letterShakeUp 0.5s ease both;
+}
+@keyframes letterShakeUp {
+  0% { transform: translateY(0) translateX(0); }
+  20% { transform: translateY(-3px) translateX(-1px); }
+  40% { transform: translateY(-1px) translateX(1px); }
+  60% { transform: translateY(-2px) translateX(-0.5px); }
+  80% { transform: translateY(-1px) translateX(0.5px); }
+  100% { transform: translateY(0) translateX(0); }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .hero-intro-loading,
   .hero-intro-loading-fill,
@@ -600,7 +619,11 @@ body:has(.hero-intro-overlay) {
   .hero-intro-overlay.is-bursting .hero-intro-status,
   .hero-content-revealing .hero-el-h1,
   .hero-content-revealing .hero-el-sub,
-  .hero-content-revealing .hero-el-cta {
+  .hero-content-revealing .hero-el-cta,
+  .hero-el-h1:hover,
+  .hero-el-sub:hover,
+  .hero-el-h1 .letter:hover,
+  .hero-el-sub .letter:hover {
     animation-duration: 1ms !important;
     animation-iteration-count: 1 !important;
   }
@@ -816,7 +839,7 @@ body:has(.hero-intro-overlay) {
 footer[aria-label="Footer"] {
   background-color: #000000 !important;
   border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
-  padding: 60px 20px 30px 20px !important;
+  padding: 90px 20px 60px 20px !important;
 }
 .footer-container {
   max-width: 1440px !important;
@@ -824,43 +847,43 @@ footer[aria-label="Footer"] {
   width: 100% !important;
   display: flex !important;
   flex-direction: column !important;
-  gap: 40px !important;
+  gap: 64px !important;
 }
 .footer-upper {
   display: flex !important;
   flex-direction: row !important;
   justify-content: space-between !important;
   align-items: flex-start !important;
-  gap: 40px !important;
+  gap: 60px !important;
   flex-wrap: wrap !important;
 }
 .footer-brand {
   display: flex !important;
   flex-direction: column !important;
-  gap: 16px !important;
-  max-width: 320px !important;
+  gap: 20px !important;
+  max-width: 380px !important;
 }
 .footer-logo {
-  height: 16px !important;
+  height: 20px !important;
   width: auto !important;
   opacity: 0.9 !important;
 }
 .footer-tagline {
   color: rgba(255, 255, 255, 0.5) !important;
-  font-size: 13px !important;
-  line-height: 1.6 !important;
+  font-size: 14px !important;
+  line-height: 1.7 !important;
   font-family: var(--font-sans), sans-serif !important;
 }
 .footer-links-grid {
   display: flex !important;
   flex-direction: row !important;
-  gap: 60px !important;
+  gap: 80px !important;
   flex-wrap: wrap !important;
 }
 .footer-link-col {
   display: flex !important;
   flex-direction: column !important;
-  gap: 16px !important;
+  gap: 20px !important;
   min-width: 100px !important;
 }
 .footer-col-title {
@@ -874,11 +897,11 @@ footer[aria-label="Footer"] {
 .footer-col-links {
   display: flex !important;
   flex-direction: column !important;
-  gap: 10px !important;
+  gap: 14px !important;
 }
 .footer-col-links a {
   color: rgba(255, 255, 255, 0.6) !important;
-  font-size: 13px !important;
+  font-size: 14px !important;
   text-decoration: none !important;
   transition: color 0.15s ease-in-out !important;
   font-family: var(--font-favorit), sans-serif !important;
@@ -889,14 +912,14 @@ footer[aria-label="Footer"] {
 }
 .footer-lower {
   border-top: 1px solid rgba(255, 255, 255, 0.05) !important;
-  padding-top: 24px !important;
+  padding-top: 36px !important;
   display: flex !important;
   justify-content: space-between !important;
   align-items: center !important;
 }
 .footer-copyright {
   color: rgba(255, 255, 255, 0.4) !important;
-  font-size: 11px !important;
+  font-size: 12px !important;
   text-transform: uppercase !important;
   letter-spacing: 0.05em !important;
   font-family: var(--font-favorit), sans-serif !important;
@@ -1024,18 +1047,18 @@ footer[aria-label="Footer"] {
 }
 @media (max-width: 768px) {
   footer[aria-label="Footer"] {
-    padding: 40px 20px 20px 20px !important;
+    padding: 60px 20px 48px 20px !important;
   }
   .footer-upper {
     flex-direction: column !important;
     align-items: stretch !important;
-    gap: 30px !important;
+    gap: 40px !important;
   }
   .footer-brand {
     max-width: 100% !important;
   }
   .footer-links-grid {
-    gap: 30px !important;
+    gap: 32px !important;
     display: grid !important;
     grid-template-columns: repeat(2, 1fr) !important;
   }

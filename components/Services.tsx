@@ -197,143 +197,199 @@ export default function Services({ showTestimonials = false }: ServicesProps) {
         ))}
       </div>
 
-      {/* Testimonials Grid — shown only on /solutions */}
+      {/* Illustration Cards — shown only on /solutions */}
       {showTestimonials && (
         <div
           id="solutions-testimonials-section"
           className="grid grid-cols-1 xl:grid-cols-[minmax(0,2fr)_minmax(360px,1fr)] mt-6 md:mt-8 lg:mt-10 border border-border"
         >
-          {/* Card 1 */}
+          {/* Card 1 — Yellow — Circuit Schematic (Option B) */}
           <Link
-            className="group min-h-75 relative flex flex-col p-5 overflow-hidden gap-8 xl:border-r xl:border-border xl:gap-0 xl:justify-between"
+            className="group min-h-75 relative flex flex-col p-5 overflow-hidden xl:border-r xl:border-border justify-between"
             href="/contact"
-            style={{ background: '#d4f33b', color: '#000000' }}
+            style={{ background: '#d4f33b' }}
           >
-            <p
-              className="relative z-10 text-24 leading-120 text-black max-w-140 font-sans"
-              style={{ color: '#000000', fontWeight: 500 }}
-            >
-              &ldquo;Eledra Labs automated our entire customer workflow, every lead is now qualified,
-              routed, and followed up within seconds. It&apos;s like adding a full operations team
-              without the headcount.&rdquo;
-            </p>
-            <div className="relative z-10 flex items-center justify-between">
-              <div className="flex items-center gap-5">
-                <div
-                  style={{
-                    width: 40,
-                    height: 40,
-                    borderRadius: '50%',
-                    background: 'rgba(0,0,0,0.08)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontWeight: 700,
-                    fontSize: 18,
-                    color: '#000',
-                  }}
-                >
-                  S
-                </div>
-                <div className="flex flex-col font-sans">
-                  <p
-                    className="text-18 text-black leading-normal"
-                    style={{ color: '#000000', fontWeight: 600 }}
-                  >
-                    Saloni
-                  </p>
-                </div>
-              </div>
-              <span
-                aria-hidden="true"
-                className="pointer-events-none flex items-center gap-1 text-sm text-black font-sans opacity-50 group-hover:opacity-80 transition-opacity"
+            <span className="relative z-10 font-favorit text-xs tracking-widest text-black/40 uppercase">
+              Automation Pipeline
+            </span>
+
+            {/* Schematic SVG */}
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+              <svg
+                viewBox="0 0 780 190"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                className="w-full"
+                style={{ maxHeight: '190px' }}
               >
-                <span className="leading-none" style={{ color: '#000000' }}>
-                  Read case study
-                </span>
-                <svg
-                  width="14"
-                  height="14"
-                  viewBox="0 0 12 12"
-                  fill="none"
-                  className="w-3.5 h-3.5 text-black"
-                >
-                  <path
-                    d="M4.75 9.125L7.875 6L4.75 2.875"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    strokeLinecap="square"
-                  />
-                </svg>
+                <defs>
+                  <pattern id="svc-dot-grid" width="28" height="28" patternUnits="userSpaceOnUse">
+                    <circle cx="14" cy="14" r="1" fill="black" fillOpacity="0.08" />
+                  </pattern>
+                </defs>
+                <rect width="780" height="190" fill="url(#svc-dot-grid)" />
+
+                {/* Corner L-brackets */}
+                <path d="M18 38 L18 18 L38 18" stroke="black" strokeWidth="1.5" strokeOpacity="0.2" />
+                <path d="M762 38 L762 18 L742 18" stroke="black" strokeWidth="1.5" strokeOpacity="0.2" />
+                <path d="M18 152 L18 172 L38 172" stroke="black" strokeWidth="1.5" strokeOpacity="0.2" />
+                <path d="M762 152 L762 172 L742 172" stroke="black" strokeWidth="1.5" strokeOpacity="0.2" />
+
+                {/* Entry node */}
+                <circle cx="38" cy="95" r="6" stroke="black" strokeWidth="1.5" strokeOpacity="0.3" />
+                <line x1="44" y1="95" x2="88" y2="95" stroke="black" strokeWidth="1.5" strokeOpacity="0.2" strokeDasharray="4 3" />
+
+                {/* INGEST box */}
+                <rect x="88" y="74" width="98" height="42" stroke="black" strokeWidth="1.5" strokeOpacity="0.3" />
+                <text x="137" y="92" textAnchor="middle" fill="black" fillOpacity="0.55" fontSize="7.5" fontFamily="monospace" letterSpacing="1">INGEST</text>
+                <text x="137" y="106" textAnchor="middle" fill="black" fillOpacity="0.3" fontSize="6" fontFamily="monospace">LEAD DATA</text>
+
+                {/* Trace */}
+                <line x1="186" y1="95" x2="232" y2="95" stroke="black" strokeWidth="1.5" strokeOpacity="0.2" />
+                <text x="202" y="89" fill="black" fillOpacity="0.18" fontSize="5.5" fontFamily="monospace">0.3s</text>
+
+                {/* QUALIFY box */}
+                <rect x="232" y="74" width="104" height="42" stroke="black" strokeWidth="1.5" strokeOpacity="0.3" />
+                <text x="284" y="92" textAnchor="middle" fill="black" fillOpacity="0.55" fontSize="7.5" fontFamily="monospace" letterSpacing="1">QUALIFY</text>
+                <text x="284" y="106" textAnchor="middle" fill="black" fillOpacity="0.3" fontSize="6" fontFamily="monospace">AI SCORE</text>
+
+                {/* Trace to junction */}
+                <line x1="336" y1="95" x2="382" y2="95" stroke="black" strokeWidth="1.5" strokeOpacity="0.2" />
+
+                {/* Junction via */}
+                <circle cx="382" cy="95" r="4" fill="black" fillOpacity="0.22" />
+
+                {/* Upper branch → ROUTE → CLOSE */}
+                <path d="M382 95 L382 58 L418 58" stroke="black" strokeWidth="1.5" strokeOpacity="0.2" />
+                <rect x="418" y="37" width="98" height="42" stroke="black" strokeWidth="1.5" strokeOpacity="0.3" />
+                <text x="467" y="55" textAnchor="middle" fill="black" fillOpacity="0.55" fontSize="7.5" fontFamily="monospace" letterSpacing="1">ROUTE</text>
+                <text x="467" y="69" textAnchor="middle" fill="black" fillOpacity="0.3" fontSize="6" fontFamily="monospace">ASSIGN REP</text>
+                <line x1="516" y1="58" x2="558" y2="58" stroke="black" strokeWidth="1.5" strokeOpacity="0.2" />
+                <rect x="558" y="37" width="98" height="42" stroke="black" strokeWidth="1.5" strokeOpacity="0.3" />
+                <text x="607" y="55" textAnchor="middle" fill="black" fillOpacity="0.55" fontSize="7.5" fontFamily="monospace" letterSpacing="1">CLOSE</text>
+                <text x="607" y="69" textAnchor="middle" fill="black" fillOpacity="0.3" fontSize="6" fontFamily="monospace">CRM UPDATE</text>
+                <line x1="656" y1="58" x2="706" y2="58" stroke="black" strokeWidth="1.5" strokeOpacity="0.2" />
+                <circle cx="713" cy="58" r="6" stroke="black" strokeWidth="1.5" strokeOpacity="0.3" />
+                <text x="724" y="62" fill="black" fillOpacity="0.22" fontSize="5.5" fontFamily="monospace">CRM</text>
+
+                {/* Lower branch → NOTIFY → LOG */}
+                <path d="M382 95 L382 132 L418 132" stroke="black" strokeWidth="1.5" strokeOpacity="0.2" />
+                <rect x="418" y="111" width="98" height="42" stroke="black" strokeWidth="1.5" strokeOpacity="0.3" />
+                <text x="467" y="129" textAnchor="middle" fill="black" fillOpacity="0.55" fontSize="7.5" fontFamily="monospace" letterSpacing="1">NOTIFY</text>
+                <text x="467" y="143" textAnchor="middle" fill="black" fillOpacity="0.3" fontSize="6" fontFamily="monospace">SEND MSG</text>
+                <line x1="516" y1="132" x2="558" y2="132" stroke="black" strokeWidth="1.5" strokeOpacity="0.2" />
+                <rect x="558" y="111" width="98" height="42" stroke="black" strokeWidth="1.5" strokeOpacity="0.3" />
+                <text x="607" y="129" textAnchor="middle" fill="black" fillOpacity="0.55" fontSize="7.5" fontFamily="monospace" letterSpacing="1">LOG</text>
+                <text x="607" y="143" textAnchor="middle" fill="black" fillOpacity="0.3" fontSize="6" fontFamily="monospace">AUDIT TRAIL</text>
+                <line x1="656" y1="132" x2="706" y2="132" stroke="black" strokeWidth="1.5" strokeOpacity="0.2" />
+                <circle cx="713" cy="132" r="6" stroke="black" strokeWidth="1.5" strokeOpacity="0.3" />
+                <text x="724" y="136" fill="black" fillOpacity="0.22" fontSize="5.5" fontFamily="monospace">EMAIL</text>
+
+                {/* OK status labels */}
+                <text x="440" y="31" fill="black" fillOpacity="0.15" fontSize="5" fontFamily="monospace">OK ▲</text>
+                <text x="440" y="105" fill="black" fillOpacity="0.15" fontSize="5" fontFamily="monospace">OK ▲</text>
+              </svg>
+            </div>
+
+            <div className="relative z-10 flex items-center justify-between">
+              <span className="font-favorit text-xs text-black/35 uppercase tracking-widest">
+                Explore Solutions
               </span>
+              <svg
+                width="10"
+                height="10"
+                viewBox="0 0 12 12"
+                fill="none"
+                className="text-black/35 group-hover:text-black/60 transition-colors"
+              >
+                <path d="M4.75 9.125L7.875 6L4.75 2.875" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" />
+              </svg>
             </div>
           </Link>
 
-          {/* Card 2 */}
+          {/* Card 2 — Orange — Dashboard Wireframe (Option C) */}
           <Link
-            className="group relative flex flex-col p-5 overflow-hidden gap-8 xl:min-h-75 xl:gap-0 xl:justify-between"
+            className="group relative flex flex-col p-5 overflow-hidden xl:min-h-75 justify-between"
             href="/contact"
-            style={{ background: '#ff5a1f', color: '#ffffff' }}
+            style={{ background: '#ff5a1f' }}
           >
-            <p
-              className="relative z-10 text-24 leading-120 text-white font-sans"
-              style={{ color: '#ffffff', fontWeight: 500 }}
-            >
-              &ldquo;The AI voice agent Eledra Labs built for us handles 300+ calls a day, patient
-              satisfaction is up 40% and our staff finally has time to focus on care.&rdquo;
-            </p>
-            <div className="relative z-10 flex items-center justify-between">
-              <div className="flex items-center gap-5">
-                <div
-                  style={{
-                    width: 40,
-                    height: 40,
-                    borderRadius: '50%',
-                    background: 'rgba(255,255,255,0.12)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontWeight: 700,
-                    fontSize: 18,
-                    color: '#fff',
-                  }}
-                >
-                  S
-                </div>
-                <div className="flex flex-col font-sans">
-                  <p
-                    className="text-18 text-white leading-normal"
-                    style={{ color: '#ffffff', fontWeight: 600 }}
-                  >
-                    Sarah Okonkwo
-                  </p>
-                  <p
-                    className="text-base text-white/60 leading-normal"
-                    style={{ color: 'rgba(255,255,255,0.6)' }}
-                  >
-                    Operations Director, MedCore
-                  </p>
-                </div>
-              </div>
-              <span
-                aria-hidden="true"
-                className="pointer-events-none flex items-center gap-1 opacity-50 group-hover:opacity-100 transition-opacity"
+            <span className="relative z-10 font-favorit text-xs tracking-widest text-white/40 uppercase">
+              Agent Status
+            </span>
+
+            {/* Wireframe SVG */}
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+              <svg
+                viewBox="0 0 300 235"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                style={{ height: '235px', width: 'auto' }}
               >
-                <svg
-                  width="14"
-                  height="14"
-                  viewBox="0 0 12 12"
-                  fill="none"
-                  className="w-3.5 h-3.5 text-white"
-                >
-                  <path
-                    d="M4.75 9.125L7.875 6L4.75 2.875"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    strokeLinecap="square"
-                  />
-                </svg>
+                {/* Outer panel border */}
+                <rect x="20" y="15" width="260" height="205" stroke="white" strokeWidth="1.5" strokeOpacity="0.25" />
+
+                {/* Header bar */}
+                <rect x="20" y="15" width="260" height="30" fill="white" fillOpacity="0.07" stroke="white" strokeWidth="1.5" strokeOpacity="0.25" />
+                <text x="34" y="34" fill="white" fillOpacity="0.55" fontSize="7.5" fontFamily="monospace" letterSpacing="1">AGENT STATUS</text>
+                {/* Indicator square */}
+                <rect x="254" y="23" width="10" height="10" stroke="white" strokeWidth="1" strokeOpacity="0.4" />
+                <rect x="256" y="25" width="6" height="6" fill="white" fillOpacity="0.35" />
+
+                {/* Row dividers + stat labels */}
+                <line x1="20" y1="45" x2="280" y2="45" stroke="white" strokeWidth="0.75" strokeOpacity="0.12" />
+                <text x="34" y="60" fill="white" fillOpacity="0.4" fontSize="6.5" fontFamily="monospace" letterSpacing="0.5">ACTIVE CALLS</text>
+                <text x="268" y="60" textAnchor="end" fill="white" fillOpacity="0.7" fontSize="6.5" fontFamily="monospace">312</text>
+
+                <line x1="20" y1="65" x2="280" y2="65" stroke="white" strokeWidth="0.75" strokeOpacity="0.08" />
+                <text x="34" y="80" fill="white" fillOpacity="0.4" fontSize="6.5" fontFamily="monospace" letterSpacing="0.5">QUEUE DEPTH</text>
+                <text x="268" y="80" textAnchor="end" fill="white" fillOpacity="0.7" fontSize="6.5" fontFamily="monospace">7</text>
+
+                <line x1="20" y1="85" x2="280" y2="85" stroke="white" strokeWidth="0.75" strokeOpacity="0.08" />
+                <text x="34" y="100" fill="white" fillOpacity="0.4" fontSize="6.5" fontFamily="monospace" letterSpacing="0.5">RESOLUTION RATE</text>
+                <text x="268" y="100" textAnchor="end" fill="white" fillOpacity="0.7" fontSize="6.5" fontFamily="monospace">94.2%</text>
+
+                {/* Section divider */}
+                <line x1="20" y1="108" x2="280" y2="108" stroke="white" strokeWidth="1" strokeOpacity="0.2" />
+
+                {/* Bar 1 — 82% */}
+                <text x="34" y="123" fill="white" fillOpacity="0.35" fontSize="6" fontFamily="monospace" letterSpacing="0.5">VOICE AGENT</text>
+                <rect x="34" y="127" width="192" height="7" fill="white" fillOpacity="0.08" />
+                <rect x="34" y="127" width="157" height="7" fill="white" fillOpacity="0.3" />
+                <text x="233" y="135" fill="white" fillOpacity="0.45" fontSize="6" fontFamily="monospace">82%</text>
+
+                {/* Bar 2 — 61% */}
+                <text x="34" y="147" fill="white" fillOpacity="0.35" fontSize="6" fontFamily="monospace" letterSpacing="0.5">CHATBOT</text>
+                <rect x="34" y="151" width="192" height="7" fill="white" fillOpacity="0.08" />
+                <rect x="34" y="151" width="117" height="7" fill="white" fillOpacity="0.3" />
+                <text x="233" y="159" fill="white" fillOpacity="0.45" fontSize="6" fontFamily="monospace">61%</text>
+
+                {/* Bar 3 — 45% */}
+                <text x="34" y="171" fill="white" fillOpacity="0.35" fontSize="6" fontFamily="monospace" letterSpacing="0.5">IT AUTOMATION</text>
+                <rect x="34" y="175" width="192" height="7" fill="white" fillOpacity="0.08" />
+                <rect x="34" y="175" width="86" height="7" fill="white" fillOpacity="0.3" />
+                <text x="233" y="183" fill="white" fillOpacity="0.45" fontSize="6" fontFamily="monospace">45%</text>
+
+                {/* Footer status bar */}
+                <line x1="20" y1="192" x2="280" y2="192" stroke="white" strokeWidth="0.75" strokeOpacity="0.2" />
+                <rect x="20" y="192" width="260" height="28" fill="white" fillOpacity="0.05" />
+                <text x="34" y="205" fill="white" fillOpacity="0.28" fontSize="5.5" fontFamily="monospace" letterSpacing="0.3">SYS_OK ■ LAT: 142ms ■ UPTIME: 99.98%</text>
+                <text x="34" y="216" fill="white" fillOpacity="0.28" fontSize="5.5" fontFamily="monospace" letterSpacing="0.3">LAST SYNC: 0.2s AGO</text>
+              </svg>
+            </div>
+
+            <div className="relative z-10 flex items-center justify-between">
+              <span className="font-favorit text-xs text-white/35 uppercase tracking-widest">
+                Get Started
               </span>
+              <svg
+                width="10"
+                height="10"
+                viewBox="0 0 12 12"
+                fill="none"
+                className="text-white/35 group-hover:text-white/60 transition-colors"
+              >
+                <path d="M4.75 9.125L7.875 6L4.75 2.875" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" />
+              </svg>
             </div>
           </Link>
         </div>

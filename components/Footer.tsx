@@ -18,7 +18,16 @@ const footerLogos = [
 
 export default function Footer() {
   return (
-    <footer className="w-full bg-black border-t border-border" aria-label="Footer">
+    <footer className="w-full bg-black border-t border-border relative overflow-hidden" aria-label="Footer">
+      {/* Green glow semicircle — anchored to the page bottom */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute bottom-0 left-0 w-full"
+        style={{
+          height: '420px',
+          background: 'radial-gradient(ellipse 70% 100% at 50% 100%, rgba(61, 110, 78, 0.55) 0%, rgba(61, 110, 78, 0.15) 50%, transparent 72%)',
+        }}
+      />
       {/* Scrolling Logo Marquee */}
       <div className="footer-marquee bg-black flex flex-col">
         <MarqueeStrip logos={footerLogos} speed={50} reverse />
