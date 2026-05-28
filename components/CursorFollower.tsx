@@ -20,8 +20,8 @@ export default function CursorFollower() {
     let frame = 0
 
     const moveDot = () => {
-      dotX += (pointerX - dotX) * 0.22
-      dotY += (pointerY - dotY) * 0.22
+      dotX += (pointerX - dotX) * 0.38
+      dotY += (pointerY - dotY) * 0.38
       dot.style.transform = `translate3d(${dotX}px, ${dotY}px, 0) translate(-50%, -50%)`
       frame = window.requestAnimationFrame(moveDot)
     }
