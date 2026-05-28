@@ -1,6 +1,19 @@
 import Link from 'next/link'
 
-const industries = [
+type Industry = {
+  id: string
+  num: string
+  sector: string
+  tagline: string
+  problem: string
+  solutions: { title: string; body: string }[]
+  metrics: { value: string; label: string }[]
+  compliance: string[]
+  trades?: string[]
+  img: string
+}
+
+const industries: Industry[] = [
   {
     id: 'healthcare',
     num: '01',
@@ -11,7 +24,7 @@ const industries = [
     solutions: [
       {
         title: 'AI Voice Agent for Scheduling',
-        body: 'Handles inbound appointment requests, rescheduling, and cancellations around the clock. Integrates directly with your EHR calendar and sends automated reminders to reduce no-shows.',
+        body: 'Handles inbound appointment requests, rescheduling, and cancellations around the clock. Integrates directly with your EHR calendar and sends automated reminders that meaningfully reduce no-shows.',
       },
       {
         title: 'Patient FAQ Chatbot',
@@ -19,7 +32,7 @@ const industries = [
       },
       {
         title: 'Automated Follow-up Workflows',
-        body: 'Post-visit check-ins, prescription reminders, and billing follow-ups trigger automatically based on visit type and patient data — zero manual effort required.',
+        body: 'Post-visit check-ins, prescription reminders, and billing follow-ups trigger automatically based on visit type and patient data — zero manual effort, full audit trail.',
       },
     ],
     metrics: [
@@ -27,7 +40,7 @@ const industries = [
       { value: '40%', label: 'Admin overhead reduced' },
       { value: '4.8/5', label: 'Patient satisfaction avg' },
     ],
-    compliance: ['HIPAA Compliant', 'End-to-end encrypted', 'No PHI stored externally', 'EHR integration ready'],
+    compliance: ['HIPAA compliant', 'End-to-end encrypted', 'No PHI stored externally', 'EHR integration ready', 'BAA available'],
     img: '/backgrounds/solutions-2.png',
   },
   {
@@ -40,7 +53,7 @@ const industries = [
     solutions: [
       {
         title: 'Lead Qualification Agent',
-        body: 'Answers inbound property inquiries, qualifies buyers on budget, timeline, and intent, and routes hot leads to agents immediately via SMS. Cold leads enter automated nurture sequences.',
+        body: 'Answers inbound property inquiries, qualifies buyers on budget, timeline, and intent, then routes hot leads to agents immediately via SMS. Cold leads enter automated nurture sequences.',
       },
       {
         title: 'Automated Showing Scheduler',
@@ -48,7 +61,7 @@ const industries = [
       },
       {
         title: 'CRM Sync & Follow-up Engine',
-        body: 'Every call and interaction logs directly to your CRM. Automated follow-up sequences nurture leads that are not ready to act today, surfacing them again when intent signals increase.',
+        body: 'Every call and interaction logs directly to your CRM. Automated follow-up sequences nurture leads that are not ready today, surfacing them again when intent signals increase.',
       },
     ],
     metrics: [
@@ -56,14 +69,14 @@ const industries = [
       { value: '85%', label: 'Leads pre-qualified by AI' },
       { value: '2hrs', label: 'Saved per agent per day' },
     ],
-    compliance: ['CRM-integrated', 'GDPR ready', 'Custom voice & persona', 'Multi-language support'],
+    compliance: ['CRM-integrated', 'GDPR ready', 'Custom voice & persona', 'Multi-language support', 'MLS-compatible'],
     img: '/backgrounds/solutions-1.png',
   },
   {
     id: 'local-business',
     num: '03',
-    sector: 'Local Business',
-    tagline: 'Trades & services: never miss a job again',
+    sector: 'Local Trades & Services',
+    tagline: 'Never miss a job — 24/7 dispatch and booking',
     problem:
       'Plumbers, HVAC technicians, and electricians lose thousands per month to missed calls during jobs. After-hours calls go to voicemail. Scheduling is done manually via text. Dispatch is chaos — and every missed call is a competitor opportunity.',
     solutions: [
@@ -73,7 +86,7 @@ const industries = [
       },
       {
         title: 'Automated Dispatch & Scheduling',
-        body: 'Routes jobs to the right technician based on availability, service area, and specialty. Sends automated SMS confirmations to customers and job briefs to technicians.',
+        body: 'Routes jobs to the right technician based on availability, service area, and specialty. Sends automated SMS confirmations to customers and structured job briefs to technicians.',
       },
       {
         title: 'Estimate & Follow-up Automation',
@@ -85,9 +98,67 @@ const industries = [
       { value: '+28%', label: 'Booked jobs per month' },
       { value: '90min', label: 'Dispatching saved daily' },
     ],
-    trades: ['Plumbing', 'HVAC', 'Electrical', 'Landscaping', 'Pest Control', 'Roofing'],
-    compliance: ['After-hours capable', 'Emergency call routing', 'SMS + voice coverage', 'Multi-location ready'],
+    trades: ['Plumbing', 'HVAC', 'Electrical', 'Landscaping', 'Pest Control', 'Roofing', 'Garage Doors', 'Locksmith'],
+    compliance: ['After-hours capable', 'Emergency routing', 'SMS + voice coverage', 'Multi-location ready'],
     img: '/backgrounds/solutions-3.png',
+  },
+  {
+    id: 'ecommerce',
+    num: '04',
+    sector: 'E-commerce & Retail',
+    tagline: 'Recover carts, deflect tickets, scale support',
+    problem:
+      'Cart abandonment runs 70%+, and support volume scales with every new SKU and channel. Tier-1 questions — order status, returns, sizing, restocks — devour the queue while real escalations wait. Hiring linearly is not a strategy.',
+    solutions: [
+      {
+        title: 'Support Deflection Chatbot',
+        body: 'Trained on your product catalogue, returns policy, and shipping rules. Resolves order-status, sizing, and returns queries instantly across web, mobile, and email — and escalates with full context when needed.',
+      },
+      {
+        title: 'Cart-Recovery Workflow',
+        body: 'Multi-channel sequences (email, SMS, WhatsApp) triggered by abandonment, browse-recovery, and back-in-stock events. Personalised by segment and inventory state.',
+      },
+      {
+        title: 'Voice Agent for Phone Orders',
+        body: 'For categories where customers still call — kitchen, furniture, configured goods — voice agents take orders, answer product questions, and write directly to your OMS.',
+      },
+    ],
+    metrics: [
+      { value: '62%', label: 'Tier-1 tickets deflected' },
+      { value: '+18%', label: 'Cart recovery lift' },
+      { value: '24/7', label: 'Multi-channel coverage' },
+    ],
+    compliance: ['PCI-aware flows', 'Shopify & WooCommerce ready', 'OMS / ERP webhook sync', 'Multi-channel (web, SMS, WA)'],
+    img: '/backgrounds/solutions-4.png',
+  },
+  {
+    id: 'hospitality',
+    num: '05',
+    sector: 'Hospitality & Restaurants',
+    tagline: 'Bookings, queries, and reviews — fully automated',
+    problem:
+      'Hosts and front-of-house teams field reservation calls, dietary questions, and review responses in the middle of service. Bookings get lost. Tables sit empty. A 4-star review goes unanswered for a week — and rankings drop.',
+    solutions: [
+      {
+        title: 'AI Reservation Agent',
+        body: 'Takes phone and web bookings 24/7, checks live availability, applies your seating rules, and confirms via SMS. Handles modifications and cancellations end-to-end.',
+      },
+      {
+        title: 'Guest FAQ & Concierge Bot',
+        body: 'Menu, allergens, hours, parking, dress code, gift cards — answered instantly on every channel. Hotel concierge variant handles room service, amenities, and local recommendations.',
+      },
+      {
+        title: 'Review & Reputation Automation',
+        body: 'Detects new reviews across Google, Yelp, and OTAs and drafts on-brand responses for human approval. Flags negative reviews for immediate manager attention.',
+      },
+    ],
+    metrics: [
+      { value: '100%', label: 'Reservation pickup rate' },
+      { value: '<1min', label: 'Avg review response draft' },
+      { value: '+22%', label: 'Off-peak bookings' },
+    ],
+    compliance: ['POS / PMS integrations', 'OpenTable & Resy ready', 'OTA review polling', 'Multi-location dashboards'],
+    img: '/backgrounds/solutions-2.png',
   },
 ]
 
@@ -129,7 +200,7 @@ export default function Solutions() {
             <p className="font-sans text-7 leading-120">
               <span className="text-white">Solutions by Industry.</span>
               <span className="text-white/50">
-                {' '}AI and web systems tailored to the specific workflows of each sector.
+                {' '}AI and web systems engineered to the specific workflows of each sector — not generic templates.
               </span>
             </p>
           </div>
@@ -153,9 +224,34 @@ export default function Solutions() {
         </div>
       </div>
 
+      {/* Industry Quick-Index */}
+      <div className="border border-border mb-5 md:mb-8">
+        <div className="border-b border-border flex items-end justify-between gap-4">
+          <p className="font-favorit text-2xs text-white/30 uppercase tracking-widest">
+            Index · 5 sectors
+          </p>
+          <p className="font-favorit text-2xs text-white/25 uppercase tracking-widest hidden md:block">
+            Tap a sector to jump
+          </p>
+        </div>
+        <div className="grid grid-cols-2 md:grid-cols-5">
+          {industries.map((ind, i) => (
+            <a
+              key={ind.id}
+              href={`#solutions-${ind.id}`}
+              className={`sol-index-item${i < industries.length - 1 ? ' border-b md:border-b-0 md:border-r border-border' : ''}${i < 3 && i % 2 === 0 ? ' border-r border-border md:border-r' : ''}`}
+            >
+              <span className="font-favorit text-2xs text-white/30 uppercase">{ind.num}</span>
+              <span className="font-sans text-white text-sm leading-normal mt-2">{ind.sector}</span>
+              <span className="font-favorit text-2xs text-white/35 uppercase mt-1 leading-tight">{ind.tagline}</span>
+            </a>
+          ))}
+        </div>
+      </div>
+
       {/* Industry Sections */}
       {industries.map((ind) => (
-        <div key={ind.id} id={`solutions-${ind.id}`} className="border border-border mb-5 md:mb-8">
+        <div key={ind.id} id={`solutions-${ind.id}`} className="border border-border mb-5 md:mb-8 scroll-mt-24">
           {/* Industry Header — 2 col split */}
           <div className="grid grid-cols-1 lg:grid-cols-2 border-b border-border">
             <div className="flex flex-col gap-4 border-b lg:border-b-0 lg:border-r border-border">
@@ -248,6 +344,29 @@ export default function Solutions() {
           </div>
         </div>
       ))}
+
+      {/* Sector not listed? band */}
+      <div className="border border-border mb-5 md:mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div className="flex flex-col gap-2">
+          <p className="font-favorit text-2xs text-white/30 uppercase tracking-widest">Not listed?</p>
+          <p className="font-sans text-white text-lg leading-normal">
+            We also build for legal, education, logistics, and financial-services teams.
+          </p>
+          <p className="font-sans text-sm text-white/50 leading-6 max-w-xl">
+            Every engagement starts with a 30-minute operations map. If it&apos;s repetitive, customer-facing,
+            or after-hours — there is almost certainly a workflow worth automating.
+          </p>
+        </div>
+        <Link
+          href="/contact"
+          className="inline-flex w-fit items-center gap-1 font-favorit uppercase bg-white text-black min-h-7 px-3 py-2 text-xs leading-none shrink-0"
+        >
+          Map my workflows
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+            <path d="M4.75 9.125L7.875 6L4.75 2.875" stroke="currentColor" strokeLinecap="square" />
+          </svg>
+        </Link>
+      </div>
 
       {/* Testimonials — monochrome */}
       <div className="border border-border grid grid-cols-1 xl:grid-cols-2">

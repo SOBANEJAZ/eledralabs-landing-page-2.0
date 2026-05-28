@@ -1024,6 +1024,26 @@ header.header-scrolled .header-inner {
   padding: 2rem !important;
 }
 
+/* Quick-index sector tiles */
+.sol-index-item {
+  display: flex !important;
+  flex-direction: column !important;
+  padding: 1.25rem 1.5rem !important;
+  text-decoration: none !important;
+  background-color: transparent;
+  transition: background-color 0.25s ease, transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  will-change: background-color, transform;
+}
+.sol-index-item:hover {
+  background-color: var(--color-surface-card);
+  transform: translateY(-2px);
+}
+
+/* "Not listed" band */
+#solutions > div.flex.flex-col.md\:flex-row {
+  padding: 2rem !important;
+}
+
 /* ============================================
    PRODUCTS SECTION
    ============================================ */
