@@ -994,8 +994,8 @@ header.header-scrolled .header-inner {
   top: 40%;
   bottom: -30%;
   background-image:
-    linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+    linear-gradient(rgba(77, 154, 110, 0.12) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(77, 154, 110, 0.12) 1px, transparent 1px);
   background-size: 60px 60px;
   transform: perspective(620px) rotateX(58deg);
   transform-origin: center top;
@@ -1238,8 +1238,8 @@ header.header-scrolled .header-inner {
   inset: 0;
   pointer-events: none;
   background-image:
-    linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    linear-gradient(rgba(77, 154, 110, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(77, 154, 110, 0.1) 1px, transparent 1px);
   background-size: 30px 30px;
   transform: perspective(420px) rotateX(58deg);
   transform-origin: center top;
@@ -1571,8 +1571,8 @@ header.header-scrolled .header-inner {
   top: 40%;
   bottom: -30%;
   background-image:
-    linear-gradient(rgba(255, 255, 255, 0.055) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.055) 1px, transparent 1px);
+    linear-gradient(rgba(77, 154, 110, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(77, 154, 110, 0.1) 1px, transparent 1px);
   background-size: 60px 60px;
   transform: perspective(560px) rotateX(58deg);
   transform-origin: center top;
