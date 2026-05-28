@@ -55,6 +55,7 @@ export default function Hero() {
   const revealHero = useCallback(() => {
     if (introPhase !== 'ready') return
 
+    window.scrollTo({ top: 0, behavior: 'instant' })
     setIntroPhase('bursting')
     window.setTimeout(() => setIntroPhase('gone'), 1400)
   }, [introPhase])
@@ -106,8 +107,8 @@ export default function Hero() {
         >
           <div className="flex flex-1 flex-col items-start">
             <h1
-              className="hero-el-h1 leading-110 uppercase tracking-[0.08em]"
-              style={{ fontSize: 'clamp(3.5rem, 7vw, 6rem)' }}
+              className="hero-el-h1 leading-110 tracking-[0.08em]"
+              style={{ fontSize: 'clamp(3.1rem, 6.3vw, 5.5rem)' }}
             >
               <span className="block">
                 <span className="text-white font-bold">eledra</span>

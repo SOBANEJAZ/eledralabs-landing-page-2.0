@@ -214,7 +214,7 @@ function Manifesto() {
     >
       <div className="showcase-manifesto-grid-bg" aria-hidden="true" />
       <div className="showcase-particles" aria-hidden="true">
-        {Array.from({ length: 22 }).map((_, i) => (
+        {Array.from({ length: 44 }).map((_, i) => (
           <span key={i} className={`particle particle-${i % 6}`} />
         ))}
       </div>
@@ -602,7 +602,7 @@ function AtmosphericCTA() {
     <section id="home-atmos" className="showcase-section showcase-atmos">
       <div className="atmos-grid-bg" aria-hidden="true" />
       <div className="atmos-dust" aria-hidden="true">
-        {Array.from({ length: 32 }).map((_, i) => (
+        {Array.from({ length: 64 }).map((_, i) => (
           <span key={i} className={`dust dust-${i % 8}`} />
         ))}
       </div>
