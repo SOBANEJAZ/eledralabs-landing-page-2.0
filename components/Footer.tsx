@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import MarqueeStrip from './MarqueeStrip'
 
 const footerLogos = [
   { src: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/figma/figma-original.svg', alt: 'Figma' },
@@ -19,21 +20,8 @@ export default function Footer() {
   return (
     <footer className="w-full bg-black border-t border-border" aria-label="Footer">
       {/* Scrolling Logo Marquee */}
-      <div className="footer-marquee py-4 bg-black overflow-hidden flex flex-col">
-        <div className="marquee-container">
-          <div className="marquee-track reverse">
-            <div className="marquee-content">
-              {footerLogos.map((logo) => (
-                <img key={logo.alt} src={logo.src} alt={logo.alt} />
-              ))}
-            </div>
-            <div className="marquee-content" aria-hidden="true">
-              {footerLogos.map((logo) => (
-                <img key={`${logo.alt}-2`} src={logo.src} alt={logo.alt} />
-              ))}
-            </div>
-          </div>
-        </div>
+      <div className="footer-marquee bg-black flex flex-col">
+        <MarqueeStrip logos={footerLogos} speed={50} reverse />
       </div>
 
       {/* Footer Content */}

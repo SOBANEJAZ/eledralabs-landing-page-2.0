@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import MarqueeStrip from './MarqueeStrip'
 
 const techLogos = [
   { src: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tensorflow/tensorflow-original.svg', alt: 'TensorFlow' },
@@ -174,26 +175,13 @@ export default function Hero() {
 
       {/* Tech Logo Marquee */}
       <div
-        className="py-12 border-t border-b border-border bg-surface relative z-10 overflow-hidden flex flex-col"
+        className="border-t border-b border-border relative z-10 flex flex-col"
         style={{
           background:
-            'linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(20,20,20,0.4) 50%, rgba(0,0,0,0) 100%)',
+            'linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(20,20,20,0.5) 50%, rgba(0,0,0,0) 100%)',
         }}
       >
-        <div className="marquee-container">
-          <div className="marquee-track">
-            <div className="marquee-content">
-              {techLogos.map((logo) => (
-                <img key={logo.alt} src={logo.src} alt={logo.alt} />
-              ))}
-            </div>
-            <div className="marquee-content" aria-hidden="true">
-              {techLogos.map((logo) => (
-                <img key={`${logo.alt}-2`} src={logo.src} alt={logo.alt} />
-              ))}
-            </div>
-          </div>
-        </div>
+        <MarqueeStrip logos={techLogos} speed={70} />
       </div>
     </section>
   )
