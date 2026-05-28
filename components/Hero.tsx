@@ -1,5 +1,6 @@
 'use client'
 
+import { useCallback, useEffect, useState, type CSSProperties } from 'react'
 import Link from 'next/link'
 import MarqueeStrip from './MarqueeStrip'
 
@@ -19,6 +20,45 @@ const techLogos = [
 ]
 
 export default function Hero() {
+  const [introPhase, setIntroPhase] = useState<'loading' | 'ready' | 'bursting' | 'gone'>(
+    'loading',
+  )
+  const [minimumLoaded, setMinimumLoaded] = useState(false)
+
+  useEffect(() => {
+    const minimumTimer = window.setTimeout(() => setMinimumLoaded(true), 1400)
+    return () => {
+      window.clearTimeout(minimumTimer)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (introPhase === 'loading' && minimumLoaded) {
+      setIntroPhase('ready')
+    }
+  }, [introPhase, minimumLoaded])
+
+  useEffect(() => {
+    if (introPhase === 'gone') return
+
+    const previousOverflow = document.body.style.overflow
+    const previousRootOverflow = document.documentElement.style.overflow
+    document.body.style.overflow = 'hidden'
+    document.documentElement.style.overflow = 'hidden'
+
+    return () => {
+      document.body.style.overflow = previousOverflow
+      document.documentElement.style.overflow = previousRootOverflow
+    }
+  }, [introPhase])
+
+  const revealHero = useCallback(() => {
+    if (introPhase !== 'ready') return
+
+    setIntroPhase('bursting')
+    window.setTimeout(() => setIntroPhase('gone'), 1400)
+  }, [introPhase])
+
   return (
     <section id="hero" className="relative -mx-4 flex flex-col mb-5 md:-mx-5 md:mb-8 lg:mb-20">
       {/* Video Background */}
@@ -55,19 +95,27 @@ export default function Hero() {
         className="relative flex flex-col items-start justify-end px-5 pt-5 pb-8 lg:pb-10"
         style={{ height: 'calc(100vh - 4rem)', minHeight: '480px' }}
       >
-        <div className="relative z-10 flex w-full flex-col items-start gap-10 font-sans lg:flex-row lg:items-end">
+        <div
+          className={`relative z-10 flex w-full flex-col items-start gap-10 font-sans lg:flex-row lg:items-end ${
+            introPhase === 'loading' || introPhase === 'ready'
+              ? 'hero-content-hidden'
+              : introPhase === 'bursting'
+                ? 'hero-content-revealing'
+                : ''
+          }`}
+        >
           <div className="flex flex-1 flex-col items-start">
             <h1
-              className="text-2xl leading-110 text-white md:text-36 lg:text-h1-title"
-              style={{ transform: 'scale(1.30)', transformOrigin: 'left center' }}
+              className="hero-el-h1 leading-110 text-white"
+              style={{ fontSize: 'clamp(3.5rem, 7vw, 6rem)' }}
             >
               <span className="block">Eledralabs</span>
             </h1>
-            <p className="max-w-100 leading-normal text-white/50 mt-5">
+            <p className="hero-el-sub max-w-100 leading-normal text-white/50 mt-5">
               We build precision-engineered Web and AI workflows that reduce operational drag and
               automate critical systems.
             </p>
-            <div className="flex items-center gap-1 font-favorit mt-10">
+            <div className="hero-el-cta flex items-center gap-1 font-favorit mt-10">
               <Link
                 className="group inline-flex w-fit shrink-0 items-center justify-center gap-1 whitespace-nowrap font-favorit uppercase transition-colors hover:cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/60 bg-white text-black min-h-7 px-2 py-2 text-xs leading-none"
                 href="/contact"
@@ -148,6 +196,43 @@ export default function Hero() {
           </div>
         </div>
       </div>
+
+      {introPhase !== 'gone' && (
+        <button
+          type="button"
+          aria-label={introPhase === 'ready' ? 'Reveal Eledralabs landing page' : 'Loading landing page'}
+          aria-live="polite"
+          disabled={introPhase === 'loading'}
+          onClick={revealHero}
+          className={`hero-intro-overlay ${introPhase === 'ready' ? 'is-ready' : ''} ${
+            introPhase === 'bursting' ? 'is-bursting' : ''
+          }`}
+          style={
+            {
+              '--splash-x': '50%',
+              '--splash-y': '66%',
+            } as CSSProperties
+          }
+        >
+          <img
+            src="/backgrounds/landing.png"
+            alt=""
+            draggable={false}
+            className="hero-intro-sketch"
+          />
+          <span className="hero-intro-vignette" aria-hidden="true" />
+          <span className="hero-intro-ripples" aria-hidden="true" />
+          <span className="hero-intro-status">
+            <span className="hero-intro-loading" aria-label="LOADING">
+              <span className="hero-intro-loading-outline">LOADING</span>
+              <span className="hero-intro-loading-fill" aria-hidden="true">
+                LOADING
+              </span>
+            </span>
+            <span className="hero-intro-ready">CLICK ANYWHERE</span>
+          </span>
+        </button>
+      )}
 
       {/* Tech Logo Marquee */}
       <div
