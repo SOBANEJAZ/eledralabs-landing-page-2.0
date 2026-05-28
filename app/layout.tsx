@@ -5,6 +5,7 @@ import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
+import CursorFollower from '@/components/CursorFollower'
 import LenisInit from '@/components/LenisInit'
 import TiltInit from '@/components/TiltInit'
 import './globals.css'
@@ -77,6 +78,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
         {/* 3D Tilt Hover Dynamic Initializer */}
         <TiltInit />
+
+        <CursorFollower />
 
         {/* Google Analytics */}
         <Script
