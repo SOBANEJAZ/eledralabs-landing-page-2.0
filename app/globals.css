@@ -222,6 +222,389 @@ header {
 }
 
 /* ============================================
+   GLOBAL CURSOR FOLLOWER
+   ============================================ */
+.cursor-follower {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 2147483647;
+  width: 11px;
+  height: 11px;
+  border-radius: 999px;
+  pointer-events: none;
+  opacity: 0;
+  background: #1a6b3c;
+  box-shadow:
+    0 0 0 1px rgba(7, 24, 11, 0.28),
+    0 0 18px rgba(26, 107, 60, 0.38);
+  transition:
+    opacity 0.18s ease,
+    width 0.18s ease,
+    height 0.18s ease;
+  will-change: transform;
+}
+.cursor-follower.is-visible {
+  opacity: 1;
+}
+
+@media (pointer: coarse), (prefers-reduced-motion: reduce) {
+  .cursor-follower {
+    display: none;
+  }
+}
+
+@property --hole-x1 {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 50%;
+}
+@property --hole-y1 {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 66%;
+}
+@property --hole-x2 {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 50%;
+}
+@property --hole-y2 {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 66%;
+}
+
+/* ============================================
+   HERO INTRO REVEAL
+   ============================================ */
+.hero-intro-overlay {
+  --hole-x1: 50%;
+  --hole-y1: 55%;
+  --hole-x2: 50%;
+  --hole-y2: 55%;
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: #060606;
+  color: #f4f4f4;
+  cursor: wait;
+  isolation: isolate;
+  clip-path: polygon(
+    evenodd,
+    0% 0%, 100% 0%, 100% 100%, 0% 100%, 0% 0%,
+    var(--hole-x1) var(--hole-y1), var(--hole-x2) var(--hole-y1),
+    var(--hole-x2) var(--hole-y2), var(--hole-x1) var(--hole-y2), var(--hole-x1) var(--hole-y1)
+  );
+}
+html:has(.hero-intro-overlay),
+body:has(.hero-intro-overlay) {
+  overflow: hidden;
+}
+.hero-intro-overlay.is-ready {
+  cursor: pointer;
+}
+.hero-intro-overlay.is-bursting {
+  pointer-events: none;
+  animation: heroRevealCut 1.35s cubic-bezier(0.55, 0, 0.18, 1) forwards;
+}
+.hero-intro-sketch {
+  position: absolute;
+  inset: 0;
+  z-index: -3;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  filter: contrast(1.08) brightness(0.92);
+  transform: scale(1.03);
+}
+.hero-intro-vignette {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background:
+    radial-gradient(circle at 50% 66%, rgba(255, 255, 255, 0.1), transparent 14rem),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.5)),
+    radial-gradient(circle at center, transparent 42%, rgba(0, 0, 0, 0.58) 100%);
+}
+.hero-intro-vignette::after {
+  position: absolute;
+  inset: 0;
+  content: "";
+  opacity: 0.16;
+  mix-blend-mode: multiply;
+  background-image:
+    repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.22) 0 1px, transparent 1px 5px),
+    repeating-linear-gradient(92deg, rgba(0, 0, 0, 0.14) 0 1px, transparent 1px 7px);
+}
+.hero-intro-status {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-width: min(86vw, 42rem);
+  min-height: 9rem;
+  font-family: var(--font-favorit);
+  text-align: center;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+.hero-intro-loading {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  font-size: clamp(2.35rem, 7vw, 7.5rem);
+  font-weight: 700;
+  line-height: 0.85;
+}
+.hero-intro-loading-outline,
+.hero-intro-loading-fill {
+  grid-area: 1 / 1;
+}
+.hero-intro-loading-outline {
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.18);
+  text-shadow: 0 0 18px rgba(255, 255, 255, 0.06);
+}
+.hero-intro-loading-fill {
+  color: #ffffff;
+  clip-path: polygon(
+    0 83%,
+    7% 81%,
+    15% 85%,
+    24% 80%,
+    34% 83%,
+    44% 79%,
+    54% 82%,
+    64% 78%,
+    74% 81%,
+    84% 77%,
+    93% 79%,
+    100% 75%,
+    100% 100%,
+    0 100%
+  );
+  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.16));
+  animation: heroLetterWaveFill 1.4s cubic-bezier(0.66, 0, 0.22, 1) forwards;
+}
+.hero-intro-ready {
+  position: absolute;
+  bottom: 0.2rem;
+  color: rgba(255, 255, 255, 0.74);
+  font-size: 0.72rem;
+  line-height: 1;
+  opacity: 0;
+  transform: translateY(0.4rem);
+  transition:
+    opacity 0.18s ease,
+    transform 0.18s ease;
+}
+.hero-intro-overlay.is-ready .hero-intro-ready {
+  opacity: 1;
+  transform: translateY(0);
+}
+.hero-intro-ripples {
+  position: absolute;
+  left: var(--splash-x);
+  top: var(--splash-y);
+  z-index: -1;
+  width: 7rem;
+  height: 7rem;
+  border: 1px solid rgba(255, 255, 255, 0.38);
+  border-radius: 50%;
+  opacity: 0.22;
+  transform: translate(-50%, -50%) scale(0.25);
+  animation: heroIdleRipple 2.6s ease-out infinite;
+}
+.hero-intro-ripples::before,
+.hero-intro-ripples::after {
+  position: absolute;
+  inset: -1.2rem;
+  content: "";
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: inherit;
+}
+.hero-intro-ripples::after {
+  inset: -2.4rem;
+  border-color: rgba(255, 255, 255, 0.13);
+}
+.hero-intro-overlay.is-bursting .hero-intro-ripples {
+  animation: heroSplashRing 1.05s cubic-bezier(0.15, 0.7, 0.22, 1) forwards;
+}
+.hero-intro-overlay.is-bursting .hero-intro-status {
+  animation: heroStatusSink 0.42s ease forwards;
+}
+
+@keyframes heroLetterWaveFill {
+  0% {
+    clip-path: polygon(
+      0 91%,
+      7% 89%,
+      15% 93%,
+      24% 88%,
+      34% 91%,
+      44% 87%,
+      54% 90%,
+      64% 86%,
+      74% 89%,
+      84% 85%,
+      93% 87%,
+      100% 83%,
+      100% 100%,
+      0 100%
+    );
+  }
+  48% {
+    clip-path: polygon(
+      0 60%,
+      8% 57%,
+      16% 62%,
+      25% 55%,
+      35% 60%,
+      45% 54%,
+      55% 58%,
+      65% 52%,
+      75% 56%,
+      85% 50%,
+      93% 54%,
+      100% 48%,
+      100% 100%,
+      0 100%
+    );
+  }
+  100% {
+    clip-path: polygon(
+      0 -4%,
+      8% -8%,
+      16% -3%,
+      25% -9%,
+      35% -5%,
+      45% -10%,
+      55% -6%,
+      65% -11%,
+      75% -6%,
+      85% -10%,
+      93% -7%,
+      100% -12%,
+      100% 100%,
+      0 100%
+    );
+  }
+}
+@keyframes heroIdleRipple {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.22);
+  }
+  35% {
+    opacity: 0.28;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.55);
+  }
+}
+@keyframes heroSplashRing {
+  0% {
+    opacity: 0.65;
+    transform: translate(-50%, -50%) scale(0.35);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(20);
+  }
+}
+@keyframes heroRevealCut {
+  /* Start as the monolith slab (≈6% wide × 46% tall, centered at 50%, 55%) */
+  0% {
+    --hole-x1: 47%;
+    --hole-y1: 32%;
+    --hole-x2: 53%;
+    --hole-y2: 78%;
+    opacity: 1;
+  }
+  /* Expand width first — slab tears open horizontally */
+  30% {
+    --hole-x1: 30%;
+    --hole-y1: 22%;
+    --hole-x2: 70%;
+    --hole-y2: 84%;
+    opacity: 1;
+  }
+  /* Then blow out to full screen */
+  82% {
+    --hole-x1: -30%;
+    --hole-y1: -30%;
+    --hole-x2: 130%;
+    --hole-y2: 130%;
+    opacity: 1;
+  }
+  100% {
+    --hole-x1: -30%;
+    --hole-y1: -30%;
+    --hole-x2: 130%;
+    --hole-y2: 130%;
+    opacity: 0;
+  }
+}
+@keyframes heroStatusSink {
+  to {
+    opacity: 0;
+    transform: translateY(1.4rem) scale(0.96);
+    filter: blur(10px);
+  }
+}
+
+/* Hero content entrance animations */
+.hero-content-hidden .hero-el-h1,
+.hero-content-hidden .hero-el-sub,
+.hero-content-hidden .hero-el-cta {
+  opacity: 0;
+  transform: translateY(2rem);
+}
+.hero-content-revealing .hero-el-h1 {
+  animation: heroTextIn 1s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
+}
+.hero-content-revealing .hero-el-sub {
+  animation: heroTextIn 1s cubic-bezier(0.22, 1, 0.36, 1) 0.42s both;
+}
+.hero-content-revealing .hero-el-cta {
+  animation: heroTextIn 1s cubic-bezier(0.22, 1, 0.36, 1) 0.6s both;
+}
+@keyframes heroTextIn {
+  from {
+    opacity: 0;
+    transform: translateY(2.5rem);
+    filter: blur(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-intro-loading,
+  .hero-intro-loading-fill,
+  .hero-intro-ripples,
+  .hero-intro-overlay.is-bursting,
+  .hero-intro-overlay.is-bursting .hero-intro-status,
+  .hero-content-revealing .hero-el-h1,
+  .hero-content-revealing .hero-el-sub,
+  .hero-content-revealing .hero-el-cta {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
+/* ============================================
    MARQUEE ANIMATION
    ============================================ */
 .marquee-container {
@@ -2047,7 +2430,9 @@ a.legal-link:hover {
 .pillar-stage,
 .bento-grid,
 #solutions .grid,
-#products .grid,
+#products .grid {
+  perspective: 2400px !important;
+}
 #solutions-testimonials-section,
 .svc-row {
   perspective: 1200px !important;
@@ -2082,4 +2467,3 @@ a.legal-link:hover {
   transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: background, opacity;
 }
-
