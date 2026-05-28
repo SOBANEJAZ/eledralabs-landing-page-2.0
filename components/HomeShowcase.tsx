@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
+import RepelText from './RepelText'
 
 /* ------------------------------------------------------------------ */
 /* Data                                                                */
@@ -221,15 +222,145 @@ function Manifesto() {
         <p className="font-favorit text-2xs text-white/30 uppercase tracking-widest manifesto-eyebrow">
           Eledralabs — Manifesto
         </p>
-        <h2 className="manifesto-title">
-          <span className="manifesto-line">A precision-engineered</span>
-          <span className="manifesto-line">AI layer for the operations</span>
-          <span className="manifesto-line manifesto-line-em">that never sleep.</span>
-        </h2>
+        <RepelText
+          as="h2"
+          className="manifesto-title"
+          repelRadius={120}
+          maxDisplacement={40}
+          lines={[
+            { text: 'A precision-engineered', className: 'manifesto-line' },
+            { text: 'AI layer for the operations', className: 'manifesto-line' },
+            { text: 'that never sleep.', className: 'manifesto-line manifesto-line-em' },
+          ]}
+        />
         <p className="manifesto-sub">
           Voice agents that pick up. Chatbots that resolve. Workflows that run. We build the systems
           that make modern teams feel ten times larger than they are.
         </p>
+      </div>
+    </section>
+  )
+}
+
+/* ------------------------------------------------------------------ */
+/* Component: Testimonials                                             */
+/* ------------------------------------------------------------------ */
+
+function Testimonials() {
+  return (
+    <section className="mb-5 md:mb-8 lg:mb-17.5">
+      <div className="grid grid-cols-1 xl:grid-cols-[minmax(0,2fr)_minmax(360px,1fr)] border border-border">
+        {/* Card 1 */}
+        <Link
+          className="group min-h-75 relative flex flex-col p-5 overflow-hidden gap-8 xl:border-r xl:border-border xl:gap-0 xl:justify-between"
+          href="/contact"
+          style={{ background: '#d4f33b', color: '#000000' }}
+        >
+          <p
+            className="relative z-10 text-24 leading-120 text-black max-w-140 font-sans"
+            style={{ color: '#000000', fontWeight: 500 }}
+          >
+            &ldquo;Eledra Labs automated our entire customer workflow, every lead is now qualified,
+            routed, and followed up within seconds. It&apos;s like adding a full operations team
+            without the headcount.&rdquo;
+          </p>
+          <div className="relative z-10 flex items-center justify-between">
+            <div className="flex items-center gap-5">
+              <div
+                style={{
+                  width: 40,
+                  height: 40,
+                  borderRadius: '50%',
+                  background: 'rgba(0,0,0,0.08)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontWeight: 700,
+                  fontSize: 18,
+                  color: '#000',
+                }}
+              >
+                S
+              </div>
+              <div className="flex flex-col font-sans">
+                <p
+                  className="text-18 text-black leading-normal"
+                  style={{ color: '#000000', fontWeight: 600 }}
+                >
+                  Saloni
+                </p>
+              </div>
+            </div>
+            <span
+              aria-hidden="true"
+              className="pointer-events-none flex items-center gap-1 text-sm text-black font-sans opacity-50 group-hover:opacity-80 transition-opacity"
+            >
+              <span className="leading-none" style={{ color: '#000000' }}>
+                Read case study
+              </span>
+              <svg width="14" height="14" viewBox="0 0 12 12" fill="none" className="w-3.5 h-3.5 text-black">
+                <path d="M4.75 9.125L7.875 6L4.75 2.875" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" />
+              </svg>
+            </span>
+          </div>
+        </Link>
+
+        {/* Card 2 */}
+        <Link
+          className="group relative flex flex-col p-5 overflow-hidden gap-8 xl:min-h-75 xl:gap-0 xl:justify-between"
+          href="/contact"
+          style={{ background: '#ff5a1f', color: '#ffffff' }}
+        >
+          <p
+            className="relative z-10 text-24 leading-120 text-white font-sans"
+            style={{ color: '#ffffff', fontWeight: 500 }}
+          >
+            &ldquo;The AI voice agent Eledra Labs built for us handles 300+ calls a day, patient
+            satisfaction is up 40% and our staff finally has time to focus on care.&rdquo;
+          </p>
+          <div className="relative z-10 flex items-center justify-between">
+            <div className="flex items-center gap-5">
+              <div
+                style={{
+                  width: 40,
+                  height: 40,
+                  borderRadius: '50%',
+                  background: 'rgba(255,255,255,0.12)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontWeight: 700,
+                  fontSize: 18,
+                  color: '#fff',
+                }}
+              >
+                S
+              </div>
+              <div className="flex flex-col font-sans">
+                <p
+                  className="text-18 text-white leading-normal"
+                  style={{ color: '#ffffff', fontWeight: 600 }}
+                >
+                  Sarah Okonkwo
+                </p>
+                <p
+                  className="text-base text-white/60 leading-normal"
+                  style={{ color: 'rgba(255,255,255,0.6)' }}
+                >
+                  Operations Director, MedCore
+                </p>
+              </div>
+            </div>
+            <span
+              aria-hidden="true"
+              className="pointer-events-none flex items-center gap-1 opacity-50 group-hover:opacity-100 transition-opacity"
+            >
+              <svg width="14" height="14" viewBox="0 0 12 12" fill="none" className="w-3.5 h-3.5 text-white">
+                <path d="M4.75 9.125L7.875 6L4.75 2.875" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" />
+              </svg>
+            </span>
+          </div>
+        </Link>
       </div>
     </section>
   )
@@ -516,6 +647,7 @@ export default function HomeShowcase() {
   return (
     <>
       <Manifesto />
+      <Testimonials />
       <Pillars />
       <ScrollStory />
       <BentoSplit />
