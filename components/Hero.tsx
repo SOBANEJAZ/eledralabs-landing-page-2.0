@@ -149,30 +149,6 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Hormozi Quote Section */}
-      <div className="flex flex-col items-center justify-center text-center py-24 md:py-32 px-5 bg-surface relative z-10">
-        <h2
-          className="text-white font-bold uppercase tracking-tight"
-          style={{
-            fontFamily: 'var(--font-sans, system-ui)',
-            fontSize: 'clamp(1.8rem, 4.5vw, 3.6rem)',
-            lineHeight: 1.15,
-            maxWidth: '1000px',
-          }}
-        >
-          &ldquo;WE PAY FOR EVERY LESSON
-          <br className="hidden md:block" /> WITH EITHER{' '}
-          <span style={{ color: '#F5A623' }}>TIME</span> OR{' '}
-          <span style={{ color: '#F5A623' }}>MONEY</span>.&rdquo;
-        </h2>
-        <p
-          className="text-white/50 tracking-[0.3em] uppercase font-favorit font-bold mt-10"
-          style={{ fontSize: 'clamp(1rem, 1.8vw, 1.35rem)' }}
-        >
-          — ALEX HORMOZI
-        </p>
-      </div>
-
       {/* Tech Logo Marquee */}
       <div
         className="border-t border-b border-border relative z-10 flex flex-col"

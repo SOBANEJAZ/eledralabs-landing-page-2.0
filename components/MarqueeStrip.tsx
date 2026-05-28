@@ -22,8 +22,8 @@ export default function MarqueeStrip({
 }: MarqueeStripProps) {
   const trackRef = useRef<HTMLDivElement>(null)
   const posRef = useRef(0)
-  const rafRef = useRef<number>()
-  const lastTimeRef = useRef<number>()
+  const rafRef = useRef<number>(undefined)
+  const lastTimeRef = useRef<number>(undefined)
   const initializedRef = useRef(false)
 
   useEffect(() => {

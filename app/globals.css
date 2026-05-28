@@ -878,9 +878,205 @@ header.header-scrolled .header-inner {
 }
 
 /* ============================================
+   HOME SECTIONS
+   ============================================ */
+
+/* Reset aggressive global spacing for home section containers */
+#home-stats > div,
+#home-capabilities > div:first-child,
+#home-industries > div:first-child,
+#home-process > div:first-child,
+#home-cta > div:last-child {
+  padding: 2rem !important;
+}
+
+/* Stats strip — uniform stat items */
+#home-stats .home-stat-item {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 2.5rem 1.25rem !important;
+  gap: 0.5rem !important;
+  text-align: center !important;
+}
+.home-stat-value {
+  font-family: var(--font-sans);
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+.home-stat-label {
+  font-family: var(--font-favorit);
+  font-size: 0.625rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: rgba(255, 255, 255, 0.3);
+}
+
+/* Capability cards — 3D perspective hover */
+.capability-card {
+  display: flex !important;
+  flex-direction: column !important;
+  min-height: 300px !important;
+  transition:
+    background-color 0.35s ease,
+    transform 0.45s cubic-bezier(0.23, 1, 0.32, 1) !important;
+  transform-style: preserve-3d;
+  will-change: transform, background-color;
+  cursor: default;
+}
+.capability-card:hover {
+  background-color: var(--color-surface-card) !important;
+  transform: perspective(900px) rotateY(-3deg) rotateX(1.5deg) translateZ(6px) !important;
+}
+
+/* Industry cards */
+.industry-card {
+  display: flex !important;
+  flex-direction: column !important;
+  transition:
+    background-color 0.3s ease,
+    transform 0.4s cubic-bezier(0.23, 1, 0.32, 1) !important;
+  will-change: transform, background-color;
+}
+.industry-card:hover {
+  background-color: var(--color-surface-card) !important;
+  transform: perspective(900px) rotateY(-2deg) translateZ(4px) !important;
+}
+
+/* Process steps */
+.process-step {
+  display: flex !important;
+  flex-direction: column !important;
+}
+.process-step-num {
+  font-family: var(--font-favorit);
+  font-size: 4.5rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.04);
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+/* CTA banner — perspective grid background */
+#home-cta {
+  position: relative;
+}
+#home-cta > div:last-child {
+  padding: 5rem 2rem !important;
+}
+.home-cta-grid-bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.home-cta-grid-bg::before {
+  content: '';
+  position: absolute;
+  left: 30%;
+  right: -30%;
+  top: -60%;
+  bottom: -20%;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.055) 1px, transparent 1px);
+  background-size: 52px 52px;
+  transform: perspective(540px) rotateX(48deg) rotateY(-8deg);
+  transform-origin: center bottom;
+  mask-image: radial-gradient(ellipse 90% 80% at 60% 40%, black 10%, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse 90% 80% at 60% 40%, black 10%, transparent 75%);
+}
+
+/* ============================================
+   SOLUTIONS SECTION
+   ============================================ */
+
+/* Solutions page header */
+#solutions .border.border-border > div:first-child {
+  padding: 2.5rem 2rem !important;
+}
+
+/* Industry header panels */
+#solutions [id^='solutions-'] > div:first-child > div:first-child,
+#solutions [id^='solutions-'] > div:first-child > div:last-child {
+  padding: 2rem !important;
+}
+
+/* Solution feature cards */
+.sol-feature-card {
+  padding: 1.75rem !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0.75rem !important;
+}
+
+/* Tags + CTA row */
+.sol-tags-row {
+  padding: 1rem 1.75rem !important;
+}
+
+/* Testimonial cards */
+#solutions > div:last-child > a {
+  padding: 2rem !important;
+}
+
+/* ============================================
    PRODUCTS SECTION
    ============================================ */
-/* (no custom CSS needed — uses Tailwind utilities directly) */
+
+/* Products page header */
+#products .border.border-border > div:first-child {
+  padding: 2.5rem 2rem !important;
+}
+
+/* Product detail cards */
+.product-detail-card {
+  padding: 2rem !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+/* Terminal mockup */
+.product-terminal {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.02);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.product-terminal-bar {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 8px 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.02);
+}
+.product-terminal-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.12);
+  flex-shrink: 0;
+}
+.product-terminal-body {
+  padding: 12px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* Platform layer grid items */
+#products > div:last-child > div {
+  padding: 2rem !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 1rem !important;
+}
 
 /* ============================================
    FAQ SECTION

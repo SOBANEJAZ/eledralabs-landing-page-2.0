@@ -1,11 +1,11 @@
 import Hero from '@/components/Hero'
-import Services from '@/components/Services'
+import HomeSections from '@/components/HomeSections'
 
 export default function HomePage() {
   return (
     <>
       <Hero />
-      <Services showTestimonials={false} />
+      <HomeSections />
     </>
   )
 }
