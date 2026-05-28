@@ -106,10 +106,13 @@ export default function Hero() {
         >
           <div className="flex flex-1 flex-col items-start">
             <h1
-              className="hero-el-h1 leading-110 text-white"
+              className="hero-el-h1 leading-110 uppercase tracking-[0.08em]"
               style={{ fontSize: 'clamp(3.5rem, 7vw, 6rem)' }}
             >
-              <span className="block">Eledralabs</span>
+              <span className="block">
+                <span className="text-white font-bold">eledra</span>
+                <span className="text-[#888888] font-normal"> labs</span>
+              </span>
             </h1>
             <p className="hero-el-sub max-w-100 leading-normal text-white/50 mt-5">
               We build precision-engineered Web and AI workflows that reduce operational drag and
