@@ -1090,12 +1090,102 @@ header.header-scrolled .header-inner {
   gap: 4px;
 }
 
-/* Platform layer grid items */
-#products > div:last-child > div {
+/* Platform layer grid items — scoped to the 3-column platform grid only */
+#products .grid.grid-cols-1.lg\:grid-cols-3 > div {
   padding: 2rem !important;
   display: flex !important;
   flex-direction: column !important;
   gap: 1rem !important;
+}
+
+/* Architecture grid — self-bordered panels, no global padding interference */
+.product-arch-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+  padding: 1.75rem !important;
+}
+@media (min-width: 640px) {
+  .product-arch-grid {
+    grid-template-columns: repeat(2, 1fr);
+    padding: 2rem !important;
+  }
+}
+@media (min-width: 1024px) {
+  .product-arch-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+.product-arch-cell {
+  border: 1px solid var(--color-border);
+  background: rgba(255, 255, 255, 0.012);
+  padding: 1.5rem 1.25rem !important;
+  display: flex;
+  flex-direction: column;
+  transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.45s cubic-bezier(0.23, 1, 0.32, 1);
+  will-change: background-color, transform;
+}
+.product-arch-cell:hover {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.18);
+  transform: translateY(-2px);
+}
+
+/* Developer code block — override grid padding, render as a flush terminal */
+#products .product-codeblock {
+  padding: 0 !important;
+  border-left: 1px solid var(--color-border);
+  background: rgba(255, 255, 255, 0.015);
+  overflow: hidden;
+  gap: 0 !important;
+}
+@media (max-width: 1023px) {
+  #products .product-codeblock {
+    border-left: 0;
+    border-top: 1px solid var(--color-border);
+  }
+}
+.product-codeblock-body {
+  padding: 1.25rem 1rem 1.5rem !important;
+  font-family: var(--font-favorit), monospace;
+  font-size: 0.78rem;
+  line-height: 1.65;
+  white-space: pre;
+  overflow-x: auto;
+  display: flex;
+  flex-direction: column;
+}
+.product-code-line {
+  display: flex;
+  align-items: baseline;
+  gap: 0.85rem;
+  min-height: 1.2em;
+}
+.product-code-gutter {
+  font-family: var(--font-favorit), monospace;
+  font-size: 0.65rem;
+  color: rgba(255, 255, 255, 0.18);
+  user-select: none;
+  flex-shrink: 0;
+}
+
+/* Pricing tier cards */
+.product-pricing-card {
+  display: flex !important;
+  flex-direction: column !important;
+  padding: 2rem !important;
+  transition: background-color 0.3s ease, transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  will-change: background-color, transform;
+}
+.product-pricing-card:hover {
+  background-color: var(--color-surface-card);
+  transform: translateY(-2px);
+}
+.product-pricing-card-accent {
+  background: linear-gradient(180deg, rgba(255,255,255,0.045) 0%, rgba(255,255,255,0.012) 100%);
+}
+.product-pricing-card-accent:hover {
+  background: linear-gradient(180deg, rgba(255,255,255,0.075) 0%, rgba(255,255,255,0.02) 100%);
 }
 
 /* ============================================
