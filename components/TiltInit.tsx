@@ -27,10 +27,10 @@ export default function TiltInit() {
       const centerX = rect.width / 2
       const centerY = rect.height / 2
 
-      // Subtle, elegant 3D tilt (max 9 degrees)
+      // Subtle, elegant 3D tilt (max 9 degrees, inverted so the hovered edge pops up)
       const maxRotation = 9
-      const rotateX = ((centerY - y) / centerY) * maxRotation
-      const rotateY = ((x - centerX) / centerX) * maxRotation
+      const rotateX = -((centerY - y) / centerY) * maxRotation
+      const rotateY = -((x - centerX) / centerX) * maxRotation
 
       // Preserve vertical scroll parallax translate3d from HomeShowcase.tsx if present
       let extraTransforms = ''
