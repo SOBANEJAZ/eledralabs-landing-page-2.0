@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 export default function ContactPage() {
   return (
-    <div className="pt-[6.5rem]">
+    <div className="pt-[7.5rem]">
       <Contact />
     </div>
   )
