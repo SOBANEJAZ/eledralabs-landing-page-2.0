@@ -48,7 +48,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="preload" as="image" href="/icons/eledralabs-logo.svg" />
         <link rel="preload" as="image" href="/backgrounds/lab.png" />
       </head>
-      <body className="antialiased">
+      <body className="antialiased" suppressHydrationWarning>
         {/* Google Tag Manager (noscript fallback) */}
         <noscript>
           <iframe

@@ -1,3 +1,5 @@
+'use client'
+
 import Link from 'next/link'
 
 const techLogos = [
@@ -21,21 +23,24 @@ export default function Hero() {
       {/* Video Background */}
       <div
         className="hero-video-edge-blend pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-screen overflow-hidden bg-surface"
-        style={{ height: '100vh', minHeight: '480px' }}
+        style={{ height: 'calc(100vh - 4rem)', minHeight: '480px' }}
         aria-hidden="true"
       >
         <div className="absolute inset-0">
           <div
             className="absolute inset-0 transform-gpu will-change-transform"
+            suppressHydrationWarning
             style={{ transform: 'translate3d(0, var(--hero-parallax-y, 0px), 0)' }}
           >
             <video
+              suppressHydrationWarning
               autoPlay
               muted
               loop
               playsInline
               preload="auto"
-              className="absolute inset-0 h-full w-full translate-x-36 -translate-y-22 -scale-x-160 scale-y-160 object-cover object-[90%_98%] max-[560px]:translate-x-20 max-[560px]:-translate-y-10 max-[560px]:-scale-x-145 max-[560px]:scale-y-145 max-[560px]:object-[78%_92%] xl:translate-x-6 xl:-translate-y-16 xl:-scale-x-110 xl:scale-y-125 xl:object-[62%_98%]"
+              poster="/backgrounds/pi-glass-loop-poster.webp"
+              className="absolute inset-0 h-full w-full translate-x-36 -translate-y-22 -scale-x-160 scale-y-160 object-cover object-[90%_98%] max-[560px]:translate-x-20 max-[560px]:-translate-y-10 max-[560px]:-scale-x-145 max-[560px]:scale-y-145 max-[560px]:object-[78%_92%] xl:translate-x-6 xl:-translate-y-16 xl:-scale-x-110 xl:scale-y-160 xl:object-[62%_98%]"
             >
               <source src="/backgrounds/pi-glass-loop-prod.webm" type="video/webm" />
               <source src="/backgrounds/pi-glass-loop-prod.mp4" type="video/mp4" />
@@ -47,7 +52,7 @@ export default function Hero() {
       {/* Hero Content */}
       <div
         className="relative flex flex-col items-start justify-end px-5 pt-5 pb-8 lg:pb-10"
-        style={{ height: '100vh', minHeight: '480px' }}
+        style={{ height: 'calc(100vh - 4rem)', minHeight: '480px' }}
       >
         <div className="relative z-10 flex w-full flex-col items-start gap-10 font-sans lg:flex-row lg:items-end">
           <div className="flex flex-1 flex-col items-start">
