@@ -245,13 +245,6 @@ export default function Products() {
       {/* Page Header */}
       <div className="border border-border mb-5 md:mb-8">
         <div className="border-b border-border flex flex-col justify-end gap-6 relative overflow-hidden" style={{ minHeight: '22rem' }}>
-          <div className="pointer-events-none absolute inset-0 bg-surface mix-blend-screen" aria-hidden="true">
-            <img
-              alt=""
-              className="object-cover object-center absolute inset-0 w-full h-full"
-              src="/backgrounds/sprinkle-products.svg"
-            />
-          </div>
           <div className="pointer-events-none absolute inset-x-0 top-0 h-full bg-linear-to-b from-surface to-transparent" />
           <div className="relative z-10 flex flex-col gap-2">
             <p className="font-favorit text-2xs text-white/30 uppercase tracking-widest">
