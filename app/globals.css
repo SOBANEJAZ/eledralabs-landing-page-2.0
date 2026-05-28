@@ -293,6 +293,7 @@ header {
   border: 0;
   border-radius: 0;
   background: #060606;
+  will-change: clip-path;
   color: #f4f4f4;
   cursor: wait;
   isolation: isolate;
@@ -324,6 +325,7 @@ body:has(.hero-intro-overlay) {
   object-position: center;
   filter: contrast(1.08) brightness(0.92);
   transform: scale(1.03);
+  will-change: transform;
 }
 .hero-intro-vignette {
   position: absolute;
@@ -1053,16 +1055,46 @@ header {
     box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 header .header-inner {
-  height: 4rem !important;
+  height: 5rem !important;
   transition: height 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 header.header-scrolled {
   background-color: #000000 !important;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6) !important;
   border-bottom: none !important;
+  animation: headerScrollPop 0.45s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 header.header-scrolled .header-inner {
-  height: 3.25rem !important;
+  height: 3.5rem !important;
+}
+
+@keyframes headerScrollPop {
+  0% {
+    transform: translateY(-6px);
+    opacity: 0.65;
+  }
+  55% {
+    transform: translateY(1.5px);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.header-cta-popin {
+  animation: ctaCenterPopIn 0.42s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+@keyframes ctaCenterPopIn {
+  from {
+    transform: translateY(10px) scale(0.88);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
 }
 
 /* ============================================
@@ -1323,11 +1355,17 @@ header.header-scrolled .header-inner {
   flex-direction: column;
   gap: 0.15em;
 }
-.manifesto-line {
+.manifesto-line,
+.repel-line.manifesto-line {
   display: block;
   opacity: 0;
   transform: translateY(22px);
   transition: opacity 0.9s cubic-bezier(0.23, 1, 0.32, 1), transform 0.9s cubic-bezier(0.23, 1, 0.32, 1);
+}
+.repel-char {
+  display: inline-block;
+  will-change: transform;
+  transition: transform 0.12s ease-out;
 }
 .manifesto-line-em {
   background: linear-gradient(180deg, #ffffff 0%, rgba(255, 255, 255, 0.55) 100%);
@@ -1351,13 +1389,13 @@ header.header-scrolled .header-inner {
   opacity: 1;
   transform: translateY(0);
 }
-.showcase-manifesto.is-visible .manifesto-line:nth-child(1) {
+.showcase-manifesto.is-visible .repel-line.manifesto-line:nth-child(1) {
   opacity: 1; transform: translateY(0); transition-delay: 0.1s;
 }
-.showcase-manifesto.is-visible .manifesto-line:nth-child(2) {
+.showcase-manifesto.is-visible .repel-line.manifesto-line:nth-child(2) {
   opacity: 1; transform: translateY(0); transition-delay: 0.25s;
 }
-.showcase-manifesto.is-visible .manifesto-line:nth-child(3) {
+.showcase-manifesto.is-visible .repel-line.manifesto-line:nth-child(3) {
   opacity: 1; transform: translateY(0); transition-delay: 0.4s;
 }
 
@@ -1372,24 +1410,23 @@ header.header-scrolled .header-inner {
 .showcase-manifesto-grid-bg::before {
   content: '';
   position: absolute;
-  left: -10%;
-  right: -10%;
-  top: 40%;
-  bottom: -30%;
+  left: -15%;
+  right: -15%;
+  top: 30%;
+  bottom: -45%;
   background-image:
     linear-gradient(rgba(77, 154, 110, 0.12) 2px, transparent 2px),
     linear-gradient(90deg, rgba(77, 154, 110, 0.12) 2px, transparent 2px);
   background-size: 60px 60px;
   transform: perspective(620px) rotateX(58deg);
   transform-origin: center top;
-  mask-image: radial-gradient(ellipse 90% 70% at 50% 30%, black 0%, transparent 70%);
-  -webkit-mask-image: radial-gradient(ellipse 90% 70% at 50% 30%, black 0%, transparent 70%);
+  mask-image: radial-gradient(ellipse 110% 90% at 50% 30%, black 0%, transparent 85%);
+  -webkit-mask-image: radial-gradient(ellipse 110% 90% at 50% 30%, black 0%, transparent 85%);
 }
 .showcase-manifesto-grid-bg::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse 70% 50% at 30% 30%, rgba(255, 255, 255, 0.05), transparent 60%);
   pointer-events: none;
 }
 
@@ -1626,8 +1663,8 @@ header.header-scrolled .header-inner {
   background-size: 30px 30px;
   transform: perspective(420px) rotateX(58deg);
   transform-origin: center top;
-  mask-image: radial-gradient(ellipse 70% 80% at 50% 100%, black 0%, transparent 80%);
-  -webkit-mask-image: radial-gradient(ellipse 70% 80% at 50% 100%, black 0%, transparent 80%);
+  mask-image: radial-gradient(ellipse 90% 95% at 50% 100%, black 0%, transparent 92%);
+  -webkit-mask-image: radial-gradient(ellipse 90% 95% at 50% 100%, black 0%, transparent 92%);
   opacity: 0.85;
 }
 .story-visual-console {
@@ -1949,24 +1986,24 @@ header.header-scrolled .header-inner {
 .atmos-grid-bg::before {
   content: '';
   position: absolute;
-  left: -10%;
-  right: -10%;
-  top: 40%;
-  bottom: -30%;
+  left: -15%;
+  right: -15%;
+  top: 30%;
+  bottom: -45%;
   background-image:
     linear-gradient(rgba(77, 154, 110, 0.1) 2px, transparent 2px),
     linear-gradient(90deg, rgba(77, 154, 110, 0.1) 2px, transparent 2px);
   background-size: 60px 60px;
   transform: perspective(560px) rotateX(58deg);
   transform-origin: center top;
-  mask-image: radial-gradient(ellipse 80% 70% at 50% 30%, black 0%, transparent 75%);
-  -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 30%, black 0%, transparent 75%);
+  mask-image: radial-gradient(ellipse 100% 90% at 50% 30%, black 0%, transparent 88%);
+  -webkit-mask-image: radial-gradient(ellipse 100% 90% at 50% 30%, black 0%, transparent 88%);
 }
 .atmos-grid-bg::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse 50% 40% at 30% 40%, rgba(255, 255, 255, 0.07), transparent 60%);
+  pointer-events: none;
 }
 
 /* Dust particles — slower, larger drift than manifesto */
@@ -2040,10 +2077,14 @@ header.header-scrolled .header-inner {
     opacity: 0.5 !important;
   }
   .showcase-manifesto .manifesto-line,
+  .showcase-manifesto .repel-line.manifesto-line,
   .showcase-manifesto .manifesto-sub,
   .showcase-manifesto .manifesto-eyebrow {
     opacity: 1 !important;
     transform: none !important;
+    transition: none !important;
+  }
+  .showcase-manifesto .repel-char {
     transition: none !important;
   }
 }
@@ -2139,6 +2180,14 @@ header.header-scrolled .header-inner {
   border-radius: 50%;
   background: rgba(61, 110, 78, 0.4);
   flex-shrink: 0;
+}
+.product-terminal-dot:first-child {
+  background: var(--color-accent-green);
+  animation: terminal-dot-pulse 1s ease-in-out infinite;
+}
+@keyframes terminal-dot-pulse {
+  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(61, 110, 78, 0.6); }
+  50% { opacity: 0.7; box-shadow: 0 0 0 3px rgba(61, 110, 78, 0); }
 }
 .product-terminal-body {
   padding: 14px 12px;
