@@ -42,8 +42,9 @@ export default function TiltInit() {
         }
       }
 
-      // Elegant lift & tilt
+      // Elegant lift & tilt and bring active card to top
       card.style.transform = `perspective(1200px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) scale3d(1.04, 1.04, 1.04) translateZ(24px)${extraTransforms}`
+      card.style.zIndex = '50'
 
       // Create/Get glare element dynamically
       let glare = card.querySelector('.card-glare-overlay') as HTMLElement
@@ -72,6 +73,7 @@ export default function TiltInit() {
       }
 
       card.style.transform = `perspective(1200px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1) translateZ(0px)${extraTransforms}`
+      card.style.zIndex = ''
 
       const glare = card.querySelector('.card-glare-overlay') as HTMLElement
       if (glare) {
