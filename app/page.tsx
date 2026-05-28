@@ -1,11 +1,11 @@
 import Hero from '@/components/Hero'
-import HomeSections from '@/components/HomeSections'
+import HomeShowcase from '@/components/HomeShowcase'
 
 export default function HomePage() {
   return (
     <>
       <Hero />
-      <HomeSections />
+      <HomeShowcase />
     </>
   )
 }
