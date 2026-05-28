@@ -888,7 +888,7 @@ header.header-scrolled .header-inner {
 .showcase-section {
   position: relative;
   border: 1px solid var(--color-border);
-  overflow: hidden;
+  /* Do NOT put overflow:hidden here — it breaks position:sticky on .story-pin */
 }
 /* Defeat the global `section > div:first-child { padding: 2rem }` for
    background layers that must remain full-bleed (absolute-positioned). */
@@ -909,6 +909,7 @@ header.header-scrolled .header-inner {
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden; /* clip particles to section bounds */
 }
 .showcase-manifesto-inner {
   position: relative;
@@ -1073,7 +1074,9 @@ header.header-scrolled .header-inner {
   display: block;
   text-decoration: none;
   transform-style: preserve-3d;
-  transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.4s ease;
+  /* No transition on transform — scroll-driven RAF updates are already smooth;
+     a CSS transition would create a 600ms lag behind scroll position */
+  transition: box-shadow 0.4s ease;
   will-change: transform;
 }
 .pillar-card-inner {
@@ -1484,6 +1487,7 @@ header.header-scrolled .header-inner {
   min-height: 60vh;
   display: flex;
   align-items: center;
+  overflow: hidden; /* clip dust particles to section bounds */
 }
 .atmos-content {
   position: relative;
