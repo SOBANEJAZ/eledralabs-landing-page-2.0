@@ -1365,7 +1365,7 @@ header.header-scrolled .header-inner {
   text-decoration: none;
   min-height: 22rem;
   background: var(--color-surface);
-  overflow: hidden;
+  overflow: visible !important;
   transition: background-color 0.4s ease, transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
   will-change: transform, background-color;
 }
@@ -1432,7 +1432,7 @@ header.header-scrolled .header-inner {
 /* Solutions card: rail of industry pills floating bottom-right */
 .bento-card-rail {
   position: absolute;
-  right: -2rem;
+  right: 0;
   bottom: 1.5rem;
   z-index: 1;
   display: flex;
@@ -1462,11 +1462,12 @@ header.header-scrolled .header-inner {
 /* Products card: stack of product chips with subtle depth offset */
 .bento-card-stack {
   position: absolute;
-  right: -1rem;
-  bottom: 1rem;
+  right: 0;
+  bottom: 1.5rem;
   z-index: 1;
   display: flex;
   flex-direction: column;
+  gap: 0.5rem;
   align-items: flex-end;
   pointer-events: none;
   font-family: var(--font-favorit);
@@ -1478,15 +1479,14 @@ header.header-scrolled .header-inner {
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid var(--color-border);
   color: rgba(255, 255, 255, 0.45);
-  padding: 0.4rem 0.75rem;
-  margin-top: -1px;
-  transform: translate3d(calc(var(--i) * 6px), 0, 0);
+  padding: 0.35rem 0.65rem;
+  transform: translateX(0);
   transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1), background 0.3s ease, color 0.3s ease;
 }
 .bento-card-products:hover .bento-stack-item {
   background: rgba(61, 110, 78, 0.12);
   color: rgba(255, 255, 255, 0.85);
-  transform: translate3d(calc(var(--i) * -6px - 12px), 0, 0);
+  transform: translateX(-1.2rem);
 }
 
 /* ---------------- Atmospheric CTA ---------------- */
