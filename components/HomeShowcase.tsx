@@ -9,7 +9,6 @@ import { useEffect, useRef, useState } from 'react'
 
 const pillars = [
   {
-    num: '01',
     title: 'Intelligent Agents',
     blurb:
       'Conversational AI that talks to your customers in real time — voice on the phone, chat on the web.',
@@ -17,7 +16,6 @@ const pillars = [
     href: '/products',
   },
   {
-    num: '02',
     title: 'Engineered Systems',
     blurb:
       'Web platforms and operational tooling built to last — typed, observable, fast at the edge.',
@@ -25,7 +23,6 @@ const pillars = [
     href: '/products',
   },
   {
-    num: '03',
     title: 'Autonomous Workflows',
     blurb:
       'Background automation that runs the busywork. Triggered, branched, retried — no operator required.',
@@ -36,7 +33,6 @@ const pillars = [
 
 const steps = [
   {
-    n: '01',
     title: 'Consult',
     body:
       'A 30-minute operations map. We mark the workflows where you bleed time — missed calls, manual data entry, after-hours blind spots.',
@@ -48,7 +44,6 @@ const steps = [
     ],
   },
   {
-    n: '02',
     title: 'Design',
     body:
       'Custom voice agents, chatbots, or workflow pipelines — designed against your exact process, not a template.',
@@ -60,7 +55,6 @@ const steps = [
     ],
   },
   {
-    n: '03',
     title: 'Deploy',
     body:
       'Ship to production with full monitoring, graceful fallbacks, and a kill switch. Zero-downtime cutovers.',
@@ -72,7 +66,6 @@ const steps = [
     ],
   },
   {
-    n: '04',
     title: 'Scale',
     body:
       'Grow capacity without adding headcount. The system handles volume; your team handles strategy.',
@@ -260,9 +253,9 @@ function Pillars() {
             What we build
           </p>
           <p className="font-sans text-7 leading-120">
-            <span className="text-white">Three pillars.</span>
+            <span className="text-white">How we build.</span>
             <span className="text-white/50">
-              {' '}Everything we ship sits on one of these foundations.
+              {' '}Every engagement sits on one of these foundations.
             </span>
           </p>
         </div>
@@ -275,7 +268,7 @@ function Pillars() {
           const tilts = [Number(tilt) - 1.5, Number(tilt), Number(tilt) + 1.5]
           return (
             <Link
-              key={pl.num}
+              key={pl.title}
               href={pl.href}
               className="pillar-card group"
               style={{
@@ -284,14 +277,13 @@ function Pillars() {
             >
               <div className="pillar-card-inner">
                 <div className="pillar-card-top">
-                  <span className="font-favorit text-2xs text-white/35 uppercase">{pl.num}</span>
                   <span className="font-favorit text-2xs text-white/40 uppercase tracking-wider border border-border px-2 py-0.5">
                     {pl.tagline}
                   </span>
                 </div>
                 <h3 className="pillar-title">{pl.title}</h3>
                 <p className="pillar-blurb">{pl.blurb}</p>
-                <span className="pillar-cta">
+                <span className="pillar-cta" style={{ color: 'rgba(61, 110, 78, 0.7)' }}>
                   Explore
                   <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
                     <path
@@ -344,7 +336,7 @@ function ScrollStory() {
                   <span className="story-visual-dot" />
                   <span className="story-visual-dot" />
                   <span className="font-favorit text-2xs text-white/30 ml-auto uppercase">
-                    phase {steps[active].n}
+                    phase {active + 1}
                   </span>
                 </div>
                 <div className="story-visual-body">
@@ -353,9 +345,7 @@ function ScrollStory() {
                     {steps[active].console.map((line, li) => (
                       <p
                         key={li}
-                        className={`font-favorit text-2xs leading-6 story-console-line ${
-                          li === 0 ? 'text-white/65' : 'text-white/40'
-                        }`}
+                        className={`story-console-line ${li === 0 ? 'text-white/70' : 'text-white/50'}`}
                         style={{ animationDelay: `${0.06 * li}s` }}
                       >
                         {line}
@@ -373,11 +363,11 @@ function ScrollStory() {
             <ol className="story-steps">
               {steps.map((s, i) => (
                 <li
-                  key={s.n}
+                  key={i}
                   className={`story-step${i === active ? ' is-active' : i < active ? ' is-past' : ''}`}
                   aria-current={i === active ? 'step' : undefined}
                 >
-                  <div className="story-step-num">{s.n}</div>
+                  <div className="story-step-num">{String(i + 1).padStart(2, '0')}</div>
                   <div className="story-step-body">
                     <h3 className="story-step-title">{s.title}</h3>
                     <p className="story-step-text">{s.body}</p>
@@ -403,9 +393,9 @@ function BentoSplit() {
         <Link href="/solutions" className="bento-card bento-card-solutions group">
           <div className="bento-card-content">
             <span className="font-favorit text-2xs text-white/40 uppercase tracking-widest">
-              By Industry
+              Industry Solutions
             </span>
-            <h3 className="bento-card-title">5 sectors.</h3>
+            <h3 className="bento-card-title">Built for your sector.</h3>
             <p className="bento-card-sub">
               Healthcare · Real Estate · Local Trades · E-commerce · Hospitality
             </p>
@@ -413,7 +403,7 @@ function BentoSplit() {
               Sector-tuned workflows with compliance, integrations, and metrics that map to how each
               industry actually operates.
             </p>
-            <span className="bento-card-cta">
+            <span className="bento-card-cta" style={{ color: 'rgba(61, 110, 78, 0.8)' }}>
               See Solutions
               <svg width="14" height="14" viewBox="0 0 12 12" fill="none">
                 <path
@@ -428,7 +418,7 @@ function BentoSplit() {
             {['Healthcare', 'Real Estate', 'Local Trades', 'E-commerce', 'Hospitality'].map(
               (s, i) => (
                 <span key={s} className="bento-rail-item" style={{ animationDelay: `${i * 0.1}s` }}>
-                  {String(i + 1).padStart(2, '0')} · {s}
+                  {s}
                 </span>
               ),
             )}
@@ -438,9 +428,9 @@ function BentoSplit() {
         <Link href="/products" className="bento-card bento-card-products group">
           <div className="bento-card-content">
             <span className="font-favorit text-2xs text-white/40 uppercase tracking-widest">
-              By Product
+              The Platform
             </span>
-            <h3 className="bento-card-title">4 products + platform.</h3>
+            <h3 className="bento-card-title">AI-native automation.</h3>
             <p className="bento-card-sub">
               Voice Agents · LLM Chatbots · Workflow Automation · IT Service Automation
             </p>
@@ -448,7 +438,7 @@ function BentoSplit() {
               A typed API, observable infrastructure, and integrations to the tools your team already
               ships in.
             </p>
-            <span className="bento-card-cta">
+            <span className="bento-card-cta" style={{ color: 'rgba(61, 110, 78, 0.8)' }}>
               See Products
               <svg width="14" height="14" viewBox="0 0 12 12" fill="none">
                 <path

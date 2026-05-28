@@ -2,7 +2,6 @@ import Link from 'next/link'
 
 type Industry = {
   id: string
-  num: string
   sector: string
   tagline: string
   problem: string
@@ -16,7 +15,6 @@ type Industry = {
 const industries: Industry[] = [
   {
     id: 'healthcare',
-    num: '01',
     sector: 'Healthcare',
     tagline: 'HIPAA-compliant AI for patient-facing operations',
     problem:
@@ -45,7 +43,6 @@ const industries: Industry[] = [
   },
   {
     id: 'real-estate',
-    num: '02',
     sector: 'Real Estate',
     tagline: 'AI that qualifies leads while you show properties',
     problem:
@@ -74,7 +71,6 @@ const industries: Industry[] = [
   },
   {
     id: 'local-business',
-    num: '03',
     sector: 'Local Trades & Services',
     tagline: 'Never miss a job — 24/7 dispatch and booking',
     problem:
@@ -104,7 +100,6 @@ const industries: Industry[] = [
   },
   {
     id: 'ecommerce',
-    num: '04',
     sector: 'E-commerce & Retail',
     tagline: 'Recover carts, deflect tickets, scale support',
     problem:
@@ -133,7 +128,6 @@ const industries: Industry[] = [
   },
   {
     id: 'hospitality',
-    num: '05',
     sector: 'Hospitality & Restaurants',
     tagline: 'Bookings, queries, and reviews — fully automated',
     problem:
@@ -198,7 +192,7 @@ export default function Solutions() {
               Eledralabs — Industry Solutions
             </p>
             <p className="font-sans text-7 leading-120">
-              <span className="text-white">Solutions by Industry.</span>
+              <span className="text-white">Solutions.</span>
               <span className="text-white/50">
                 {' '}AI and web systems engineered to the specific workflows of each sector — not generic templates.
               </span>
@@ -207,7 +201,8 @@ export default function Solutions() {
           <div className="relative z-10 flex items-center gap-1">
             <Link
               href="/contact"
-              className="group inline-flex w-fit items-center gap-1 font-favorit uppercase bg-white text-black min-h-7 px-2 py-2 text-xs leading-none"
+              className="group inline-flex w-fit items-center gap-1 font-favorit uppercase text-white min-h-7 px-2 py-2 text-xs leading-none"
+              style={{ backgroundColor: 'var(--color-accent-green)' }}
             >
               Get Started
               <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
@@ -228,7 +223,7 @@ export default function Solutions() {
       <div className="border border-border mb-5 md:mb-8">
         <div className="border-b border-border flex items-end justify-between gap-4">
           <p className="font-favorit text-2xs text-white/30 uppercase tracking-widest">
-            Index · 5 sectors
+            Industry Solutions
           </p>
           <p className="font-favorit text-2xs text-white/25 uppercase tracking-widest hidden md:block">
             Tap a sector to jump
@@ -241,8 +236,7 @@ export default function Solutions() {
               href={`#solutions-${ind.id}`}
               className={`sol-index-item${i < industries.length - 1 ? ' border-b md:border-b-0 md:border-r border-border' : ''}${i < 3 && i % 2 === 0 ? ' border-r border-border md:border-r' : ''}`}
             >
-              <span className="font-favorit text-2xs text-white/30 uppercase">{ind.num}</span>
-              <span className="font-sans text-white text-sm leading-normal mt-2">{ind.sector}</span>
+              <span className="font-sans text-white text-sm leading-normal">{ind.sector}</span>
               <span className="font-favorit text-2xs text-white/35 uppercase mt-1 leading-tight">{ind.tagline}</span>
             </a>
           ))}
@@ -256,7 +250,6 @@ export default function Solutions() {
           <div className="grid grid-cols-1 lg:grid-cols-2 border-b border-border">
             <div className="flex flex-col gap-4 border-b lg:border-b-0 lg:border-r border-border">
               <div className="flex items-center gap-3">
-                <span className="font-favorit text-2xs text-white/25 uppercase">{ind.num}</span>
                 <span className="border border-border px-1.5 py-0.5 font-favorit text-2xs uppercase text-white/35">
                   Industry
                 </span>
@@ -310,7 +303,6 @@ export default function Solutions() {
                   j < ind.solutions.length - 1 ? ' border-b lg:border-b-0 lg:border-r border-border' : ''
                 }`}
               >
-                <span className="font-favorit text-2xs text-white/25 uppercase">0{j + 1}</span>
                 <h4 className="font-sans text-white text-base leading-normal">{sol.title}</h4>
                 <p className="font-sans text-sm text-white/50 leading-6">{sol.body}</p>
               </div>
@@ -334,7 +326,8 @@ export default function Solutions() {
             </div>
             <Link
               href="/contact"
-              className="inline-flex items-center gap-1 font-favorit uppercase text-xs text-white/45 hover:text-white transition-colors shrink-0"
+              className="inline-flex items-center gap-1 font-favorit uppercase text-xs hover:text-white transition-colors shrink-0"
+              style={{ color: 'rgba(61, 110, 78, 0.8)' }}
             >
               Get a custom quote
               <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
@@ -359,7 +352,8 @@ export default function Solutions() {
         </div>
         <Link
           href="/contact"
-          className="inline-flex w-fit items-center gap-1 font-favorit uppercase bg-white text-black min-h-7 px-3 py-2 text-xs leading-none shrink-0"
+          className="inline-flex w-fit items-center gap-1 font-favorit uppercase text-white min-h-7 px-3 py-2 text-xs leading-none shrink-0"
+          style={{ backgroundColor: 'var(--color-accent-green)' }}
         >
           Map my workflows
           <svg width="12" height="12" viewBox="0 0 12 12" fill="none">

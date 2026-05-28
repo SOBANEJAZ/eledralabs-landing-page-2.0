@@ -6,7 +6,6 @@ interface ServicesProps {
 
 const services = [
   {
-    num: '01',
     img: '/backgrounds/solutions-1.png',
     alt: 'Custom Website Development',
     tags: ['Web Dev', 'Frontend', 'SEO'],
@@ -18,11 +17,9 @@ const services = [
       'Search engines prioritize our builds',
       'End-to-end delivery, zero handoff friction',
     ],
-    index: 'Eledralabs — Service 01 / 04',
     cta: 'Explore',
   },
   {
-    num: '02',
     img: '/backgrounds/solutions-2.png',
     alt: 'AI Voice Agents',
     tags: ['AI Voice', 'Telephony', 'Automation'],
@@ -34,11 +31,9 @@ const services = [
       'Operates without human intervention',
       'Scales to thousands of calls per day',
     ],
-    index: 'Eledralabs — Service 02 / 04',
     cta: 'Learn More',
   },
   {
-    num: '03',
     img: '/backgrounds/solutions-3.png',
     alt: 'Custom LLM Chatbots',
     tags: ['LLM', 'Chatbot', 'NLP'],
@@ -50,11 +45,9 @@ const services = [
       'Instant, context-aware responses',
       'Trained on your own data & docs',
     ],
-    index: 'Eledralabs — Service 03 / 04',
     cta: 'Configure',
   },
   {
-    num: '04',
     img: '/backgrounds/solutions-4.png',
     alt: 'IT Service Automations',
     tags: ['IT Ops', 'Workflow', 'DevOps'],
@@ -66,7 +59,6 @@ const services = [
       'Automated ticket routing & triage',
       'Reduce mean time to resolution',
     ],
-    index: 'Eledralabs — Service 04 / 04',
     cta: 'Configure',
   },
 ]
@@ -111,8 +103,9 @@ export default function Services({ showTestimonials = false }: ServicesProps) {
           </p>
           <div className="relative z-10 flex items-center gap-1">
             <Link
-              className="group inline-flex w-fit shrink-0 items-center justify-center gap-1 whitespace-nowrap font-favorit uppercase transition-colors hover:cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/60 bg-white text-black min-h-7 px-2 py-2 text-xs leading-none"
+              className="group inline-flex w-fit shrink-0 items-center justify-center gap-1 whitespace-nowrap font-favorit uppercase transition-colors hover:cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/60 text-white min-h-7 px-2 py-2 text-xs leading-none"
               href="/contact"
+              style={{ backgroundColor: 'var(--color-accent-green)' }}
             >
               Learn More
               <div className="w-3 h-3 overflow-hidden relative">
@@ -159,13 +152,12 @@ export default function Services({ showTestimonials = false }: ServicesProps) {
 
         {/* Service Rows */}
         {services.map((svc) => (
-          <div key={svc.num} className="svc-row">
+          <div key={svc.title} className="svc-row">
             <div className="svc-img-col">
               <img src={svc.img} alt={svc.alt} />
             </div>
             <div className="svc-content-col">
               <div className="svc-top-row">
-                <span className="svc-num-badge">{svc.num}</span>
                 <div className="svc-tag-group">
                   {svc.tags.map((tag) => (
                     <span key={tag} className="svc-tag">
@@ -188,7 +180,6 @@ export default function Services({ showTestimonials = false }: ServicesProps) {
                 ))}
               </div>
               <div className="svc-footer">
-                <span className="svc-index-line">{svc.index}</span>
                 <Link className="svc-cta" href="/contact">
                   {svc.cta}
                   <svg width="10" height="10" viewBox="0 0 12 12" fill="none">

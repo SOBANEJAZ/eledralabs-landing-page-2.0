@@ -1,7 +1,6 @@
 import Link from 'next/link'
 
 type Product = {
-  num: string
   category: string
   title: string
   desc: string
@@ -14,7 +13,6 @@ type Product = {
 
 const products: Product[] = [
   {
-    num: '01',
     category: 'Conversational AI',
     title: 'Voice AI Agents',
     desc: 'Production-ready conversational phone agents that answer calls, qualify leads, schedule appointments, and handle FAQs — 24/7, at any scale, with sub-second response latency and zero hold times.',
@@ -40,7 +38,6 @@ const products: Product[] = [
     ],
   },
   {
-    num: '02',
     category: 'NLP & Chat',
     title: 'Custom LLM Chatbots',
     desc: 'Embeddable chat assistants trained on your proprietary data — for websites, web apps, and internal tools. Fine-tuned to speak your brand language and hold context across sessions.',
@@ -66,7 +63,6 @@ const products: Product[] = [
     ],
   },
   {
-    num: '03',
     category: 'Automation Platform',
     title: 'Workflow Automation',
     desc: 'Design, deploy, and monitor intelligent automation pipelines that handle lead capture, customer follow-up, data routing, and operational workflows — without writing a line of code.',
@@ -92,7 +88,6 @@ const products: Product[] = [
     ],
   },
   {
-    num: '04',
     category: 'DevOps & IT',
     title: 'IT Service Automation',
     desc: 'An intelligent ITSM layer that handles tier-1 requests automatically — ticket routing, password resets, system diagnostics, and alert correlation — freeing engineering for high-value work.',
@@ -148,7 +143,6 @@ const architecture = [
 
 const platform = [
   {
-    num: '05',
     title: 'Analytics Dashboard',
     desc: 'Monitor every automation in real time. Track conversion rates, agent performance, response times, and ROI across all products from a single unified intelligence layer.',
     metrics: [
@@ -159,7 +153,6 @@ const platform = [
     ],
   },
   {
-    num: '06',
     title: 'Secure Infrastructure',
     desc: 'All Eledralabs products run on hardened infrastructure with end-to-end encryption, role-based access controls, full audit logging, and zero-trust network architecture.',
     badges: [
@@ -172,7 +165,6 @@ const platform = [
     ],
   },
   {
-    num: '07',
     title: 'Enterprise Integrations',
     desc: 'Connect Eledralabs to your existing stack via REST API, webhooks, or native connectors. Full SDK support for Python, Node.js, and Go.',
     integrationGroups: [
@@ -268,14 +260,15 @@ export default function Products() {
             <p className="font-sans text-7 leading-120">
               <span className="text-white">Products.</span>
               <span className="text-white/50">
-                {' '}Four core AI products. One unified operations layer. Built for teams that ship.
+                {' '}AI-native automation — voice, chat, workflows, and IT ops under one platform.
               </span>
             </p>
           </div>
           <div className="relative z-10 flex items-center gap-1">
             <Link
               href="/contact"
-              className="group inline-flex w-fit items-center gap-1 font-favorit uppercase bg-white text-black min-h-7 px-2 py-2 text-xs leading-none"
+              className="group inline-flex w-fit items-center gap-1 font-favorit uppercase text-white min-h-7 px-2 py-2 text-xs leading-none"
+              style={{ backgroundColor: 'var(--color-accent-green)' }}
             >
               Request Access
               <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
@@ -295,7 +288,7 @@ export default function Products() {
         <div className="grid grid-cols-1 lg:grid-cols-2">
           {products.map((p, i) => (
             <div
-              key={p.num}
+              key={p.title}
               className={`product-detail-card${
                 i === 0 ? ' border-b lg:border-r border-border' :
                 i === 1 ? ' border-b border-border' :
@@ -308,23 +301,22 @@ export default function Products() {
                 <span className="border border-white/15 px-1.5 py-0.5 font-favorit text-2xs uppercase text-white/40">
                   {p.category}
                 </span>
-                <span className="font-favorit text-2xs text-white/20 uppercase">{p.num}</span>
               </div>
 
               {/* Title + desc */}
-              <h3 className="font-sans text-white leading-normal lg:text-h3-title mb-3" style={{ fontSize: 'clamp(1.1rem, 2vw, 1.5rem)' }}>
+              <h3 className="font-sans text-white leading-normal lg:text-h3-title mb-3" style={{ fontSize: 'clamp(1.2rem, 2.2vw, 1.7rem)' }}>
                 {p.title}
               </h3>
-              <p className="font-sans text-sm text-white/50 leading-6 mb-5">{p.desc}</p>
+              <p className="font-sans text-sm text-white/50 leading-6 mb-6">{p.desc}</p>
 
               {/* 2-col layout: capabilities + terminal */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-5">
                 {/* Capabilities */}
-                <div className="flex flex-col gap-2">
+                <div className="flex flex-col gap-2.5">
                   {p.capabilities.map((feat) => (
-                    <div key={feat} className="flex gap-2 items-start text-xs">
+                    <div key={feat} className="flex gap-2 items-start text-sm">
                       <span className="text-white/25 shrink-0 mt-0.5">→</span>
-                      <span className="text-white/50 leading-5">{feat}</span>
+                      <span className="text-white/55 leading-5">{feat}</span>
                     </div>
                   ))}
                 </div>
@@ -338,7 +330,7 @@ export default function Products() {
                   </div>
                   <div className="product-terminal-body">
                     {p.terminalLines.map((line, li) => (
-                      <p key={li} className={`font-favorit text-2xs leading-5 ${li === 0 ? 'text-white/50' : 'text-white/30'}`}>
+                      <p key={li} className={`font-favorit text-xs leading-6 ${li === 0 ? 'text-white/55' : 'text-white/35'}`}>
                         {line}
                       </p>
                     ))}
@@ -347,11 +339,11 @@ export default function Products() {
               </div>
 
               {/* Stack row */}
-              <div className="flex flex-col gap-2 mb-5 border-t border-border pt-4">
+              <div className="flex flex-col gap-2.5 mb-5 border-t border-border pt-4">
                 <p className="font-favorit text-2xs text-white/25 uppercase tracking-wider">Built on</p>
                 <div className="flex flex-wrap gap-1.5">
                   {p.stack.map((s) => (
-                    <span key={s} className="font-favorit text-2xs text-white/40 uppercase border border-border px-1.5 py-0.5">
+                    <span key={s} className="font-favorit text-2xs text-white/45 uppercase border border-border px-1.5 py-0.5">
                       {s}
                     </span>
                   ))}
@@ -361,7 +353,7 @@ export default function Products() {
               {/* Use cases */}
               <div className="flex flex-wrap gap-1.5 mb-5">
                 {p.useCases.map((uc) => (
-                  <span key={uc} className="border border-border px-2 py-0.5 font-favorit text-2xs text-white/25 uppercase">
+                  <span key={uc} className="border border-border px-2 py-0.5 font-favorit text-2xs text-white/30 uppercase">
                     {uc}
                   </span>
                 ))}
@@ -369,7 +361,8 @@ export default function Products() {
 
               <Link
                 href={p.cta.href}
-                className="inline-flex items-center gap-1 font-favorit uppercase text-xs text-white/45 hover:text-white transition-colors"
+                className="inline-flex items-center gap-1 font-favorit uppercase text-xs text-white/55 hover:text-white transition-colors"
+                style={{ color: 'rgba(61, 110, 78, 0.8)' }}
               >
                 {p.cta.label}
                 <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
@@ -389,19 +382,18 @@ export default function Products() {
             <p className="font-sans text-7 leading-120">
               <span className="text-white">How it&apos;s built.</span>
               <span className="text-white/50">
-                {' '}Six layers, fully observable, every request traceable end-to-end.
+                {' '}Fully observable, every request traceable end-to-end.
               </span>
             </p>
           </div>
         </div>
         <div className="product-arch-grid">
-          {architecture.map((a, i) => (
+          {architecture.map((a) => (
             <div key={a.layer} className="product-arch-cell">
-              <span className="font-favorit text-2xs text-white/25 uppercase">L0{i + 1}</span>
-              <h4 className="font-sans text-white text-base leading-normal mt-2">{a.layer}</h4>
-              <ul className="flex flex-col gap-1.5 mt-3">
+              <h4 className="font-sans text-white text-base leading-normal">{a.layer}</h4>
+              <ul className="flex flex-col gap-2 mt-3">
                 {a.items.map((it) => (
-                  <li key={it} className="flex items-start gap-2 font-sans text-sm text-white/50 leading-5">
+                  <li key={it} className="flex items-start gap-2 font-sans text-sm text-white/55 leading-5">
                     <span className="text-white/25 mt-0.5 shrink-0">→</span>
                     {it}
                   </li>
@@ -416,11 +408,10 @@ export default function Products() {
       <div className="border border-border grid grid-cols-1 lg:grid-cols-3 mb-5 md:mb-8">
         {/* Analytics Dashboard */}
         <div className="border-b lg:border-b-0 lg:border-r border-border flex flex-col gap-4 font-sans">
-          <p className="font-favorit text-2xs text-white/25 uppercase">{platform[0].num}</p>
-          <h3 className="font-sans text-white leading-normal" style={{ fontSize: 'clamp(1.1rem, 2vw, 1.5rem)' }}>
+          <h3 className="font-sans text-white leading-normal" style={{ fontSize: 'clamp(1.2rem, 2.2vw, 1.7rem)' }}>
             {platform[0].title}
           </h3>
-          <p className="text-white/50 text-sm leading-6">{platform[0].desc}</p>
+          <p className="text-white/55 text-sm leading-6">{platform[0].desc}</p>
           <div className="border border-border mt-2" style={{ background: 'rgba(255,255,255,0.015)' }}>
             <div className="flex flex-col gap-3 p-4">
               {platform[0].metrics!.map((m) => (
@@ -440,11 +431,10 @@ export default function Products() {
 
         {/* Secure Infrastructure */}
         <div className="border-b lg:border-b-0 lg:border-r border-border flex flex-col gap-4 font-sans">
-          <p className="font-favorit text-2xs text-white/25 uppercase">{platform[1].num}</p>
-          <h3 className="font-sans text-white leading-normal" style={{ fontSize: 'clamp(1.1rem, 2vw, 1.5rem)' }}>
+          <h3 className="font-sans text-white leading-normal" style={{ fontSize: 'clamp(1.2rem, 2.2vw, 1.7rem)' }}>
             {platform[1].title}
           </h3>
-          <p className="text-white/50 text-sm leading-6">{platform[1].desc}</p>
+          <p className="text-white/55 text-sm leading-6">{platform[1].desc}</p>
           <div className="flex flex-col gap-2 mt-2">
             {platform[1].badges!.map((b) => (
               <div
@@ -461,11 +451,10 @@ export default function Products() {
 
         {/* Enterprise Integrations — categorised */}
         <div className="flex flex-col gap-4 font-sans">
-          <p className="font-favorit text-2xs text-white/25 uppercase">{platform[2].num}</p>
-          <h3 className="font-sans text-white leading-normal" style={{ fontSize: 'clamp(1.1rem, 2vw, 1.5rem)' }}>
+          <h3 className="font-sans text-white leading-normal" style={{ fontSize: 'clamp(1.2rem, 2.2vw, 1.7rem)' }}>
             {platform[2].title}
           </h3>
-          <p className="text-white/50 text-sm leading-6">{platform[2].desc}</p>
+          <p className="text-white/55 text-sm leading-6">{platform[2].desc}</p>
           <div className="flex flex-col gap-3 mt-2">
             {platform[2].integrationGroups!.map((g) => (
               <div key={g.name} className="flex flex-col gap-1.5">
@@ -477,7 +466,7 @@ export default function Products() {
                       className="border border-border px-2 py-1.5 flex items-center justify-center"
                       style={{ background: 'rgba(255,255,255,0.015)' }}
                     >
-                      <span className="font-favorit text-2xs text-white/40 uppercase text-center leading-none">{name}</span>
+                      <span className="font-favorit text-2xs text-white/45 uppercase text-center leading-none">{name}</span>
                     </div>
                   ))}
                 </div>
@@ -486,7 +475,8 @@ export default function Products() {
           </div>
           <Link
             href="/contact"
-            className="inline-flex w-fit items-center gap-1 font-favorit uppercase text-xs text-white/45 hover:text-white transition-colors mt-auto"
+            className="inline-flex w-fit items-center gap-1 font-favorit uppercase text-xs hover:text-white transition-colors mt-auto"
+            style={{ color: 'rgba(61, 110, 78, 0.8)' }}
           >
             Request a custom connector
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
@@ -504,13 +494,13 @@ export default function Products() {
             <h3 className="font-sans text-white leading-normal" style={{ fontSize: 'clamp(1.4rem, 2.4vw, 2rem)' }}>
               Built API-first.
             </h3>
-            <p className="font-sans text-sm text-white/50 leading-6 max-w-lg">
-              Every Eledralabs product is exposed as a typed API with idempotent endpoints, webhooks for
+            <p className="font-sans text-sm text-white/55 leading-6 max-w-lg">
+              Every product is exposed as a typed API with idempotent endpoints, webhooks for
               every primary event, and SDKs in the languages your team already ships in.
             </p>
-            <ul className="flex flex-col gap-2 mt-2">
+            <ul className="flex flex-col gap-2.5 mt-2">
               {developer.features.map((f) => (
-                <li key={f} className="flex items-start gap-2 font-sans text-sm text-white/55 leading-5">
+                <li key={f} className="flex items-start gap-2 font-sans text-sm text-white/60 leading-5">
                   <span className="text-white/30 mt-0.5 shrink-0">→</span>
                   {f}
                 </li>
@@ -518,7 +508,8 @@ export default function Products() {
             </ul>
             <Link
               href="/contact"
-              className="inline-flex w-fit items-center gap-1 font-favorit uppercase text-xs text-white/45 hover:text-white transition-colors mt-4"
+              className="inline-flex w-fit items-center gap-1 font-favorit uppercase text-xs hover:text-white transition-colors mt-4"
+              style={{ color: 'rgba(61, 110, 78, 0.8)' }}
             >
               Request API access
               <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
@@ -552,7 +543,7 @@ export default function Products() {
           <div className="flex flex-col gap-2">
             <p className="font-favorit text-2xs text-white/30 uppercase tracking-widest">Plans</p>
             <p className="font-sans text-7 leading-120">
-              <span className="text-white">Three tiers.</span>
+              <span className="text-white">Plans.</span>
               <span className="text-white/50">
                 {' '}Volume- and footprint-based — every plan starts with a scoping call.
               </span>
@@ -566,20 +557,19 @@ export default function Products() {
               className={`product-pricing-card${i < pricing.length - 1 ? ' border-b lg:border-b-0 lg:border-r border-border' : ''}${p.accent ? ' product-pricing-card-accent' : ''}`}
             >
               <div className="flex items-center justify-between mb-3">
-                <span className="font-favorit text-2xs text-white/30 uppercase">0{i + 1}</span>
                 {p.accent && (
-                  <span className="border border-white/35 px-1.5 py-0.5 font-favorit text-2xs uppercase text-white/80">
+                  <span className="border px-1.5 py-0.5 font-favorit text-2xs uppercase text-white/80" style={{ borderColor: 'rgba(61, 110, 78, 0.4)', color: 'rgba(61, 110, 78, 0.9)' }}>
                     Most picked
                   </span>
                 )}
               </div>
-              <h4 className="font-sans text-white leading-normal" style={{ fontSize: 'clamp(1.2rem, 2vw, 1.6rem)' }}>
+              <h4 className="font-sans text-white leading-normal" style={{ fontSize: 'clamp(1.3rem, 2.2vw, 1.8rem)' }}>
                 {p.name}
               </h4>
               <p className="font-favorit text-2xs text-white/35 uppercase tracking-wider mt-2">{p.tagline}</p>
-              <ul className="flex flex-col gap-2 mt-5">
+              <ul className="flex flex-col gap-2.5 mt-5">
                 {p.points.map((pt) => (
-                  <li key={pt} className="flex items-start gap-2 font-sans text-sm text-white/55 leading-5">
+                  <li key={pt} className="flex items-start gap-2 font-sans text-sm text-white/60 leading-5">
                     <span className="text-white/30 mt-0.5 shrink-0">→</span>
                     {pt}
                   </li>
@@ -589,9 +579,10 @@ export default function Products() {
                 href={p.cta.href}
                 className={`inline-flex w-fit items-center gap-1 font-favorit uppercase mt-6 px-3 py-2 text-xs leading-none transition-colors${
                   p.accent
-                    ? ' bg-white text-black hover:bg-white/90'
+                    ? ' text-white'
                     : ' bg-button-container text-text-mute hover:bg-surface-hover hover:text-white'
                 }`}
+                style={p.accent ? { backgroundColor: 'var(--color-accent-green)' } : undefined}
               >
                 {p.cta.label}
                 <svg width="12" height="12" viewBox="0 0 12 12" fill="none">

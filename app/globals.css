@@ -16,6 +16,9 @@
   --color-button-container: #212121;
   --color-white-soft: #ffffff1f;
   --color-text-mute: #999999;
+  --color-accent-green: #3d6e4e;
+  --color-accent-green-soft: rgba(61, 110, 78, 0.15);
+  --color-accent-green-border: rgba(61, 110, 78, 0.25);
 
   /* Typography */
   --font-favorit: "ABC Favorit Mono", monospace;
@@ -147,8 +150,8 @@ body.spa-active .spa-section:not(.spa-hidden) {
 /* Form focus */
 input:focus,
 textarea:focus {
-  border-color: rgba(255, 255, 255, 0.4) !important;
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
+  border-color: rgba(61, 110, 78, 0.5) !important;
+  box-shadow: 0 0 10px rgba(61, 110, 78, 0.1);
 }
 
 /* ============================================
@@ -791,16 +794,16 @@ header.header-scrolled .header-inner {
 }
 .svc-title {
   font-family: var(--font-sans, sans-serif);
-  font-size: clamp(18px, 2.2vw, 24px);
+  font-size: clamp(20px, 2.5vw, 28px);
   color: #ffffff;
   line-height: 1.2;
   font-weight: 500;
 }
 .svc-desc {
   font-family: var(--font-sans, sans-serif);
-  font-size: 13px;
+  font-size: 14px;
   line-height: 1.65;
-  color: rgba(255, 255, 255, 0.42);
+  color: rgba(255, 255, 255, 0.45);
   max-width: 480px;
 }
 .svc-divider {
@@ -833,8 +836,8 @@ header.header-scrolled .header-inner {
 }
 .svc-feature-text {
   font-family: var(--font-sans, sans-serif);
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.45);
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.5);
   line-height: 1.5;
 }
 .svc-footer {
@@ -852,16 +855,16 @@ header.header-scrolled .header-inner {
   font-size: 10px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(61, 110, 78, 0.8);
   text-decoration: none;
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(61, 110, 78, 0.25);
   padding: 7px 14px;
   transition: color 0.2s ease, border-color 0.2s ease;
   white-space: nowrap;
 }
 .svc-cta:hover {
-  color: #ffffff;
-  border-color: rgba(255, 255, 255, 0.35);
+  color: rgba(61, 110, 78, 1);
+  border-color: rgba(61, 110, 78, 0.5);
 }
 .svc-cta svg {
   transition: transform 0.2s ease;
@@ -1100,7 +1103,7 @@ header.header-scrolled .header-inner {
   position: absolute;
   inset: -1px;
   border-radius: 0;
-  background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(255, 255, 255, 0.18), transparent 70%);
+  background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(61, 110, 78, 0.2), transparent 70%);
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.45s ease;
@@ -1221,13 +1224,13 @@ header.header-scrolled .header-inner {
 .story-visual-dot {
   width: 0.4rem;
   height: 0.4rem;
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(61, 110, 78, 0.5);
   border-radius: 50%;
 }
 .story-visual-body {
   position: relative;
-  min-height: 16rem;
-  padding: 1.25rem 1rem 2.5rem;
+  min-height: 18rem;
+  padding: 1.5rem 1.25rem 3rem;
   overflow: hidden;
 }
 .story-visual-perspective {
@@ -1249,7 +1252,10 @@ header.header-scrolled .header-inner {
   z-index: 1;
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: 0.35rem;
+  font-family: var(--font-favorit);
+  font-size: 0.875rem;
+  line-height: 1.5;
 }
 .story-console-line {
   opacity: 0;
@@ -1270,7 +1276,7 @@ header.header-scrolled .header-inner {
   display: inline-block;
   width: 0.45rem;
   height: 0.9rem;
-  background: rgba(255, 255, 255, 0.6);
+  background: rgba(61, 110, 78, 0.7);
   animation: blink 1s steps(2) infinite;
 }
 @keyframes blink {
@@ -1317,7 +1323,7 @@ header.header-scrolled .header-inner {
 }
 .story-step.is-active .story-step-num {
   color: #ffffff;
-  border-top-color: rgba(255, 255, 255, 0.45);
+  border-top-color: rgba(61, 110, 78, 0.6);
 }
 .story-step-title {
   font-family: var(--font-sans);
@@ -1366,6 +1372,7 @@ header.header-scrolled .header-inner {
 .bento-card:hover {
   background-color: var(--color-surface-card);
   transform: translateY(-3px);
+  border-color: rgba(61, 110, 78, 0.2);
 }
 .bento-card-content {
   position: relative;
@@ -1447,7 +1454,7 @@ header.header-scrolled .header-inner {
   transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1), background 0.3s ease, color 0.3s ease;
 }
 .bento-card-solutions:hover .bento-rail-item {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(61, 110, 78, 0.12);
   color: rgba(255, 255, 255, 0.85);
   transform: translateX(-1.2rem);
 }
@@ -1477,7 +1484,7 @@ header.header-scrolled .header-inner {
   transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1), background 0.3s ease, color 0.3s ease;
 }
 .bento-card-products:hover .bento-stack-item {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(61, 110, 78, 0.12);
   color: rgba(255, 255, 255, 0.85);
   transform: translate3d(calc(var(--i) * -6px - 12px), 0, 0);
 }
@@ -1533,11 +1540,11 @@ header.header-scrolled .header-inner {
   transition: background-color 0.2s ease, color 0.2s ease;
 }
 .atmos-cta-primary {
-  background: #ffffff;
-  color: #000000;
+  background: var(--color-accent-green);
+  color: #ffffff;
 }
 .atmos-cta-primary:hover {
-  background: rgba(255, 255, 255, 0.92);
+  background: rgba(61, 110, 78, 0.85);
 }
 .atmos-cta-ghost {
   background: var(--color-button-container);
@@ -1747,14 +1754,14 @@ header.header-scrolled .header-inner {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.12);
+  background: rgba(61, 110, 78, 0.4);
   flex-shrink: 0;
 }
 .product-terminal-body {
-  padding: 12px 10px;
+  padding: 14px 12px;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 5px;
 }
 
 /* Platform layer grid items — scoped to the 3-column platform grid only */
@@ -1793,8 +1800,8 @@ header.header-scrolled .header-inner {
   will-change: background-color, transform;
 }
 .product-arch-cell:hover {
-  background: rgba(255, 255, 255, 0.04);
-  border-color: rgba(255, 255, 255, 0.18);
+  background: rgba(61, 110, 78, 0.06);
+  border-color: rgba(61, 110, 78, 0.3);
   transform: translateY(-2px);
 }
 
@@ -1849,10 +1856,10 @@ header.header-scrolled .header-inner {
   transform: translateY(-2px);
 }
 .product-pricing-card-accent {
-  background: linear-gradient(180deg, rgba(255,255,255,0.045) 0%, rgba(255,255,255,0.012) 100%);
+  background: linear-gradient(180deg, rgba(61, 110, 78, 0.08) 0%, rgba(61, 110, 78, 0.02) 100%);
 }
 .product-pricing-card-accent:hover {
-  background: linear-gradient(180deg, rgba(255,255,255,0.075) 0%, rgba(255,255,255,0.02) 100%);
+  background: linear-gradient(180deg, rgba(61, 110, 78, 0.12) 0%, rgba(61, 110, 78, 0.04) 100%);
 }
 
 /* ============================================
