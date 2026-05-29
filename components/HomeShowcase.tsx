@@ -476,91 +476,66 @@ function ScrollStory() {
   const [rotateY, setRotateY] = useState(18)
   const [rotateX, setRotateX] = useState(-12)
   const [isDragging, setIsDragging] = useState(false)
-  const [isTransitioning, setIsTransitioning] = useState(false)
-  const [activeFace, setActiveFace] = useState(0) // 0: Front, 1: Right, 2: Back, 3: Left, 4: Top, 5: Bottom
-
-  const containerRef = useRef<HTMLDivElement>(null)
   
-  // Refs for tracking physics
   const dragStartRef = useRef({ x: 0, y: 0 })
   const rotateStartRef = useRef({ x: 0, y: 0 })
-  const velocityYRef = useRef(0)
-  const velocityXRef = useRef(0)
-  const lastMoveTimeRef = useRef(0)
-  const lastMoveCoordsRef = useRef({ x: 0, y: 0 })
 
-  // Inertia and Auto-Rotation Effect
   useEffect(() => {
-    if (isDragging || isTransitioning) return
+    if (isDragging) return
 
     let animationFrameId: number
     let lastTime = performance.now()
 
-    const updatePhysics = (time: number) => {
-      const delta = Math.min(2.5, (time - lastTime) / 16.67) // cap delta to avoid massive leaps
+    const updateIdleMotion = (time: number) => {
+      const delta = Math.min(2, (time - lastTime) / 16.67)
       lastTime = time
 
-      // Decelerate velocities (friction)
-      const friction = Math.pow(0.95, delta)
-      velocityYRef.current *= friction
-      velocityXRef.current *= friction
-
-      // Determine Y angle
-      setRotateY((prev) => {
-        let nextVelY = velocityYRef.current
-        
-        // If Y velocity is negligible, apply slow idle auto-rotation
-        if (Math.abs(nextVelY) < 0.05) {
-          return prev + 0.12 * delta
-        }
-        return prev + nextVelY * delta
-      })
-
-      // Determine X angle
+      setRotateY((prev) => prev + 0.045 * delta)
       setRotateX((prev) => {
-        let nextVelX = velocityXRef.current
-
-        if (Math.abs(nextVelX) < 0.05) {
-          // Gently oscillate X axis around -12 degrees as a floating hover effect
-          const amplitude = 3.5
-          const period = 4800 // ms
-          const targetX = -12 + Math.sin(time / period) * amplitude
-          return prev + (targetX - prev) * 0.02 * delta
-        }
-
-        // Clamp rotateX so the cube doesn't completely flip over during drag
-        const nextX = prev - nextVelX * delta
-        return Math.min(60, Math.max(-60, nextX))
+        const targetX = -10 + Math.sin(time / 3600) * 4.5 + Math.sin(time / 8200) * 1.4
+        return prev + (targetX - prev) * 0.018 * delta
       })
 
-      animationFrameId = requestAnimationFrame(updatePhysics)
+      animationFrameId = requestAnimationFrame(updateIdleMotion)
     }
 
-    animationFrameId = requestAnimationFrame(updatePhysics)
+    animationFrameId = requestAnimationFrame(updateIdleMotion)
     return () => cancelAnimationFrame(animationFrameId)
-  }, [isDragging, isTransitioning])
+  }, [isDragging])
+
+  useEffect(() => {
+    if (!isDragging) return
+
+    const handlePointerMove = (event: PointerEvent) => {
+      handleMove(event.clientX, event.clientY)
+    }
+
+    const handlePointerUp = () => {
+      handleEnd()
+    }
+
+    window.addEventListener('pointermove', handlePointerMove)
+    window.addEventListener('pointerup', handlePointerUp)
+    window.addEventListener('pointercancel', handlePointerUp)
+
+    return () => {
+      window.removeEventListener('pointermove', handlePointerMove)
+      window.removeEventListener('pointerup', handlePointerUp)
+      window.removeEventListener('pointercancel', handlePointerUp)
+    }
+  }, [isDragging])
 
   // Mouse / Touch Event Handlers
   const handleStart = (clientX: number, clientY: number) => {
     setIsDragging(true)
-    setIsTransitioning(false)
     
     dragStartRef.current = { x: clientX, y: clientY }
     rotateStartRef.current = { x: rotateX, y: rotateY }
-    
-    velocityYRef.current = 0
-    velocityXRef.current = 0
-    
-    lastMoveTimeRef.current = performance.now()
-    lastMoveCoordsRef.current = { x: clientX, y: clientY }
   }
 
   const handleMove = (clientX: number, clientY: number) => {
     if (!isDragging) return
 
-    const now = performance.now()
-    const dt = Math.max(1, now - lastMoveTimeRef.current)
-    
     const deltaX = clientX - dragStartRef.current.x
     const deltaY = clientY - dragStartRef.current.y
     
@@ -571,83 +546,11 @@ function ScrollStory() {
     const newX = rotateStartRef.current.x - deltaY * sensitivity
     
     setRotateY(newY)
-    setRotateX(Math.min(60, Math.max(-60, newX))) // Clamp vertical pitch
-
-    // Compute velocity (degrees per ms, converted later to degrees per frame)
-    const instantVelY = ((clientX - lastMoveCoordsRef.current.x) * sensitivity) / dt
-    const instantVelX = ((clientY - lastMoveCoordsRef.current.y) * sensitivity) / dt
-
-    // Filter noise with exponential moving average
-    velocityYRef.current = velocityYRef.current * 0.4 + instantVelY * 16.67 * 0.6
-    velocityXRef.current = velocityXRef.current * 0.4 + instantVelX * 16.67 * 0.6
-
-    lastMoveTimeRef.current = now
-    lastMoveCoordsRef.current = { x: clientX, y: clientY }
-
-    // Update active face approximation for indicator styling
-    const normalizedY = ((newY % 360) + 360) % 360
-    if (newX < -40) setActiveFace(4) // Top
-    else if (newX > 40) setActiveFace(5) // Bottom
-    else {
-      if (normalizedY >= 315 || normalizedY < 45) setActiveFace(0) // Front
-      else if (normalizedY >= 45 && normalizedY < 135) setActiveFace(3) // Left (counter-clockwise)
-      else if (normalizedY >= 135 && normalizedY < 225) setActiveFace(2) // Back
-      else setActiveFace(1) // Right
-    }
+    setRotateX(newX)
   }
 
   const handleEnd = () => {
     setIsDragging(false)
-  }
-
-  // Smoothly snaps the cuboid to align directly to a specific face
-  const snapToFace = (faceIndex: number) => {
-    setIsTransitioning(true)
-    setActiveFace(faceIndex)
-
-    // Calculate the nearest Y/X rotations to avoid redundant 360 spins
-    let targetY = 0
-    let targetX = 0
-
-    const currentYRound = Math.round(rotateY / 360) * 360
-    const currentXRound = Math.round(rotateX / 360) * 360
-
-    if (faceIndex === 0) { // Front
-      targetY = currentYRound
-      targetX = 0
-    } else if (faceIndex === 1) { // Right
-      // Matches Y = 90
-      const choices = [currentYRound + 90, currentYRound - 270]
-      targetY = choices.reduce((prev, curr) => Math.abs(curr - rotateY) < Math.abs(prev - rotateY) ? curr : prev)
-      targetX = 0
-    } else if (faceIndex === 2) { // Back
-      // Matches Y = 180
-      const choices = [currentYRound + 180, currentYRound - 180]
-      targetY = choices.reduce((prev, curr) => Math.abs(curr - rotateY) < Math.abs(prev - rotateY) ? curr : prev)
-      targetX = 0
-    } else if (faceIndex === 3) { // Left
-      // Matches Y = -90 / 270
-      const choices = [currentYRound - 90, currentYRound + 270]
-      targetY = choices.reduce((prev, curr) => Math.abs(curr - rotateY) < Math.abs(prev - rotateY) ? curr : prev)
-      targetX = 0
-    } else if (faceIndex === 4) { // Top
-      targetY = rotateY // Keep current Y
-      targetX = 55 // Lean back
-    } else if (faceIndex === 5) { // Bottom
-      targetY = rotateY // Keep current Y
-      targetX = -55 // Lean forward
-    }
-
-    setRotateY(targetY)
-    setRotateX(targetX)
-
-    // Clear velocities so snapping is cleanly locked
-    velocityYRef.current = 0
-    velocityXRef.current = 0
-
-    setTimeout(() => {
-      setIsTransitioning(false)
-    }, 850)
   }
 
   return (
@@ -659,7 +562,7 @@ function ScrollStory() {
           </p>
           <p className="section-headline">
             <span className="section-headline-strong">3D Operations Engine.</span>
-            <span className="section-headline-soft"> Drag the cube or click a phase to rotate the system core.</span>
+            <span className="section-headline-soft"> Drag the cuboid freely to inspect the system core.</span>
           </p>
         </div>
       </div>
@@ -668,163 +571,179 @@ function ScrollStory() {
         {/* Holographic 3D Grid Backdrop */}
         <div className="cuboid-hologram-grid" aria-hidden="true" />
 
+        <div className="cuboid-context-panel" aria-label="Operations engine context">
+          <span className="cuboid-context-kicker">Operations Engine</span>
+          <p>
+            A six-sided model of how Eledra maps, designs, deploys, and scales automated systems.
+          </p>
+        </div>
+
+        <div className="cuboid-context-panel cuboid-context-panel-right" aria-label="Cube interaction context">
+          <span className="cuboid-context-kicker">Live System Model</span>
+          <p>
+            Drag to inspect the six linked faces while the engine drifts in idle motion.
+          </p>
+        </div>
+
         {/* Rotatable Cuboid Viewport */}
         <div 
-          ref={containerRef}
           className="cuboid-viewport-container select-none cursor-grab active:cursor-grabbing"
-          onMouseDown={(e) => { e.preventDefault(); handleStart(e.clientX, e.clientY); }}
-          onMouseMove={(e) => { e.preventDefault(); handleMove(e.clientX, e.clientY); }}
-          onMouseUp={handleEnd}
-          onMouseLeave={handleEnd}
-          onTouchStart={(e) => { if (e.touches[0]) handleStart(e.touches[0].clientX, e.touches[0].clientY); }}
-          onTouchMove={(e) => { if (e.touches[0]) handleMove(e.touches[0].clientX, e.touches[0].clientY); }}
-          onTouchEnd={handleEnd}
+          onPointerDown={(e) => {
+            e.preventDefault()
+            e.currentTarget.setPointerCapture(e.pointerId)
+            handleStart(e.clientX, e.clientY)
+          }}
         >
           <div className="cuboid-scene">
             <div 
-              className={`cuboid-box ${isTransitioning ? 'is-snapping' : ''}`}
+              className="cuboid-box"
               style={{
-                transform: `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`
+                transform: `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`,
               }}
             >
               {/* FACE 0: FRONT (Consult) */}
               <div className="cube-face face-front">
-                <div className="cube-card-header">
-                  <span className="cube-phase-badge">01 / AUDIT</span>
-                  <div className="cube-active-dot" />
-                </div>
-                <div className="cube-card-body">
-                  <h3 className="cube-card-title">Consult</h3>
-                  <p className="cube-card-desc">
-                    A sharp diagnostic session that exposes where response time, follow-up, and handoffs are quietly draining revenue.
-                  </p>
-                  <div className="cube-card-divider" />
-                  <ul className="cube-card-list">
-                    <li>Intake bottlenecks identified</li>
-                    <li>Response lag telemetry</li>
-                    <li>Ownership gaps highlighted</li>
-                  </ul>
-                </div>
-                <div className="cube-card-footer">
-                  <div className="cube-metric-pill">30 MIN SESSION</div>
-                  <div className="cube-metric-pill">18 hrs/wk saved</div>
+                <div className="cube-face-content cube-face-content-front">
+                  <div className="cube-card-header">
+                    <span className="cube-phase-badge">01 / AUDIT</span>
+                  </div>
+                  <div className="cube-card-body">
+                    <h3 className="cube-card-title">Consult</h3>
+                    <p className="cube-card-desc">
+                      A sharp diagnostic session that exposes where response time, follow-up, and handoffs are quietly draining revenue.
+                    </p>
+                    <div className="cube-card-divider" />
+                    <ul className="cube-card-list">
+                      <li>Intake bottlenecks identified</li>
+                      <li>Response lag telemetry</li>
+                      <li>Ownership gaps highlighted</li>
+                    </ul>
+                  </div>
+                  <div className="cube-card-footer">
+                    <div className="cube-metric-pill">30 MIN SESSION</div>
+                    <div className="cube-metric-pill">18 hrs/wk saved</div>
+                  </div>
                 </div>
               </div>
 
               {/* FACE 1: RIGHT (Design) */}
               <div className="cube-face face-right">
-                <div className="cube-card-header">
-                  <span className="cube-phase-badge">02 / BLUEPRINT</span>
-                  <div className="cube-active-dot" />
-                </div>
-                <div className="cube-card-body">
-                  <h3 className="cube-card-title">Design</h3>
-                  <p className="cube-card-desc">
-                    We turn raw operations into a precise digital blueprint: channels, logic flows, failovers, and integrations.
-                  </p>
-                  <div className="cube-card-divider" />
-                  <ul className="cube-card-list">
-                    <li>Conversation flow diagram</li>
-                    <li>API & integration blueprints</li>
-                    <li>Custom fallback logic</li>
-                  </ul>
-                </div>
-                <div className="cube-card-footer">
-                  <div className="cube-metric-pill">1 SOURCE OF TRUTH</div>
-                  <div className="cube-metric-pill">Zero template bloat</div>
+                <div className="cube-face-content cube-face-content-right">
+                  <div className="cube-card-header">
+                    <span className="cube-phase-badge">02 / BLUEPRINT</span>
+                  </div>
+                  <div className="cube-card-body">
+                    <h3 className="cube-card-title">Design</h3>
+                    <p className="cube-card-desc">
+                      We turn raw operations into a precise digital blueprint: channels, logic flows, failovers, and integrations.
+                    </p>
+                    <div className="cube-card-divider" />
+                    <ul className="cube-card-list">
+                      <li>Conversation flow diagram</li>
+                      <li>API & integration blueprints</li>
+                      <li>Custom fallback logic</li>
+                    </ul>
+                  </div>
+                  <div className="cube-card-footer">
+                    <div className="cube-metric-pill">1 SOURCE OF TRUTH</div>
+                    <div className="cube-metric-pill">Zero template bloat</div>
+                  </div>
                 </div>
               </div>
 
               {/* FACE 2: BACK (Deploy) */}
               <div className="cube-face face-back">
-                <div className="cube-card-header">
-                  <span className="cube-phase-badge">03 / CUTOVER</span>
-                  <div className="cube-active-dot" />
-                </div>
-                <div className="cube-card-body">
-                  <h3 className="cube-card-title">Deploy</h3>
-                  <p className="cube-card-desc">
-                    Controlled launch with absolute telemetry. We wire in real-time logging, kill switches, and graceful failovers.
-                  </p>
-                  <div className="cube-card-divider" />
-                  <ul className="cube-card-list">
-                    <li>Live streaming diagnostics</li>
-                    <li>Emergency kill-switch</li>
-                    <li>Silent background cutovers</li>
-                  </ul>
-                </div>
-                <div className="cube-card-footer">
-                  <div className="cube-metric-pill">ZERO DOWNTIME</div>
-                  <div className="cube-metric-pill">Rollback armed</div>
+                <div className="cube-face-content cube-face-content-back">
+                  <div className="cube-card-header">
+                    <span className="cube-phase-badge">03 / CUTOVER</span>
+                  </div>
+                  <div className="cube-card-body">
+                    <h3 className="cube-card-title">Deploy</h3>
+                    <p className="cube-card-desc">
+                      Controlled launch with absolute telemetry. We wire in real-time logging, kill switches, and graceful failovers.
+                    </p>
+                    <div className="cube-card-divider" />
+                    <ul className="cube-card-list">
+                      <li>Live streaming diagnostics</li>
+                      <li>Emergency kill-switch</li>
+                      <li>Silent background cutovers</li>
+                    </ul>
+                  </div>
+                  <div className="cube-card-footer">
+                    <div className="cube-metric-pill">ZERO DOWNTIME</div>
+                    <div className="cube-metric-pill">Rollback armed</div>
+                  </div>
                 </div>
               </div>
 
               {/* FACE 3: LEFT (Scale) */}
               <div className="cube-face face-left">
-                <div className="cube-card-header">
-                  <span className="cube-phase-badge">04 / CAPACITY</span>
-                  <div className="cube-active-dot" />
-                </div>
-                <div className="cube-card-body">
-                  <h3 className="cube-card-title">Scale</h3>
-                  <p className="cube-card-desc">
-                    Grow volume and scale without increasing operations payroll. Autopilots take care of the heavy lifters.
-                  </p>
-                  <div className="cube-card-divider" />
-                  <ul className="cube-card-list">
-                    <li>1,200+ parallel streams</li>
-                    <li>91.2% automated resolution</li>
-                    <li>Headcount optimization</li>
-                  </ul>
-                </div>
-                <div className="cube-card-footer">
-                  <div className="cube-metric-pill">10X CAPACITY</div>
-                  <div className="cube-metric-pill">0 operator overhead</div>
+                <div className="cube-face-content cube-face-content-left">
+                  <div className="cube-card-header">
+                    <span className="cube-phase-badge">04 / CAPACITY</span>
+                  </div>
+                  <div className="cube-card-body">
+                    <h3 className="cube-card-title">Scale</h3>
+                    <p className="cube-card-desc">
+                      Grow volume and scale without increasing operations payroll. Autopilots take care of the heavy lifters.
+                    </p>
+                    <div className="cube-card-divider" />
+                    <ul className="cube-card-list">
+                      <li>1,200+ parallel streams</li>
+                      <li>91.2% automated resolution</li>
+                      <li>Headcount optimization</li>
+                    </ul>
+                  </div>
+                  <div className="cube-card-footer">
+                    <div className="cube-metric-pill">10X CAPACITY</div>
+                    <div className="cube-metric-pill">0 operator overhead</div>
+                  </div>
                 </div>
               </div>
 
               {/* FACE 4: TOP (System Core Diagnostics) */}
               <div className="cube-face face-top">
-                <div className="cube-card-header">
-                  <span className="cube-phase-badge">CORE DIAGNOSTIC</span>
-                  <div className="cube-status-pulse" />
-                </div>
-                <div className="cube-card-body flex flex-col justify-between h-full pt-2">
-                  <div>
-                    <h3 className="cube-card-title text-accent-green-bright">Core Active</h3>
-                    <p className="text-white/40 text-2xs uppercase tracking-wider font-favorit">Eledra Autopilot Core</p>
+                <div className="cube-face-content cube-face-content-top">
+                  <div className="cube-card-header">
+                    <span className="cube-phase-badge">CORE DIAGNOSTIC</span>
                   </div>
-                  <div className="cube-diagnostic-panel font-favorit">
-                    <div className="flex justify-between border-b border-white/5 py-1">
-                      <span>LATENCY:</span>
-                      <span className="text-cyan-bright">42ms</span>
+                  <div className="cube-card-body flex flex-col justify-between h-full pt-2">
+                    <div>
+                      <h3 className="cube-card-title cube-card-title-accent">Core Active</h3>
+                      <p className="text-white/40 text-2xs uppercase tracking-wider font-favorit">Eledra Autopilot Core</p>
                     </div>
-                    <div className="flex justify-between border-b border-white/5 py-1">
-                      <span>UPTIME:</span>
-                      <span className="text-accent-green-bright">99.997%</span>
+                    <div className="cube-diagnostic-panel font-favorit">
+                      <div className="flex justify-between border-b border-white/5 py-1">
+                        <span>LATENCY:</span>
+                        <span className="text-cyan-bright">42ms</span>
+                      </div>
+                      <div className="flex justify-between border-b border-white/5 py-1">
+                        <span>UPTIME:</span>
+                        <span className="cube-metric-accent">99.997%</span>
+                      </div>
+                      <div className="flex justify-between border-b border-white/5 py-1">
+                        <span>PIPELINES:</span>
+                        <span className="text-white">84 active</span>
+                      </div>
+                      <div className="flex justify-between py-1">
+                        <span>STABILITY:</span>
+                        <span className="cube-metric-warm">100% OK</span>
+                      </div>
                     </div>
-                    <div className="flex justify-between border-b border-white/5 py-1">
-                      <span>PIPELINES:</span>
-                      <span className="text-white">84 active</span>
-                    </div>
-                    <div className="flex justify-between py-1">
-                      <span>STABILITY:</span>
-                      <span className="text-yellow-500">100% OK</span>
-                    </div>
+                    <div className="cube-wireframe-grid" />
                   </div>
-                  <div className="cube-wireframe-grid" />
                 </div>
               </div>
 
               {/* FACE 5: BOTTOM (Start Automation - CTA) */}
               <div className="cube-face face-bottom">
-                <div className="cube-card-header">
-                  <span className="cube-phase-badge">ELEDRA PIPELINE</span>
-                  <div className="cube-active-dot bg-orange-500" />
-                </div>
-                <div className="cube-card-body flex flex-col justify-between h-full pt-2">
+                <div className="cube-face-content cube-face-content-bottom">
+                  <div className="cube-card-header">
+                    <span className="cube-phase-badge">ELEDRA PIPELINE</span>
+                  </div>
+                  <div className="cube-card-body flex flex-col justify-between h-full pt-2">
                   <div>
-                    <h3 className="cube-card-title text-orange-500">Auto Launch</h3>
+                    <h3 className="cube-card-title cube-card-title-warm">Auto Launch</h3>
                     <p className="cube-card-desc">
                       Configure your next system upgrade. Book a call to launch your operational automation pipeline.
                     </p>
@@ -833,56 +752,11 @@ function ScrollStory() {
                     <span>&gt; CONNECT_NOW</span>
                     <span className="group-hover:translate-x-1 transition-transform inline-block ml-1">→</span>
                   </Link>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-
-        {/* Snap Buttons Selector Panel */}
-        <div className="cuboid-controls flex flex-wrap gap-2 justify-center z-20 mt-8 max-w-xl">
-          <button 
-            type="button"
-            className={`cuboid-nav-btn ${activeFace === 0 ? 'is-active' : ''}`}
-            onClick={() => snapToFace(0)}
-          >
-            01 / Consult
-          </button>
-          <button 
-            type="button"
-            className={`cuboid-nav-btn ${activeFace === 1 ? 'is-active' : ''}`}
-            onClick={() => snapToFace(1)}
-          >
-            02 / Design
-          </button>
-          <button 
-            type="button"
-            className={`cuboid-nav-btn ${activeFace === 2 ? 'is-active' : ''}`}
-            onClick={() => snapToFace(2)}
-          >
-            03 / Deploy
-          </button>
-          <button 
-            type="button"
-            className={`cuboid-nav-btn ${activeFace === 3 ? 'is-active' : ''}`}
-            onClick={() => snapToFace(3)}
-          >
-            04 / Scale
-          </button>
-          <button 
-            type="button"
-            className={`cuboid-nav-btn cuboid-nav-btn-alt ${activeFace === 4 ? 'is-active' : ''}`}
-            onClick={() => snapToFace(4)}
-          >
-            ▲ Diagnostics
-          </button>
-          <button 
-            type="button"
-            className={`cuboid-nav-btn cuboid-nav-btn-alt ${activeFace === 5 ? 'is-active' : ''}`}
-            onClick={() => snapToFace(5)}
-          >
-            ▼ Get Started
-          </button>
         </div>
       </div>
     </section>
@@ -977,65 +851,7 @@ function BentoSplit() {
 /* Component: Atmospheric CTA                                          */
 /* ------------------------------------------------------------------ */
 
-const automationNodes = [
-  { id: 'trigger', name: 'Trigger Intake', type: 'input', label: '01 / INTAKE', desc: 'Voice agent call or API webhook intake.' },
-  { id: 'engine', name: 'Precision Router', type: 'core', label: '02 / ANALYZE', desc: 'LLM classification, intent mapping & fallback check.' },
-  { id: 'db', name: 'Knowledge DB', type: 'db', label: '03 / RESOLVE', desc: 'Enterprise data lookup & semantic search.' },
-  { id: 'crm', name: 'Action Integration', type: 'action', label: '04 / COMPLETE', desc: 'HubSpot synchronization & automated followup.' }
-]
-
-const simulationLogs = [
-  { node: 'trigger', text: '📥 [INTAKE] Incoming call from +1 (305) 555-0142... Routed to Voice Agent.' },
-  { node: 'engine', text: '🧠 [ROUTER] Voice stream transcription: "Need to book real estate showing."' },
-  { node: 'engine', text: '⚡ [ENGINE] Intent detected: RealEstate.Scheduling [Confidence: 99.4%]' },
-  { node: 'db', text: '🔍 [KNOWLEDGE] Searching property database for listing #4829...' },
-  { node: 'db', text: '✅ [KNOWLEDGE] Property found. Available slot identified: Friday 4:00 PM.' },
-  { node: 'crm', text: '📅 [ACTION] Calendar reservation confirmed. Syncing to HubSpot CRM.' },
-  { node: 'crm', text: '✉️ [ACTION] Confirmation SMS dispatched to client. Resolution: Success.' },
-  
-  { node: 'trigger', text: '📥 [INTAKE] Webhook triggered: Stripe.PaymentReceived [Amount: $4,200.00]' },
-  { node: 'engine', text: '🧠 [ROUTER] Triggering automated client onboarding sequence.' },
-  { node: 'db', text: '🔍 [KNOWLEDGE] Querying workspace templates for custom client portals...' },
-  { node: 'crm', text: '⚡ [ACTION] Spin up Slack channel #client-eledra-082... Complete.' },
-  { node: 'crm', text: '📧 [ACTION] Dispatching welcome instructions & onboarding link.' },
-  
-  { node: 'trigger', text: '📥 [INTAKE] Chat message: "My server is throwing 502 error codes."' },
-  { node: 'engine', text: '⚡ [ENGINE] Classification: Technical Support. Escalating to Level 2.' },
-  { node: 'db', text: '🔍 [KNOWLEDGE] Retrieving diagnostic playbook from system manual...' },
-  { node: 'crm', text: '🛠️ [ACTION] Running automated health-check. API restart initiated.' },
-  { node: 'crm', text: '✅ [ACTION] System back online (Latency 88ms). Logging incident in Jira.' }
-]
-
 function AtmosphericCTA() {
-  const [activeNode, setActiveNode] = useState('engine')
-  const [visibleLogs, setVisibleLogs] = useState<string[]>([])
-  const [logOffset, setLogOffset] = useState(0)
-
-  useEffect(() => {
-    setVisibleLogs([
-      simulationLogs[0].text,
-      simulationLogs[1].text,
-      simulationLogs[2].text,
-    ])
-    setLogOffset(3)
-  }, [])
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      const nextLog = simulationLogs[logOffset % simulationLogs.length]
-      setVisibleLogs((prev) => {
-        const updated = [...prev, nextLog.text]
-        if (updated.length > 4) {
-          updated.shift()
-        }
-        return updated
-      })
-      setActiveNode(nextLog.node)
-      setLogOffset((prev) => prev + 1)
-    }, 2800)
-    return () => clearInterval(timer)
-  }, [logOffset])
-
   return (
     <section id="home-atmos" className="showcase-section showcase-atmos">
       <div className="atmos-grid-bg" aria-hidden="true" />
@@ -1076,122 +892,6 @@ function AtmosphericCTA() {
           </div>
         </div>
 
-        <div className="atmos-visual">
-          <div className="atmos-terminal-card">
-            {/* Card Header */}
-            <div className="atmos-terminal-header">
-              <div className="atmos-terminal-dots">
-                <span className="atmos-dot dot-red" />
-                <span className="atmos-dot dot-yellow" />
-                <span className="atmos-dot dot-green" />
-              </div>
-              <div className="atmos-terminal-status">
-                <span className="atmos-status-glow" />
-                SYSTEM CORE: ACTIVE
-              </div>
-              <div className="atmos-terminal-latency">
-                LATENCY: 42ms
-              </div>
-            </div>
-
-            {/* Card Body - Node Graph */}
-            <div className="atmos-graph-container">
-              {/* SVG Connector Lines */}
-              <svg className="atmos-svg-lines" viewBox="0 0 400 120" preserveAspectRatio="none">
-                {/* Path 1: Trigger -> Engine */}
-                <path
-                  d="M 50 60 L 150 60"
-                  className={`atmos-flow-line ${
-                    activeNode === 'trigger' || activeNode === 'engine' ? 'is-active' : ''
-                  }`}
-                />
-                {/* Path 2: Engine -> DB */}
-                <path
-                  d="M 150 60 L 250 60"
-                  className={`atmos-flow-line ${
-                    activeNode === 'engine' || activeNode === 'db' ? 'is-active' : ''
-                  }`}
-                />
-                {/* Path 3: DB -> CRM */}
-                <path
-                  d="M 250 60 L 350 60"
-                  className={`atmos-flow-line ${
-                    activeNode === 'db' || activeNode === 'crm' ? 'is-active' : ''
-                  }`}
-                />
-
-                {/* Moving Pulse Packets */}
-                {(activeNode === 'trigger' || activeNode === 'engine') && (
-                  <circle r="3.5" className="atmos-pulse-dot flow-trigger-engine">
-                    <animateMotion dur="2s" repeatCount="indefinite" path="M 50 60 L 150 60" />
-                  </circle>
-                )}
-                {(activeNode === 'engine' || activeNode === 'db') && (
-                  <circle r="3.5" className="atmos-pulse-dot flow-engine-db">
-                    <animateMotion dur="2s" repeatCount="indefinite" path="M 150 60 L 250 60" />
-                  </circle>
-                )}
-                {(activeNode === 'db' || activeNode === 'crm') && (
-                  <circle r="3.5" className="atmos-pulse-dot flow-db-crm">
-                    <animateMotion dur="2s" repeatCount="indefinite" path="M 250 60 L 350 60" />
-                  </circle>
-                )}
-              </svg>
-
-              {/* Render Nodes */}
-              <div className="atmos-nodes-grid">
-                {automationNodes.map((node) => {
-                  const isActive = activeNode === node.id
-                  return (
-                    <button
-                      key={node.id}
-                      onClick={() => setActiveNode(node.id)}
-                      className={`atmos-node-btn node-${node.id} ${isActive ? 'is-active' : ''}`}
-                      title={node.desc}
-                    >
-                      <div className="atmos-node-circle">
-                        <div className="atmos-node-icon">
-                          {node.id === 'trigger' && '📥'}
-                          {node.id === 'engine' && '🧠'}
-                          {node.id === 'db' && '🔍'}
-                          {node.id === 'crm' && '⚡'}
-                        </div>
-                        <div className="atmos-node-ring" />
-                      </div>
-                      <span className="atmos-node-label">{node.label}</span>
-                      <span className="atmos-node-name">{node.name}</span>
-                    </button>
-                  )
-                })}
-              </div>
-            </div>
-
-            {/* Card Info Box */}
-            <div className="atmos-info-box">
-              <div className="atmos-info-title">
-                {automationNodes.find((n) => n.id === activeNode)?.name}
-              </div>
-              <div className="atmos-info-desc">
-                {automationNodes.find((n) => n.id === activeNode)?.desc}
-              </div>
-            </div>
-
-            {/* Live Scrolling Terminal Logs */}
-            <div className="atmos-log-console">
-              <div className="atmos-console-header">
-                <span>stdout.log</span>
-                <span className="atmos-console-dot" />
-              </div>
-              <div className="atmos-console-lines">
-                {visibleLogs.map((log, idx) => (
-                  <p key={idx} className="atmos-log-line">
-                    {log}
-                  </p>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </section>
   )

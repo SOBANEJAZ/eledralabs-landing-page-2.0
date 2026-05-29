@@ -76,7 +76,7 @@ export default function Hero() {
               playsInline
               preload="metadata"
               poster="/backgrounds/pi-glass-loop-poster.webp"
-              className="absolute inset-0 h-full w-full translate-x-24 -translate-y-8 -scale-x-152 scale-y-124 object-cover object-[74%_93%] max-[560px]:translate-x-16 max-[560px]:-translate-y-5 max-[560px]:-scale-x-138 max-[560px]:scale-y-120 max-[560px]:object-[70%_89%] xl:translate-x-8 xl:-translate-y-7 xl:-scale-x-126 xl:scale-y-124 xl:object-[58%_95%]"
+              className="absolute inset-0 h-full w-full translate-x-12 -translate-y-4 -scale-x-125 scale-y-112 object-cover object-[74%_93%] max-[560px]:translate-x-8 max-[560px]:-translate-y-3 max-[560px]:-scale-x-120 max-[560px]:scale-y-110 max-[560px]:object-[70%_89%] xl:translate-x-2 xl:-translate-y-16 xl:-scale-x-115 xl:scale-y-116 xl:object-[58%_100%]"
             >
               <source src="/backgrounds/pi-glass-loop-prod.webm" type="video/webm" />
               <source src="/backgrounds/pi-glass-loop-prod.mp4" type="video/mp4" />

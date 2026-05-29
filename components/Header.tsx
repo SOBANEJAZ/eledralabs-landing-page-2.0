@@ -22,7 +22,7 @@ export default function Header() {
       }`}
     >
       {/* 3-col grid: logo | nav | cta */}
-      <div className="relative z-100 grid grid-cols-[1fr_auto_1fr] px-5 max-w-360 mx-auto bg-transparent transition-all duration-500 header-inner">
+      <div className="relative z-100 grid grid-cols-[1fr_auto_1fr] px-6 md:px-12 xl:px-16 max-w-none mx-auto bg-transparent transition-all duration-500 header-inner">
 
         {/* Col 1 — Logo */}
         <div className="flex items-center">
