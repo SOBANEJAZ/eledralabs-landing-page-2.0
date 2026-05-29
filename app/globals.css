@@ -3609,26 +3609,57 @@ header.header-scrolled .header-inner {
 
 /* Solutions page header */
 #solutions .border.border-border > div:first-child {
-  padding: 2.5rem 2rem !important;
+  padding: 0 2rem 2.5rem !important;
 }
 
 /* Industry header panels */
 #solutions [id^='solutions-'] > div:first-child > div:first-child,
 #solutions [id^='solutions-'] > div:first-child > div:last-child {
-  padding: 2rem !important;
+  padding: 2.5rem !important;
+}
+
+.sol-industry-copy {
+  justify-content: center;
+}
+
+.sol-industry-copy > p:last-child {
+  max-width: 42rem;
+}
+
+.sol-industry-image-frame {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(6, 11, 17, 0.72);
+}
+
+.sol-industry-image {
+  width: 100%;
+  height: auto;
+  max-height: 18rem;
+  margin: 0 auto;
+}
+
+.sol-industry-metrics {
+  justify-content: space-between;
+  gap: 1.5rem 2rem !important;
+}
+
+.sol-industry-metrics > div {
+  flex: 1 1 9rem;
 }
 
 /* Solution feature cards */
 .sol-feature-card {
-  padding: 1.75rem !important;
+  padding: 2.25rem 2rem !important;
   display: flex !important;
   flex-direction: column !important;
-  gap: 0.75rem !important;
+  gap: 1rem !important;
 }
 
 /* Tags + CTA row */
 .sol-tags-row {
-  padding: 1rem 1.75rem !important;
+  padding: 1.4rem 2rem 1.65rem !important;
 }
 
 /* Testimonial cards */
@@ -3640,12 +3671,13 @@ header.header-scrolled .header-inner {
 .sol-index-item {
   display: flex !important;
   flex-direction: column !important;
-  padding: 1.25rem 1.5rem !important;
+  padding: 1.5rem 1.75rem !important;
   text-decoration: none !important;
   background-color: transparent;
   transition: background-color 0.25s ease, transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
   will-change: background-color, transform;
 }
+
 .sol-index-item:hover {
   background-color: var(--color-surface-card);
   transform: translateY(-2px);
@@ -3654,6 +3686,43 @@ header.header-scrolled .header-inner {
 /* "Not listed" band */
 #solutions > div.flex.flex-col.md\:flex-row {
   padding: 2rem !important;
+}
+
+/* Industry section spacing + ending rule */
+#solutions [id^='solutions-'] {
+  position: relative;
+  margin-bottom: 2rem !important;
+}
+
+#solutions [id^='solutions-']::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -2px;
+  height: 5px;
+  background: var(--solution-rule, #ffffff);
+  pointer-events: none;
+}
+
+#solutions #solutions-healthcare {
+  --solution-rule: #4dff68;
+}
+
+#solutions #solutions-real-estate {
+  --solution-rule: #00f0c8;
+}
+
+#solutions #solutions-local-business {
+  --solution-rule: #ff7a1a;
+}
+
+#solutions #solutions-ecommerce {
+  --solution-rule: #ffd23f;
+}
+
+#solutions #solutions-hospitality {
+  --solution-rule: #ffe6b0;
 }
 
 /* ============================================

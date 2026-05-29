@@ -152,7 +152,7 @@ const industries: Industry[] = [
       { value: '+22%', label: 'Off-peak bookings' },
     ],
     compliance: ['POS / PMS integrations', 'OpenTable & Resy ready', 'OTA review polling', 'Multi-location dashboards'],
-    img: '/backgrounds/solutions-2.png',
+    img: '/backgrounds/bookings-and-hotels.png',
   },
 ]
 
@@ -178,7 +178,7 @@ export default function Solutions() {
     <section id="solutions" className="flex flex-col">
       {/* Page Header */}
       <div className="border border-border mb-5 md:mb-8">
-        <div className="h-80 border-b border-border flex flex-col justify-end gap-6 relative overflow-hidden">
+        <div className="h-80 border-b border-border flex flex-col gap-5 px-5 py-5 relative overflow-hidden">
           <div className="pointer-events-none absolute inset-0 bg-surface mix-blend-screen" aria-hidden="true">
             <img
               alt=""
@@ -187,8 +187,8 @@ export default function Solutions() {
             />
           </div>
           <div className="pointer-events-none absolute inset-x-0 top-0 h-full bg-linear-to-b from-surface to-transparent" />
-          <div className="relative z-10 flex flex-col gap-2">
-            <p className="font-favorit text-2xs text-white/30 uppercase tracking-widest">
+          <div className="relative z-10">
+            <p className="hidden font-favorit text-2xs text-white/30 uppercase tracking-widest">
               Eledralabs — Industry Solutions
             </p>
             <p className="font-sans text-7 leading-120">
@@ -219,36 +219,12 @@ export default function Solutions() {
         </div>
       </div>
 
-      {/* Industry Quick-Index */}
-      <div className="border border-border mb-5 md:mb-8">
-        <div className="border-b border-border flex items-end justify-between gap-4">
-          <p className="font-favorit text-2xs text-white/30 uppercase tracking-widest">
-            Industry Solutions
-          </p>
-          <p className="font-favorit text-2xs text-white/25 uppercase tracking-widest hidden md:block">
-            Tap a sector to jump
-          </p>
-        </div>
-        <div className="grid grid-cols-2 md:grid-cols-5">
-          {industries.map((ind, i) => (
-            <a
-              key={ind.id}
-              href={`#solutions-${ind.id}`}
-              className={`sol-index-item${i < industries.length - 1 ? ' border-b md:border-b-0 md:border-r border-border' : ''}${i < 3 && i % 2 === 0 ? ' border-r border-border md:border-r' : ''}`}
-            >
-              <span className="font-sans text-white text-sm leading-normal">{ind.sector}</span>
-              <span className="font-favorit text-2xs text-white/35 uppercase mt-1 leading-tight">{ind.tagline}</span>
-            </a>
-          ))}
-        </div>
-      </div>
-
       {/* Industry Sections */}
       {industries.map((ind) => (
         <div key={ind.id} id={`solutions-${ind.id}`} className="border border-border mb-5 md:mb-8 scroll-mt-24">
           {/* Industry Header — 2 col split */}
           <div className="grid grid-cols-1 lg:grid-cols-2 border-b border-border">
-            <div className="flex flex-col gap-4 border-b lg:border-b-0 lg:border-r border-border">
+            <div className="sol-industry-copy flex flex-col gap-4 border-b lg:border-b-0 lg:border-r border-border">
               <div className="flex items-center gap-3">
                 <span className="border border-border px-1.5 py-0.5 font-favorit text-2xs uppercase text-white/35">
                   Industry
@@ -264,21 +240,16 @@ export default function Solutions() {
               <p className="font-sans text-sm text-white/50 leading-6 max-w-xl">{ind.problem}</p>
             </div>
             {/* Metrics panel */}
-            <div className="relative min-h-52 lg:min-h-0 overflow-hidden flex flex-col justify-end gap-6">
-              <img
-                src={ind.img}
-                alt={ind.sector}
-                className="absolute inset-0 w-full h-full object-cover object-center"
-                style={{ mixBlendMode: 'screen', opacity: 0.45 }}
-              />
-              <div
-                className="absolute inset-0"
-                style={{
-                  background:
-                    'linear-gradient(to right, var(--color-surface) 0%, transparent 60%), linear-gradient(to top, var(--color-surface) 0%, transparent 50%)',
-                }}
-              />
-              <div className="relative z-10 flex flex-wrap gap-x-8 gap-y-4">
+            <div className="sol-industry-media flex flex-col">
+              <div className="sol-industry-image-frame relative overflow-hidden border-b border-border">
+                <img
+                  src={ind.img}
+                  alt={ind.sector}
+                  className="sol-industry-image block w-full h-auto object-contain"
+                  style={{ display: 'block' }}
+                />
+              </div>
+              <div className="sol-industry-metrics flex flex-wrap gap-x-8 gap-y-4 p-5">
                 {ind.metrics.map((m) => (
                   <div key={m.label} className="flex flex-col gap-1">
                     <span
@@ -363,34 +334,76 @@ export default function Solutions() {
       </div>
 
       {/* Testimonials — monochrome */}
-      <div className="border border-border grid grid-cols-1 xl:grid-cols-2">
+      <div className="border border-border grid grid-cols-1 xl:grid-cols-[minmax(0,2fr)_minmax(360px,1fr)]">
         {testimonials.map((t, i) => (
           <Link
             key={t.author}
             href="/contact"
-            className={`group flex flex-col gap-6 min-h-64 relative overflow-hidden transition-colors hover:bg-surface-card${
+            className={`group relative flex flex-col p-5 overflow-hidden gap-8 xl:gap-0 xl:justify-between${
               i < testimonials.length - 1 ? ' border-b xl:border-b-0 xl:border-r border-border' : ''
             }`}
+            style={i === 0 ? { background: '#d4f33b', color: '#000000' } : { background: '#ff5a1f', color: '#ffffff' }}
           >
-            <p className="font-sans text-white/75 text-base leading-6 lg:text-18 lg:leading-normal">
+            <p
+              className={`relative z-10 text-24 leading-120 font-sans ${i === 0 ? 'max-w-140 text-black' : 'text-white'}`}
+              style={{ color: i === 0 ? '#000000' : '#ffffff', fontWeight: 500 }}
+            >
               &ldquo;{t.quote}&rdquo;
             </p>
-            <div className="flex items-center justify-between mt-auto">
-              <div className="flex items-center gap-3">
-                <div className="w-9 h-9 border border-border flex items-center justify-center font-sans font-bold text-xs text-white/50">
-                  {t.initials}
+            <div className="relative z-10 flex items-center justify-between mt-auto">
+              <div className="flex items-center gap-5">
+                <div
+                  style={{
+                    width: 40,
+                    height: 40,
+                    borderRadius: '50%',
+                    background: i === 0 ? 'rgba(0,0,0,0.08)' : 'rgba(255,255,255,0.12)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontWeight: 700,
+                    fontSize: 18,
+                    color: i === 0 ? '#000000' : '#ffffff',
+                  }}
+                >
+                  {t.initials.slice(0, 1)}
                 </div>
-                <div>
-                  <p className="font-sans text-sm text-white leading-normal">{t.author}</p>
-                  <p className="font-favorit text-2xs text-white/35 uppercase">{t.role}</p>
+                <div className="flex flex-col font-sans">
+                  <p
+                    className={`text-18 leading-normal ${i === 0 ? 'text-black' : 'text-white'}`}
+                    style={{ color: i === 0 ? '#000000' : '#ffffff', fontWeight: 600 }}
+                  >
+                    {t.author.replace(' R.', '')}
+                  </p>
+                  {i === 1 ? (
+                    <p className="text-base leading-normal" style={{ color: 'rgba(255,255,255,0.6)' }}>
+                      {t.role}
+                    </p>
+                  ) : null}
                 </div>
               </div>
-              <span className="flex items-center gap-1 font-favorit text-2xs text-white/30 uppercase opacity-0 group-hover:opacity-100 transition-opacity">
-                Read story
-                <svg width="10" height="10" viewBox="0 0 12 12" fill="none">
-                  <path d="M4.75 9.125L7.875 6L4.75 2.875" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" />
-                </svg>
-              </span>
+              {i === 0 ? (
+                <span
+                  aria-hidden="true"
+                  className="pointer-events-none flex items-center gap-1 text-sm text-black font-sans opacity-50 group-hover:opacity-80 transition-opacity"
+                >
+                  <span className="leading-none" style={{ color: '#000000' }}>
+                    Read case study
+                  </span>
+                  <svg width="14" height="14" viewBox="0 0 12 12" fill="none" className="w-3.5 h-3.5 text-black">
+                    <path d="M4.75 9.125L7.875 6L4.75 2.875" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" />
+                  </svg>
+                </span>
+              ) : (
+                <span
+                  aria-hidden="true"
+                  className="pointer-events-none flex items-center gap-1 opacity-50 group-hover:opacity-100 transition-opacity"
+                >
+                  <svg width="14" height="14" viewBox="0 0 12 12" fill="none" className="w-3.5 h-3.5 text-white">
+                    <path d="M4.75 9.125L7.875 6L4.75 2.875" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" />
+                  </svg>
+                </span>
+              )}
             </div>
           </Link>
         ))}
