@@ -1,20 +1,4 @@
 import Link from 'next/link'
-import MarqueeStrip from './MarqueeStrip'
-
-const techLogos = [
-  { src: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tensorflow/tensorflow-original.svg', alt: 'TensorFlow' },
-  { src: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nodejs/nodejs-original.svg', alt: 'Node.js' },
-  { src: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/go/go-original.svg', alt: 'Go' },
-  { src: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg', alt: 'Python' },
-  { src: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/kubernetes/kubernetes-plain.svg', alt: 'Kubernetes' },
-  { src: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/pytorch/pytorch-original.svg', alt: 'PyTorch' },
-  { src: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/docker/docker-original.svg', alt: 'Docker' },
-  { src: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/amazonwebservices/amazonwebservices-original-wordmark.svg', alt: 'AWS' },
-  { src: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/googlecloud/googlecloud-original.svg', alt: 'Google Cloud' },
-  { src: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nginx/nginx-original.svg', alt: 'Nginx' },
-  { src: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/linux/linux-original.svg', alt: 'Linux' },
-  { src: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/graphql/graphql-plain.svg', alt: 'GraphQL' },
-]
 
 const services = [
   {
@@ -76,7 +60,7 @@ export default function Hero() {
               playsInline
               preload="metadata"
               poster="/backgrounds/pi-glass-loop-poster.webp"
-              className="absolute inset-0 h-full w-full translate-x-12 -translate-y-4 -scale-x-125 scale-y-112 object-cover object-[74%_93%] max-[560px]:translate-x-8 max-[560px]:-translate-y-3 max-[560px]:-scale-x-120 max-[560px]:scale-y-110 max-[560px]:object-[70%_89%] xl:translate-x-2 xl:-translate-y-16 xl:-scale-x-115 xl:scale-y-116 xl:object-[58%_100%]"
+              className="absolute inset-0 h-full w-full translate-x-36 -translate-y-22 -scale-x-160 scale-y-160 object-cover object-[90%_98%] max-[560px]:translate-x-20 max-[560px]:-translate-y-10 max-[560px]:-scale-x-145 max-[560px]:scale-y-145 max-[560px]:object-[78%_92%] xl:translate-x-6 xl:-translate-y-16 xl:-scale-x-110 xl:scale-y-125 xl:object-[62%_98%]"
             >
               <source src="/backgrounds/pi-glass-loop-prod.webm" type="video/webm" />
               <source src="/backgrounds/pi-glass-loop-prod.mp4" type="video/mp4" />
@@ -87,10 +71,10 @@ export default function Hero() {
 
       {/* Hero Content */}
       <div
-        className="eledra-hero-content relative flex flex-col items-start justify-end px-5 pt-5 pb-8 lg:pb-10"
+        className="eledra-hero-content pointer-events-none absolute inset-x-0 top-0 z-10 flex flex-col items-start justify-end px-5 pt-5 pb-8 lg:pb-10"
         style={{ height: 'calc(100vh - 4rem)', minHeight: '480px' }}
       >
-        <div className="eledra-hero-panel relative z-10 flex w-full flex-col items-start font-sans">
+        <div className="eledra-hero-panel pointer-events-auto relative flex w-full flex-col items-start font-sans">
           <h1 className="eledra-hero-title">Eledralabs</h1>
 
           <div className="eledra-hero-divider" aria-hidden="true" />
@@ -111,17 +95,6 @@ export default function Hero() {
             </svg>
           </Link>
         </div>
-      </div>
-
-      {/* Tech Logo Marquee */}
-      <div
-        className="eledra-hero-marquee border-t border-b border-border relative z-10 flex flex-col"
-        style={{
-          background:
-            'linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(20,20,20,0.5) 50%, rgba(0,0,0,0) 100%)',
-        }}
-      >
-        <MarqueeStrip logos={techLogos} speed={70} />
       </div>
     </section>
   )
