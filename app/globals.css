@@ -5297,7 +5297,7 @@ a.legal-link:hover {
   background-image:
     linear-gradient(to right, rgba(255, 255, 255, 0.015) 1px, transparent 1px),
     linear-gradient(to bottom, rgba(255, 255, 255, 0.015) 1px, transparent 1px),
-    url('/backgrounds/compute-bg.png');
+    url('/backgrounds/lab.png');
   background-size: 32px 32px, 32px 32px, cover;
   background-position: center, center, center;
   background-repeat: repeat, repeat, no-repeat;
@@ -5353,10 +5353,6 @@ a.legal-link:hover {
   min-height: 300px;
   display: flex;
   flex-direction: column;
-  background-image: linear-gradient(rgba(22, 22, 22, 0.75), rgba(22, 22, 22, 0.85)), url('/backgrounds/lab.png');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
 }
 
 @media (max-width: 768px) {
