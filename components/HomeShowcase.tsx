@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
+import MarqueeStrip from './MarqueeStrip'
 
 /* ------------------------------------------------------------------ */
 /* Data                                                                */
@@ -76,6 +77,21 @@ const steps = [
       '> on_call: 0 paged',
     ],
   },
+]
+
+const techLogos = [
+  { src: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tensorflow/tensorflow-original.svg', alt: 'TensorFlow' },
+  { src: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nodejs/nodejs-original.svg', alt: 'Node.js' },
+  { src: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/go/go-original.svg', alt: 'Go' },
+  { src: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg', alt: 'Python' },
+  { src: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/kubernetes/kubernetes-plain.svg', alt: 'Kubernetes' },
+  { src: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/pytorch/pytorch-original.svg', alt: 'PyTorch' },
+  { src: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/docker/docker-original.svg', alt: 'Docker' },
+  { src: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/amazonwebservices/amazonwebservices-original-wordmark.svg', alt: 'AWS' },
+  { src: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/googlecloud/googlecloud-original.svg', alt: 'Google Cloud' },
+  { src: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nginx/nginx-original.svg', alt: 'Nginx' },
+  { src: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/linux/linux-original.svg', alt: 'Linux' },
+  { src: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/graphql/graphql-plain.svg', alt: 'GraphQL' },
 ]
 
 /* ------------------------------------------------------------------ */
@@ -224,15 +240,23 @@ function Manifesto() {
         <div className="manifesto-quote-block">
         <h2 className="manifesto-title">
           <span className="repel-line manifesto-line" style={{ display: 'block' }}>
-            We pay for every lesson with either <span className="manifesto-accent">time</span>
+            We pay for every lesson with
           </span>
           <span className="repel-line manifesto-line" style={{ display: 'block' }}>
-            or <span className="manifesto-accent">money</span>.
+            either <span className="manifesto-accent">time</span> or <span className="manifesto-accent">money</span>.
           </span>
         </h2>
         <p className="manifesto-author">- Alex Hormozi</p>
         </div>
       </div>
+    </section>
+  )
+}
+
+function TechLogoStrip() {
+  return (
+    <section className="showcase-logo-strip" aria-label="Technology partners">
+      <MarqueeStrip logos={techLogos} speed={70} />
     </section>
   )
 }
@@ -905,6 +929,7 @@ export default function HomeShowcase() {
   return (
     <>
       <Manifesto />
+      <TechLogoStrip />
       <Testimonials />
       <Pillars />
       <ScrollStory />
