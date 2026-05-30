@@ -175,10 +175,10 @@ const testimonials = [
 
 export default function Solutions() {
   return (
-    <section id="solutions" className="flex flex-col">
+    <section id="solutions" className="flex flex-col gap-6 md:gap-10">
       {/* Page Header */}
-      <div className="border border-border mb-5 md:mb-8">
-        <div className="h-80 border-b border-border flex flex-col gap-5 px-5 py-5 relative overflow-hidden">
+      <div className="border border-border -mb-4 md:-mb-6">
+        <div className="h-80 border-b border-border flex flex-col gap-5 px-5 pt-0 pb-5 relative overflow-hidden">
           <div className="pointer-events-none absolute inset-0 bg-surface mix-blend-screen" aria-hidden="true">
             <img
               alt=""
@@ -232,12 +232,12 @@ export default function Solutions() {
               </div>
               <h2
                 className="font-sans text-white leading-110"
-                style={{ fontSize: 'clamp(2rem, 3.5vw, 3rem)' }}
+                style={{ fontSize: 'clamp(1.6rem, 2.8vw, 2.4rem)' }}
               >
                 {ind.sector}
               </h2>
               <p className="font-favorit text-2xs text-white/35 uppercase tracking-wider">{ind.tagline}</p>
-              <p className="font-sans text-sm text-white/50 leading-6 max-w-xl">{ind.problem}</p>
+              <p className="font-sans text-sm md:text-base text-white/60 leading-relaxed max-w-2xl">{ind.problem}</p>
             </div>
             {/* Metrics panel */}
             <div className="sol-industry-media flex flex-col">
@@ -270,12 +270,12 @@ export default function Solutions() {
             {ind.solutions.map((sol, j) => (
               <div
                 key={sol.title}
-                className={`sol-feature-card flex flex-col gap-3${
+                className={`sol-feature-card flex flex-col gap-3.5${
                   j < ind.solutions.length - 1 ? ' border-b lg:border-b-0 lg:border-r border-border' : ''
                 }`}
               >
-                <h4 className="font-sans text-white text-base leading-normal">{sol.title}</h4>
-                <p className="font-sans text-sm text-white/50 leading-6">{sol.body}</p>
+                <h4 className="font-sans text-white text-base md:text-lg font-medium leading-snug tracking-tight">{sol.title}</h4>
+                <p className="font-sans text-sm text-white/50 leading-relaxed">{sol.body}</p>
               </div>
             ))}
           </div>
@@ -313,10 +313,10 @@ export default function Solutions() {
       <div className="border border-border mb-5 md:mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div className="flex flex-col gap-2">
           <p className="font-favorit text-2xs text-white/30 uppercase tracking-widest">Not listed?</p>
-          <p className="font-sans text-white text-lg leading-normal">
+          <p className="font-sans text-white text-lg md:text-xl leading-normal font-medium">
             We also build for legal, education, logistics, and financial-services teams.
           </p>
-          <p className="font-sans text-sm text-white/50 leading-6 max-w-xl">
+          <p className="font-sans text-sm md:text-[15px] text-white/50 leading-relaxed max-w-xl">
             Every engagement starts with a 30-minute operations map. If it&apos;s repetitive, customer-facing,
             or after-hours — there is almost certainly a workflow worth automating.
           </p>
