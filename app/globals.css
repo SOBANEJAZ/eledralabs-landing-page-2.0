@@ -5353,6 +5353,10 @@ a.legal-link:hover {
   min-height: 300px;
   display: flex;
   flex-direction: column;
+  background-image: linear-gradient(rgba(22, 22, 22, 0.75), rgba(22, 22, 22, 0.85)), url('/backgrounds/lab.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 @media (max-width: 768px) {
