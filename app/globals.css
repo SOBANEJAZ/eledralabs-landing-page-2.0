@@ -5295,13 +5295,13 @@ a.legal-link:hover {
   border-radius: 0.125rem;
   background-color: #060707;
   background-image:
-    linear-gradient(rgba(6, 7, 7, 0.6), rgba(6, 7, 7, 0.6)),
-    linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-    url('/backgrounds/lab.png');
-  background-size: auto, 32px 32px, 32px 32px, cover;
-  background-position: center, center, center, center;
-  background-repeat: no-repeat, repeat, repeat, no-repeat;
+    linear-gradient(to right, rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+    url('/backgrounds/compute-bg.png');
+  background-size: 32px 32px, 32px 32px, cover;
+  background-position: center, center, center;
+  background-repeat: repeat, repeat, no-repeat;
+  background-blend-mode: normal, normal, overlay;
   box-shadow: 0 30px 80px rgba(0, 0, 0, 0.62);
 }
 
