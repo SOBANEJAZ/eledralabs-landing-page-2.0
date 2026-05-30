@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef, useEffect, useState, type CSSProperties } from 'react'
+import { useRef, useEffect, type CSSProperties } from 'react'
 
 interface Logo {
   src: string
@@ -20,7 +20,7 @@ export default function MarqueeStrip({
   reverse = false,
   className = '',
 }: MarqueeStripProps) {
-  const [activeLogo, setActiveLogo] = useState<string | null>(null)
+
   const trackRef = useRef<HTMLDivElement>(null)
   const posRef = useRef(0)
   const rafRef = useRef<number>(undefined)
@@ -97,18 +97,15 @@ export default function MarqueeStrip({
 
   const renderItems = (keySuffix = '') =>
     logos.map((logo) => (
-      <button
+      <div
         key={`${logo.alt}${keySuffix}`}
-        type="button"
-        className={`logo-item${activeLogo === logo.alt ? ' is-active' : ''}`}
+        className="logo-item"
         style={{ '--logo-accent': logoAccent[logo.alt] ?? '#ffffff' } as CSSProperties}
-        onClick={() => setActiveLogo(logo.alt)}
-        aria-pressed={activeLogo === logo.alt}
-        aria-label={`${logo.alt} logo highlight`}
+        aria-label={`${logo.alt} logo`}
       >
         <span className="logo-brackets" aria-hidden="true" />
         <img src={logo.src} alt={logo.alt} />
-      </button>
+      </div>
     ))
 
   return (
