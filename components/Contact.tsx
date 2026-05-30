@@ -13,43 +13,45 @@ export default function Contact() {
   return (
     <section
       id="contact"
-      className="spa-section border border-border flex flex-col mb-5 md:mb-8 lg:mb-17.5 scroll-mt-17"
+      className="spa-section flex flex-col gap-6 md:gap-10 mb-5 md:mb-8 lg:mb-17.5 scroll-mt-17"
     >
       {/* Header Banner */}
-      <div className="h-80 border-b border-border flex flex-col gap-8 px-5 py-5 relative overflow-hidden">
-        <div
-          className="pointer-events-none absolute inset-0 bg-surface mix-blend-screen"
-          aria-hidden="true"
-        >
-          <img
-            alt=""
-            decoding="async"
-            className="object-cover object-center"
-            style={{
-              position: 'absolute',
-              height: '100%',
-              width: '100%',
-              left: 0,
-              top: 0,
-              right: 0,
-              bottom: 0,
-              color: 'transparent',
-            }}
-            src="/backgrounds/sprinkle-contact.svg"
-          />
+      <div className="border border-border -mb-4 md:-mb-6">
+        <div className="h-80 border-b border-border flex flex-col gap-5 px-5 pt-0 pb-5 relative overflow-hidden">
+          <div
+            className="pointer-events-none absolute inset-0 bg-surface mix-blend-screen"
+            aria-hidden="true"
+          >
+            <img
+              alt=""
+              decoding="async"
+              className="object-cover object-center"
+              style={{
+                position: 'absolute',
+                height: '100%',
+                width: '100%',
+                left: 0,
+                top: 0,
+                right: 0,
+                bottom: 0,
+                color: 'transparent',
+              }}
+              src="/backgrounds/sprinkle-contact.svg"
+            />
+          </div>
+          <div className="pointer-events-none absolute inset-x-0 top-0 h-87.5 bg-linear-to-b from-surface to-transparent" />
+          <p className="relative z-10 font-sans text-7 leading-120">
+            <span className="text-white">Contact Us.</span>
+            <span className="text-white/50">
+              {' '}Connect with Eledra Labs&apos; systems automation experts to custom-engineer your AI
+              stacks.
+            </span>
+          </p>
         </div>
-        <div className="pointer-events-none absolute inset-x-0 top-0 h-87.5 bg-linear-to-b from-surface to-transparent" />
-        <p className="relative z-10 font-sans text-7 leading-120">
-          <span className="text-white">Contact Us.</span>
-          <span className="text-white/50">
-            {' '}Connect with Eledra Labs&apos; systems automation experts to custom-engineer your AI
-            stacks.
-          </span>
-        </p>
       </div>
 
       {/* Form Area */}
-      <div className="p-8 bg-surface-card border-b border-border flex flex-col justify-center gap-8 font-sans">
+      <div className="border border-border p-8 bg-surface-card flex flex-col justify-center gap-8 font-sans">
         {submitted ? (
           <div className="max-w-200 mx-auto w-full flex flex-col items-center justify-center gap-4 py-16 text-center">
             <div
