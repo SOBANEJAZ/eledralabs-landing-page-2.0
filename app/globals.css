@@ -5333,13 +5333,14 @@ a.legal-link:hover {
   .card-stack-stage {
     height: 420px !important;
   }
-  .stack-card,
-  .stack-card-inner {
+  .stack-card {
     width: 280px;
     margin-left: -140px;
-  }
-  .stack-card {
     margin-top: -140px;
+  }
+  .stack-card-inner {
+    width: 280px;
+    margin-left: 0;
   }
 }
 

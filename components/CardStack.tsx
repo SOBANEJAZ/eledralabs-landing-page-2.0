@@ -241,8 +241,10 @@ export default function CardStack({
 }: CardStackProps) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null)
   const [windowWidth, setWindowWidth] = useState(1200)
+  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
+    setMounted(true)
     setWindowWidth(window.innerWidth)
     const handleResize = () => setWindowWidth(window.innerWidth)
     window.addEventListener('resize', handleResize)
@@ -256,6 +258,10 @@ export default function CardStack({
     if (window.innerWidth <= 768) return // no active expand state on mobile
     setActiveIndex(prev => prev === index ? null : index)
   }, [])
+
+  if (!mounted) {
+    return null
+  }
 
   // Dynamically calculate spread to prevent horizontal cutoffs
   // On desktop (width > 768px), cardWidth is 320px. On mobile/tablet, it's 280px.
@@ -290,6 +296,7 @@ export default function CardStack({
       <div
         className="card-stack-stage relative mx-auto"
         style={{
+          position: 'relative',
           width: '100%',
           maxWidth: `${activeSpreadX * 2 + cardWidth}px`,
           height: windowWidth <= 768 ? '420px' : '480px',
