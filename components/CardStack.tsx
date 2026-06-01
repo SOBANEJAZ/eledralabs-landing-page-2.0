@@ -80,6 +80,8 @@ interface SingleCardProps {
   isTop: boolean
   onTap: () => void
   isActive: boolean
+  cardWidth: number
+  windowWidth: number
 }
 
 function SingleCard({
@@ -93,6 +95,8 @@ function SingleCard({
   isTop,
   onTap,
   isActive,
+  cardWidth,
+  windowWidth,
 }: SingleCardProps) {
   const [localHover, setLocalHover] = useState(false)
   const tf = getCardTransform(index, total, fanned, spreadX, spreadY, rotationScale)
@@ -123,9 +127,11 @@ function SingleCard({
       onClick={onTap}
       className="stack-card absolute"
       style={{
-        width: '100%',
+        width: `${cardWidth}px`,
+        left: '50%',
+        marginLeft: `-${cardWidth / 2}px`,
         cursor: 'pointer',
-        transformOrigin: 'center 360px',
+        transformOrigin: `center ${windowWidth <= 768 ? '260px' : '360px'}`,
       }}
     >
       <div
@@ -253,9 +259,12 @@ export default function CardStack({
   // Dynamically calculate spread to prevent horizontal cutoffs
   // On desktop (width > 768px), cardWidth is 320px. On mobile/tablet, it's 280px.
   const cardWidth = windowWidth <= 768 ? 280 : 320
-  const padding = 32 // side margins
+  const padding = windowWidth <= 768 ? 16 : 32 // tighter side margins on mobile
   const maxSpreadX = (windowWidth - cardWidth - padding) / 2
-  const activeSpreadX = Math.max(30, Math.min(spreadX, maxSpreadX))
+  const activeSpreadX = windowWidth <= 768
+    ? Math.max(10, Math.min(15, maxSpreadX))
+    : Math.max(30, Math.min(spreadX, maxSpreadX))
+  const activeRotationScale = windowWidth <= 768 ? 0.2 : rotationScale
 
   return (
     <div className="card-stack-section overflow-visible relative">
@@ -295,10 +304,12 @@ export default function CardStack({
             fanned={fanned}
             spreadX={activeSpreadX}
             spreadY={spreadY}
-            rotationScale={rotationScale}
+            rotationScale={activeRotationScale}
             isTop={i === total - 1}
             onTap={() => tap(i)}
             isActive={activeIndex === i}
+            cardWidth={cardWidth}
+            windowWidth={windowWidth}
           />
         ))}
       </div>
