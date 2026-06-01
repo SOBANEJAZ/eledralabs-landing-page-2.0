@@ -1418,7 +1418,11 @@ footer[aria-label="Footer"] {
 }
 
 .footer-giant-banner-container {
-  width: 100% !important;
+  /* Break out of max-width parent so width is always 100vw */
+  width: 100vw !important;
+  position: relative !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
   overflow: hidden !important;
   display: flex !important;
   justify-content: center !important;
@@ -1433,7 +1437,7 @@ footer[aria-label="Footer"] {
   color: rgba(255, 255, 255, 0.96) !important;
   letter-spacing: -0.05em !important;
   line-height: 0.82 !important;
-  font-size: min(12vw, 230px) !important;
+  font-size: 12vw !important;
   text-align: center !important;
   display: inline-block !important;
   padding-top: 15px !important;
