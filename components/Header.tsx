@@ -5,6 +5,7 @@ import Link from 'next/link'
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -15,10 +16,29 @@ export default function Header() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
+  useEffect(() => {
+    if (!menuOpen) return
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setMenuOpen(false)
+    }
+
+    const handleResize = () => {
+      if (window.innerWidth >= 1280) setMenuOpen(false)
+    }
+
+    document.addEventListener('keydown', handleKeyDown)
+    window.addEventListener('resize', handleResize)
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown)
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [menuOpen])
+
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-500${
-        scrolled ? ' header-scrolled' : ''
+        scrolled || menuOpen ? ' header-scrolled' : ''
       }`}
     >
       {/* 3-col grid: logo | nav | cta */}
@@ -93,14 +113,23 @@ export default function Header() {
 
           <button
             className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all hover:cursor-pointer size-9 xl:hidden w-12 h-12 -mr-2 bg-surface-raised text-white hover:bg-surface-hover"
-            aria-label="Open menu"
+            aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={menuOpen}
+            aria-controls="mobile-menu"
+            onClick={() => setMenuOpen((open) => !open)}
             type="button"
           >
             <div className="relative w-6 h-6">
-              <div className="absolute inset-0 flex items-center justify-center transition-opacity duration-200 ease-out opacity-100">
+              <div className={`absolute inset-0 flex items-center justify-center transition-opacity duration-200 ease-out ${menuOpen ? 'opacity-0' : 'opacity-100'}`}>
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                   <line x1="4" y1="8" x2="20" y2="8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
                   <line x1="4" y1="16" x2="20" y2="16" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                </svg>
+              </div>
+              <div className={`absolute inset-0 flex items-center justify-center transition-opacity duration-200 ease-out ${menuOpen ? 'opacity-100' : 'opacity-0'}`}>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <line x1="6" y1="6" x2="18" y2="18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                  <line x1="18" y1="6" x2="6" y2="18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
                 </svg>
               </div>
             </div>
@@ -108,6 +137,38 @@ export default function Header() {
         </div>
 
       </div>
+
+      <nav
+        id="mobile-menu"
+        className={`header-mobile-menu xl:hidden${menuOpen ? ' is-open' : ''}`}
+        aria-label="Mobile navigation"
+      >
+        <div className="header-mobile-menu-inner">
+          {[
+            ['Solutions', '/solutions', '01'],
+            ['Products', '/products', '02'],
+            ['Contact', '/contact', '03'],
+            ['FAQ', '/faq', '04'],
+          ].map(([label, href, index]) => (
+            <Link
+              key={href}
+              className="header-mobile-link"
+              href={href}
+              onClick={() => setMenuOpen(false)}
+            >
+              <span>{label}</span>
+              <span>{index}</span>
+            </Link>
+          ))}
+          <Link
+            className="header-mobile-cta"
+            href="/contact"
+            onClick={() => setMenuOpen(false)}
+          >
+            Get Started
+          </Link>
+        </div>
+      </nav>
     </header>
   )
 }
