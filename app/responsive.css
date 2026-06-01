@@ -225,9 +225,9 @@
   }
 
   .footer-giant-brand-text {
-    font-size: clamp(3rem, 16vw, 7rem) !important;
-    letter-spacing: 0 !important;
-    line-height: 0.92 !important;
+    font-size: clamp(1.8rem, 8.5vw, 6rem) !important;
+    letter-spacing: -0.04em !important;
+    line-height: 0.9 !important;
   }
 }
 
