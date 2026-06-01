@@ -1433,7 +1433,7 @@ footer[aria-label="Footer"] {
   color: rgba(255, 255, 255, 0.96) !important;
   letter-spacing: -0.05em !important;
   line-height: 0.82 !important;
-  font-size: 12vw !important;
+  font-size: min(12vw, 230px) !important;
   text-align: center !important;
   display: inline-block !important;
   padding-top: 15px !important;
