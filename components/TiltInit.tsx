@@ -5,6 +5,7 @@ import { useEffect } from 'react'
 export default function TiltInit() {
   useEffect(() => {
     if (typeof window === 'undefined') return
+    if (window.matchMedia('(pointer: coarse)').matches || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
 
     const CARD_SELECTORS = [
       '.pillar-card',
