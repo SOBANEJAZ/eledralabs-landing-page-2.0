@@ -57,7 +57,6 @@ export default function MarqueeStrip({
   useEffect(() => {
     const track = trackRef.current
     if (!track) return
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
 
     const step = (timestamp: number) => {
       const track = trackRef.current
