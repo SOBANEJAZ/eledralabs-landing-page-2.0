@@ -271,7 +271,7 @@ export default function CardStack({
   const activeSpreadX = windowWidth <= 768
     ? Math.max(10, Math.min(15, maxSpreadX))
     : Math.max(30, Math.min(spreadX, maxSpreadX))
-  const activeRotationScale = windowWidth <= 768 ? 0.2 : rotationScale
+  const activeRotationScale = windowWidth <= 768 ? 0.45 : rotationScale
 
   return (
     <div className="card-stack-section overflow-visible relative">
@@ -299,7 +299,7 @@ export default function CardStack({
           position: 'relative',
           width: '100%',
           maxWidth: `${activeSpreadX * 2 + cardWidth}px`,
-          height: windowWidth <= 768 ? '420px' : '480px',
+          height: windowWidth <= 768 ? '320px' : '480px',
           transition: 'max-width 0.5s cubic-bezier(0.22, 1, 0.36, 1)',
         }}
       >
