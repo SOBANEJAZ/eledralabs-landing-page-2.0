@@ -44,3 +44,8 @@ next-env.d.ts
 /backups/
 /bun.lock
 next-env.d.ts
+
+# debug screenshots & dev artifacts
+/screenshots/
+/.next-build/
+generate_svg.js
