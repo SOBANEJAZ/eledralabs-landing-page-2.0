@@ -249,10 +249,11 @@ export default function CardStack({
     return () => window.removeEventListener('resize', handleResize)
   }, [])
 
-  const fanned = true
+  const fanned = windowWidth > 768
   const total = cards.length
 
   const tap = useCallback((index: number) => {
+    if (window.innerWidth <= 768) return // no active expand state on mobile
     setActiveIndex(prev => prev === index ? null : index)
   }, [])
 
@@ -307,7 +308,7 @@ export default function CardStack({
             rotationScale={activeRotationScale}
             isTop={i === total - 1}
             onTap={() => tap(i)}
-            isActive={activeIndex === i}
+            isActive={windowWidth > 768 && activeIndex === i}
             cardWidth={cardWidth}
             windowWidth={windowWidth}
           />
