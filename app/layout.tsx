@@ -9,6 +9,7 @@ import CursorFollower from '@/components/CursorFollower'
 import LenisInit from '@/components/LenisInit'
 import TiltInit from '@/components/TiltInit'
 import './globals.css'
+import './responsive.css'
 
 export const metadata: Metadata = {
   title: 'Eledralabs - Precision Automation for Your Stack',
