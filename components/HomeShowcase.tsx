@@ -391,6 +391,15 @@ function Testimonials() {
 
 function Pillars() {
   const { ref, p } = useSectionProgress<HTMLDivElement>()
+  const [isCompact, setIsCompact] = useState(false)
+
+  useEffect(() => {
+    const update = () => setIsCompact(window.innerWidth < 900)
+    update()
+    window.addEventListener('resize', update)
+    return () => window.removeEventListener('resize', update)
+  }, [])
+
   // Map [0..1] → tilt offsets — peak around middle of view
   const lift = (Math.sin(p * Math.PI) * 18).toFixed(2)  // 0 → 18 → 0 px lift
   const tilt = ((p - 0.5) * 6).toFixed(2)               // -3 → 0 → 3 deg
@@ -425,7 +434,9 @@ function Pillars() {
                 ['--pillar-glow' as string]: i === 0 ? 'rgba(168, 134, 88, 0.18)' : i === 1 ? 'rgba(104, 117, 95, 0.18)' : 'rgba(129, 118, 98, 0.16)',
                 ['--pillar-line' as string]: i === 0 ? '#b79a72' : i === 1 ? '#8f9a86' : '#a79a84',
                 ['--pillar-chip' as string]: i === 0 ? 'rgba(168, 134, 88, 0.1)' : i === 1 ? 'rgba(104, 117, 95, 0.1)' : 'rgba(129, 118, 98, 0.09)',
-                transform: `perspective(1000px) translate3d(0, -${lifts[i]}px, 0) rotateX(${(-lifts[i] * 0.05).toFixed(2)}deg) rotateY(${tilts[i]}deg)`,
+                transform: isCompact
+                  ? undefined
+                  : `perspective(1000px) translate3d(0, -${lifts[i]}px, 0) rotateX(${(-lifts[i] * 0.05).toFixed(2)}deg) rotateY(${tilts[i]}deg)`,
               }}
             >
               <div className="pillar-card-inner">
@@ -613,7 +624,7 @@ function ScrollStory() {
         <div 
           className="cuboid-viewport-container select-none cursor-grab active:cursor-grabbing"
           onPointerDown={(e) => {
-            e.preventDefault()
+            if (e.pointerType !== 'touch') e.preventDefault()
             e.currentTarget.setPointerCapture(e.pointerId)
             handleStart(e.clientX, e.clientY)
           }}
