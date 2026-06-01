@@ -99,6 +99,7 @@
 
 html {
   color-scheme: dark;
+  overflow-x: hidden;
 }
 
 body {
@@ -5341,3 +5342,4 @@ a.legal-link:hover {
     margin-top: -140px;
   }
 }
+
