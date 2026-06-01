@@ -1,21 +1,75 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef } from 'react'
+import emailjs from '@emailjs/browser'
+
+// ─── EmailJS config pulled from .env.local ───────────────────────────────────
+const SERVICE_ID  = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!
+const TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!
+const PUBLIC_KEY  = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
+
+// ─── Types ────────────────────────────────────────────────────────────────────
+type Status = 'idle' | 'loading' | 'success' | 'error'
 
 export default function Contact() {
-  const [submitted, setSubmitted] = useState(false)
+  const formRef = useRef<HTMLFormElement>(null)
+  const [status, setStatus] = useState<Status>('idle')
+  const [errorMsg, setErrorMsg] = useState('')
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  // ─── Controlled field state ─────────────────────────────────────────────────
+  const [fields, setFields] = useState({
+    from_name:    '',
+    from_email:   '',
+    phone:        '',
+    organization: '',
+    interest:     '',
+    budget:       '',
+    message:      '',
+  })
+
+  const set = (key: keyof typeof fields) =>
+    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
+      setFields(prev => ({ ...prev, [key]: e.target.value }))
+
+  // ─── Submit ─────────────────────────────────────────────────────────────────
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    setSubmitted(true)
+    if (!formRef.current) return
+
+    setStatus('loading')
+    setErrorMsg('')
+
+    try {
+      await emailjs.sendForm(SERVICE_ID, TEMPLATE_ID, formRef.current, {
+        publicKey: PUBLIC_KEY,
+      })
+      setStatus('success')
+      setFields({
+        from_name: '', from_email: '', phone: '',
+        organization: '', interest: '', budget: '', message: '',
+      })
+    } catch (err: unknown) {
+      console.error('EmailJS error:', err)
+      const message =
+        err instanceof Error ? err.message : 'Something went wrong. Please try again.'
+      setErrorMsg(message)
+      setStatus('error')
+    }
   }
+
+  const reset = () => { setStatus('idle'); setErrorMsg('') }
+
+  // ─── Shared input class ─────────────────────────────────────────────────────
+  const inputCls =
+    'bg-black/40 border border-white/10 rounded-none px-4 py-3 text-sm text-white ' +
+    'focus:outline-none focus:border-white/40 transition-colors w-full'
 
   return (
     <section
       id="contact"
       className="spa-section flex flex-col gap-6 md:gap-10 mb-5 md:mb-8 lg:mb-17.5 scroll-mt-17"
     >
-      {/* Header Banner */}
+      {/* ── Header Banner ─────────────────────────────────────────────────── */}
       <div className="border border-border -mb-4 md:-mb-6">
         <div className="h-80 border-b border-border flex flex-col gap-5 px-5 pt-0 pb-5 relative overflow-hidden">
           <div
@@ -50,28 +104,18 @@ export default function Contact() {
         </div>
       </div>
 
-      {/* Form Area */}
+      {/* ── Form Area ─────────────────────────────────────────────────────── */}
       <div className="border border-border p-8 bg-surface-card flex flex-col justify-center gap-8 font-sans">
-        {submitted ? (
+
+        {/* ── SUCCESS state ──────────────────────────────────────────────── */}
+        {status === 'success' ? (
           <div className="max-w-200 mx-auto w-full flex flex-col items-center justify-center gap-4 py-16 text-center">
             <div
               className="w-14 h-14 rounded-full flex items-center justify-center"
               style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.15)' }}
             >
-              <svg
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M5 13L9 17L19 7"
-                  stroke="white"
-                  strokeWidth="2"
-                  strokeLinecap="square"
-                  strokeLinejoin="miter"
-                />
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M5 13L9 17L19 7" stroke="white" strokeWidth="2" strokeLinecap="square" strokeLinejoin="miter" />
               </svg>
             </div>
             <h3 className="text-white text-xl font-sans font-medium">Message Sent</h3>
@@ -79,14 +123,17 @@ export default function Contact() {
               Thank you! The Eledra Labs team will contact you shortly.
             </p>
             <button
-              onClick={() => setSubmitted(false)}
+              onClick={reset}
               className="mt-4 font-favorit text-xs uppercase tracking-wider text-white/50 border border-white/10 px-4 py-2 hover:bg-white/5 hover:text-white transition-colors"
             >
               Send Another
             </button>
           </div>
+
         ) : (
+          /* ── FORM (idle / loading / error) ─────────────────────────────── */
           <form
+            ref={formRef}
             className="flex flex-col gap-2.5 max-w-200 mx-auto w-full"
             onSubmit={handleSubmit}
           >
@@ -98,9 +145,12 @@ export default function Contact() {
                 </label>
                 <input
                   required
+                  name="from_name"
                   type="text"
                   placeholder="Alex Carter"
-                  className="bg-black/40 border border-white/10 rounded-none px-4 py-3 text-sm text-white focus:outline-none focus:border-white/40 transition-colors"
+                  value={fields.from_name}
+                  onChange={set('from_name')}
+                  className={inputCls}
                 />
               </div>
               <div className="flex flex-col gap-1">
@@ -109,9 +159,12 @@ export default function Contact() {
                 </label>
                 <input
                   required
+                  name="from_email"
                   type="email"
                   placeholder="alex@company.com"
-                  className="bg-black/40 border border-white/10 rounded-none px-4 py-3 text-sm text-white focus:outline-none focus:border-white/40 transition-colors"
+                  value={fields.from_email}
+                  onChange={set('from_email')}
+                  className={inputCls}
                 />
               </div>
             </div>
@@ -124,9 +177,12 @@ export default function Contact() {
                 </label>
                 <input
                   required
+                  name="phone"
                   type="tel"
                   placeholder="+1 (555) 019-2834"
-                  className="bg-black/40 border border-white/10 rounded-none px-4 py-3 text-sm text-white focus:outline-none focus:border-white/40 transition-colors"
+                  value={fields.phone}
+                  onChange={set('phone')}
+                  className={inputCls}
                 />
               </div>
               <div className="flex flex-col gap-1">
@@ -135,9 +191,12 @@ export default function Contact() {
                 </label>
                 <input
                   required
+                  name="organization"
                   type="text"
                   placeholder="Eledra Labs Inc."
-                  className="bg-black/40 border border-white/10 rounded-none px-4 py-3 text-sm text-white focus:outline-none focus:border-white/40 transition-colors"
+                  value={fields.organization}
+                  onChange={set('organization')}
+                  className={inputCls}
                 />
               </div>
             </div>
@@ -150,15 +209,18 @@ export default function Contact() {
                 </label>
                 <select
                   required
-                  className="contact-select bg-black/40 border border-white/10 rounded-none px-4 py-3 text-sm text-white focus:outline-none focus:border-white/40 transition-colors appearance-none cursor-pointer"
+                  name="interest"
+                  value={fields.interest}
+                  onChange={set('interest')}
+                  className="contact-select bg-black/40 border border-white/10 rounded-none px-4 py-3 text-sm text-white focus:outline-none focus:border-white/40 transition-colors appearance-none cursor-pointer w-full"
                 >
                   <option value="" disabled hidden>Select project type...</option>
-                  <option value="workflow">AI Workflow Automation</option>
-                  <option value="voice">Conversational Voice Agents</option>
-                  <option value="chatbots">Custom LLM Chatbots</option>
-                  <option value="compute">GPU Compute Orchestration</option>
-                  <option value="rl">Reinforcement Learning Stack</option>
-                  <option value="custom">Other Custom Architectures</option>
+                  <option value="AI Workflow Automation">AI Workflow Automation</option>
+                  <option value="Conversational Voice Agents">Conversational Voice Agents</option>
+                  <option value="Custom LLM Chatbots">Custom LLM Chatbots</option>
+                  <option value="GPU Compute Orchestration">GPU Compute Orchestration</option>
+                  <option value="Reinforcement Learning Stack">Reinforcement Learning Stack</option>
+                  <option value="Other Custom Architectures">Other Custom Architectures</option>
                 </select>
               </div>
               <div className="flex flex-col gap-1">
@@ -167,60 +229,81 @@ export default function Contact() {
                 </label>
                 <select
                   required
-                  className="contact-select bg-black/40 border border-white/10 rounded-none px-4 py-3 text-sm text-white focus:outline-none focus:border-white/40 transition-colors appearance-none cursor-pointer"
+                  name="budget"
+                  value={fields.budget}
+                  onChange={set('budget')}
+                  className="contact-select bg-black/40 border border-white/10 rounded-none px-4 py-3 text-sm text-white focus:outline-none focus:border-white/40 transition-colors appearance-none cursor-pointer w-full"
                 >
                   <option value="" disabled hidden>Select budget range...</option>
-                  <option value="exploratory">Exploratory / Not Sure</option>
-                  <option value="under-10k">Under $10,000 / month</option>
-                  <option value="10k-30k">$10,000 - $30,000 / month</option>
-                  <option value="30k-100k">$30,000 - $100,000 / month</option>
-                  <option value="enterprise">$100,000+ / month (Enterprise)</option>
+                  <option value="Exploratory / Not Sure">Exploratory / Not Sure</option>
+                  <option value="Under $10,000 / month">Under $10,000 / month</option>
+                  <option value="$10,000 - $30,000 / month">$10,000 – $30,000 / month</option>
+                  <option value="$30,000 - $100,000 / month">$30,000 – $100,000 / month</option>
+                  <option value="$100,000+ / month (Enterprise)">$100,000+ / month (Enterprise)</option>
                 </select>
               </div>
             </div>
 
-            {/* Row 4: Requirements textarea */}
+            {/* Row 4: Message textarea */}
             <div className="flex flex-col gap-1">
               <label className="text-xs uppercase font-favorit tracking-wider text-white/50">
                 Detailed Project Scope &amp; Custom Requirements
               </label>
               <textarea
+                name="message"
                 placeholder="Tell us about your systems automation goals, custom integration pipelines, or specific compute needs..."
                 rows={4}
-                className="bg-black/40 border border-white/10 rounded-none px-4 py-3 text-sm text-white focus:outline-none focus:border-white/40 transition-colors resize-none"
+                value={fields.message}
+                onChange={set('message')}
+                className="bg-black/40 border border-white/10 rounded-none px-4 py-3 text-sm text-white focus:outline-none focus:border-white/40 transition-colors resize-none w-full"
               />
             </div>
 
-            {/* Submit */}
+            {/* Error banner */}
+            {status === 'error' && (
+              <div className="flex items-start gap-3 border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-400">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="shrink-0 mt-0.5">
+                  <path d="M8 5V8M8 11H8.01M2 8C2 4.686 4.686 2 8 2C11.314 2 14 4.686 14 8C14 11.314 11.314 14 8 14C4.686 14 2 11.314 2 8Z" stroke="currentColor" strokeLinecap="square"/>
+                </svg>
+                <span>{errorMsg || 'Failed to send. Please try again or email us directly.'}</span>
+              </div>
+            )}
+
+            {/* Submit button */}
             <button
               type="submit"
-              className="group inline-flex w-fit shrink-0 items-center justify-center gap-1 whitespace-nowrap font-favorit uppercase transition-colors hover:cursor-pointer bg-white text-black min-h-10 px-5 py-3 text-xs leading-none self-start mt-4"
+              disabled={status === 'loading'}
+              className="group inline-flex w-fit shrink-0 items-center justify-center gap-2 whitespace-nowrap font-favorit uppercase transition-colors hover:cursor-pointer bg-white text-black min-h-10 px-5 py-3 text-xs leading-none self-start mt-4 disabled:opacity-60 disabled:cursor-not-allowed"
             >
-              Submit Message
-              <div className="w-3 h-3 overflow-hidden relative ml-1">
-                <div className="flex -translate-x-full transition-transform duration-300 ease-in-out group-hover:translate-x-0">
+              {status === 'loading' ? (
+                <>
+                  {/* Spinner */}
                   <svg
-                    width="12"
-                    height="12"
-                    viewBox="0 0 12 12"
+                    className="animate-spin w-3 h-3 shrink-0"
+                    viewBox="0 0 24 24"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
-                    className="w-3 h-3 shrink-0"
                   >
-                    <path d="M4.75 9.125L7.875 6L4.75 2.875" stroke="currentColor" strokeLinecap="square" />
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" />
                   </svg>
-                  <svg
-                    width="12"
-                    height="12"
-                    viewBox="0 0 12 12"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="w-3 h-3 shrink-0"
-                  >
-                    <path d="M4.75 9.125L7.875 6L4.75 2.875" stroke="currentColor" strokeLinecap="square" />
-                  </svg>
-                </div>
-              </div>
+                  Sending...
+                </>
+              ) : (
+                <>
+                  {status === 'error' ? 'Try Again' : 'Submit Message'}
+                  <div className="w-3 h-3 overflow-hidden relative ml-1">
+                    <div className="flex -translate-x-full transition-transform duration-300 ease-in-out group-hover:translate-x-0">
+                      <svg width="12" height="12" viewBox="0 0 12 12" fill="none" className="w-3 h-3 shrink-0">
+                        <path d="M4.75 9.125L7.875 6L4.75 2.875" stroke="currentColor" strokeLinecap="square" />
+                      </svg>
+                      <svg width="12" height="12" viewBox="0 0 12 12" fill="none" className="w-3 h-3 shrink-0">
+                        <path d="M4.75 9.125L7.875 6L4.75 2.875" stroke="currentColor" strokeLinecap="square" />
+                      </svg>
+                    </div>
+                  </div>
+                </>
+              )}
             </button>
           </form>
         )}
