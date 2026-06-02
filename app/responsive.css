@@ -270,6 +270,12 @@
     left: 0 !important;
     translate: none !important;
     transform: none !important;
+    background: linear-gradient(
+      to right,
+      var(--color-surface) 0%,
+      var(--color-surface) 6%,
+      transparent 14%
+    ) !important;
   }
 
   .text-7 {
@@ -311,10 +317,10 @@
   }
 
   .eledra-hero-media video {
-    translate: 18vw -4vh !important;
-    scale: -1.38 1.38 !important;
+    translate: 0 -4vh !important;
+    scale: -1.55 1.45 !important;
     transform: none !important;
-    object-position: 74% 88% !important;
+    object-position: 100% 88% !important;
   }
 
   .spa-section > div:first-child,
@@ -418,10 +424,10 @@
   }
 
   .eledra-hero-media video {
-    translate: 22vw -2vh !important;
-    scale: -1.28 1.28 !important;
+    translate: 0 -2vh !important;
+    scale: -1.45 1.35 !important;
     transform: none !important;
-    object-position: 70% 88% !important;
+    object-position: 100% 88% !important;
   }
 
   .manifesto-title {
