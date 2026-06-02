@@ -160,7 +160,7 @@ export default function Footer() {
               <a
                 target="_blank"
                 rel="noopener noreferrer"
-                href="https://www.linkedin.com/in/eledra-labs-8a9735411/?skipRedirect=true"
+                href="https://www.linkedin.com/company/eledra-labs/"
                 className="text-white/60 hover:text-white text-sm uppercase transition-colors"
               >
                 LinkedIn
