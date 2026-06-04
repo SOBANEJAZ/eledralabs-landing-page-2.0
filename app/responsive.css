@@ -318,10 +318,10 @@
   }
 
   .eledra-hero-media video {
-    translate: 0 -4vh !important;
-    scale: -1.55 1.45 !important;
+    translate: 0 !important;
+    scale: -1 1 !important;
     transform: none !important;
-    object-position: 100% 88% !important;
+    object-position: 55% center !important;
   }
 
   .spa-section > div:first-child,
@@ -425,10 +425,10 @@
   }
 
   .eledra-hero-media video {
-    translate: 0 -2vh !important;
-    scale: -1.45 1.35 !important;
+    translate: 0 !important;
+    scale: -1 1 !important;
     transform: none !important;
-    object-position: 100% 88% !important;
+    object-position: 55% center !important;
   }
 
   .manifesto-title {
