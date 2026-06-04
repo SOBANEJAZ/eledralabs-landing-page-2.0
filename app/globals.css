@@ -5206,11 +5206,15 @@ a.legal-link:hover {
    3D TILT HOVER & PREMIUM GLARE STYLES
    ============================================ */
 /* Setup perspective parent containers to enable true 3D spatial transforms */
-.pillar-stage,
-.bento-grid,
 #solutions .grid,
 #products .grid {
   perspective: 2400px !important;
+}
+
+/* Stronger perspective on the home cards so the pointer tilt reads as a real pop */
+.showcase-pillars .pillar-stage,
+.showcase-bento .bento-grid {
+  perspective: 1200px !important;
 }
 
 #solutions-testimonials-section,
@@ -5232,6 +5236,34 @@ a.legal-link:hover {
   position: relative;
   /* Premium, elegant, slow easing transitions */
   transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.8s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+/* Pointer-driven 3D tilt for the home-page cards.
+   --h-* = hover tilt (set from cursor position in JS); the side under the
+   cursor rotates toward the viewer, centre → uniform translateZ pop.
+   --p-* = the pillars' ambient scroll-driven float. */
+.pillar-card {
+  transform:
+    translate3d(0, var(--p-ty, 0px), 0)
+    rotateX(calc(var(--p-rx, 0deg) + var(--h-rx, 0deg)))
+    rotateY(calc(var(--p-ry, 0deg) + var(--h-ry, 0deg)))
+    translateZ(var(--h-tz, 0px)) !important;
+  transition: transform 0.18s ease-out, box-shadow 0.4s ease !important;
+}
+
+.bento-card {
+  transform:
+    rotateX(var(--h-rx, 0deg))
+    rotateY(var(--h-ry, 0deg))
+    translateZ(var(--h-tz, 0px)) !important;
+  transition: transform 0.18s ease-out, background-color 0.4s ease !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pillar-card,
+  .bento-card {
+    transform: none !important;
+  }
 }
 
 /* Specific glare container class */

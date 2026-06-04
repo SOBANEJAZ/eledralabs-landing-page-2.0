@@ -216,6 +216,40 @@ function useSectionProgress<T extends HTMLElement>() {
 }
 
 /* ------------------------------------------------------------------ */
+/* Hook: pointer-driven 3D tilt                                        */
+/* The side under the cursor lifts toward the viewer; with the cursor  */
+/* centred the whole card pops up uniformly (rx = ry = 0, translateZ). */
+/* ------------------------------------------------------------------ */
+
+function usePointerTilt<T extends HTMLElement>(
+  { max = 10, lift = 22 }: { max?: number; lift?: number } = {},
+) {
+  const ref = useRef<T>(null)
+
+  const onPointerMove = (e: React.PointerEvent<T>) => {
+    if (e.pointerType === 'touch') return
+    const el = ref.current
+    if (!el) return
+    const r = el.getBoundingClientRect()
+    const px = (e.clientX - r.left) / r.width - 0.5 // -0.5 (left)  …  0.5 (right)
+    const py = (e.clientY - r.top) / r.height - 0.5 // -0.5 (top)   …  0.5 (bottom)
+    el.style.setProperty('--h-rx', `${(py * max).toFixed(2)}deg`)
+    el.style.setProperty('--h-ry', `${(-px * max).toFixed(2)}deg`)
+    el.style.setProperty('--h-tz', `${lift}px`)
+  }
+
+  const reset = () => {
+    const el = ref.current
+    if (!el) return
+    el.style.setProperty('--h-rx', '0deg')
+    el.style.setProperty('--h-ry', '0deg')
+    el.style.setProperty('--h-tz', '0px')
+  }
+
+  return { ref, onPointerMove, onPointerLeave: reset, onPointerCancel: reset }
+}
+
+/* ------------------------------------------------------------------ */
 /* Component: Manifesto                                                */
 /* ------------------------------------------------------------------ */
 
@@ -426,45 +460,73 @@ function Pillars() {
           const lifts = [Number(lift) * 0.6, Number(lift), Number(lift) * 0.6]
           const tilts = [Number(tilt) - 1.5, Number(tilt), Number(tilt) + 1.5]
           return (
-            <Link
+            <PillarCard
               key={pl.title}
-              href={pl.href}
-              className={`pillar-card pillar-card-${i + 1} group`}
-              style={{
-                ['--pillar-glow' as string]: i === 0 ? 'rgba(168, 134, 88, 0.18)' : i === 1 ? 'rgba(104, 117, 95, 0.18)' : 'rgba(129, 118, 98, 0.16)',
-                ['--pillar-line' as string]: i === 0 ? '#b79a72' : i === 1 ? '#8f9a86' : '#a79a84',
-                ['--pillar-chip' as string]: i === 0 ? 'rgba(168, 134, 88, 0.1)' : i === 1 ? 'rgba(104, 117, 95, 0.1)' : 'rgba(129, 118, 98, 0.09)',
-                transform: isCompact
-                  ? undefined
-                  : `perspective(1000px) translate3d(0, -${lifts[i]}px, 0) rotateX(${(-lifts[i] * 0.05).toFixed(2)}deg) rotateY(${tilts[i]}deg)`,
-              }}
-            >
-              <div className="pillar-card-inner">
-                <div className="pillar-card-top">
-                  <span className="pillar-tag">
-                    {pl.tagline}
-                  </span>
-                  <span className="pillar-index">0{i + 1}</span>
-                </div>
-                <h3 className="pillar-title">{pl.title}</h3>
-                <p className="pillar-blurb">{pl.blurb}</p>
-                <span className="pillar-cta">
-                  Explore
-                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                    <path
-                      d="M4.75 9.125L7.875 6L4.75 2.875"
-                      stroke="currentColor"
-                      strokeLinecap="square"
-                    />
-                  </svg>
-                </span>
-              </div>
-              <div className="pillar-card-glow" aria-hidden="true" />
-            </Link>
+              pl={pl}
+              i={i}
+              lift={lifts[i]}
+              tilt={tilts[i]}
+              isCompact={isCompact}
+            />
           )
         })}
       </div>
     </section>
+  )
+}
+
+function PillarCard({
+  pl,
+  i,
+  lift,
+  tilt,
+  isCompact,
+}: {
+  pl: (typeof pillars)[number]
+  i: number
+  lift: number
+  tilt: number
+  isCompact: boolean
+}) {
+  const t = usePointerTilt<HTMLAnchorElement>({ max: 11, lift: 26 })
+  return (
+    <Link
+      ref={t.ref}
+      href={pl.href}
+      className={`pillar-card pillar-card-${i + 1} group`}
+      onPointerMove={isCompact ? undefined : t.onPointerMove}
+      onPointerLeave={t.onPointerLeave}
+      onPointerCancel={t.onPointerCancel}
+      style={{
+        ['--pillar-glow' as string]: i === 0 ? 'rgba(168, 134, 88, 0.18)' : i === 1 ? 'rgba(104, 117, 95, 0.18)' : 'rgba(129, 118, 98, 0.16)',
+        ['--pillar-line' as string]: i === 0 ? '#b79a72' : i === 1 ? '#8f9a86' : '#a79a84',
+        ['--pillar-chip' as string]: i === 0 ? 'rgba(168, 134, 88, 0.1)' : i === 1 ? 'rgba(104, 117, 95, 0.1)' : 'rgba(129, 118, 98, 0.09)',
+        // Ambient scroll-driven float (replaced by the pointer tilt while hovering)
+        ['--p-ty' as string]: isCompact ? '0px' : `-${lift.toFixed(2)}px`,
+        ['--p-rx' as string]: isCompact ? '0deg' : `${(-lift * 0.05).toFixed(2)}deg`,
+        ['--p-ry' as string]: isCompact ? '0deg' : `${tilt.toFixed(2)}deg`,
+      }}
+    >
+      <div className="pillar-card-inner">
+        <div className="pillar-card-top">
+          <span className="pillar-tag">{pl.tagline}</span>
+          <span className="pillar-index">0{i + 1}</span>
+        </div>
+        <h3 className="pillar-title">{pl.title}</h3>
+        <p className="pillar-blurb">{pl.blurb}</p>
+        <span className="pillar-cta">
+          Explore
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+            <path
+              d="M4.75 9.125L7.875 6L4.75 2.875"
+              stroke="currentColor"
+              strokeLinecap="square"
+            />
+          </svg>
+        </span>
+      </div>
+      <div className="pillar-card-glow" aria-hidden="true" />
+    </Link>
   )
 }
 
@@ -803,10 +865,19 @@ function ScrollStory() {
 /* ------------------------------------------------------------------ */
 
 function BentoSplit() {
+  const tSolutions = usePointerTilt<HTMLAnchorElement>({ max: 8, lift: 22 })
+  const tProducts = usePointerTilt<HTMLAnchorElement>({ max: 8, lift: 22 })
   return (
     <section id="home-bento" className="showcase-section showcase-bento">
       <div className="bento-grid">
-        <Link href="/solutions" className="bento-card bento-card-solutions group">
+        <Link
+          ref={tSolutions.ref}
+          onPointerMove={tSolutions.onPointerMove}
+          onPointerLeave={tSolutions.onPointerLeave}
+          onPointerCancel={tSolutions.onPointerCancel}
+          href="/solutions"
+          className="bento-card bento-card-solutions group"
+        >
           <div className="bento-card-content">
             <span className="font-favorit text-2xs text-white/40 uppercase tracking-widest">
               Industry Solutions
@@ -841,7 +912,14 @@ function BentoSplit() {
           </div>
         </Link>
 
-        <Link href="/products" className="bento-card bento-card-products group">
+        <Link
+          ref={tProducts.ref}
+          onPointerMove={tProducts.onPointerMove}
+          onPointerLeave={tProducts.onPointerLeave}
+          onPointerCancel={tProducts.onPointerCancel}
+          href="/products"
+          className="bento-card bento-card-products group"
+        >
           <div className="bento-card-content">
             <span className="font-favorit text-2xs text-white/40 uppercase tracking-widest">
               The Platform
