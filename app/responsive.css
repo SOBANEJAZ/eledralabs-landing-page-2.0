@@ -248,7 +248,8 @@
   }
 
   header img[alt="Logo"] {
-    max-width: min(11.75rem, calc(100vw - 5.75rem));
+    height: 2.5rem !important;
+    max-width: min(16rem, calc(100vw - 6rem)) !important;
   }
 
   .max-w-360 {

@@ -47,15 +47,19 @@ export default function Header() {
         {/* Col 1 — Logo */}
         <div className="flex items-center">
           <Link className="flex items-center shrink-0" href="/">
-            <img
-              alt="Logo"
-              width="240"
-              height="32"
-              decoding="async"
-              className="h-8 w-auto"
-              style={{ color: 'transparent' }}
-              src="/icons/eledralabs-logo.svg"
-            />
+            <picture>
+              {/* Bolder, larger wordmark on mobile/tablet (hamburger range) */}
+              <source media="(max-width: 1279px)" srcSet="/icons/eledralabs-logo-mobile.svg" />
+              <img
+                alt="Logo"
+                width="240"
+                height="32"
+                decoding="async"
+                className="h-8 w-auto"
+                style={{ color: 'transparent' }}
+                src="/icons/eledralabs-logo.svg"
+              />
+            </picture>
           </Link>
         </div>
 
@@ -90,8 +94,8 @@ export default function Header() {
           </div>
         </div>
 
-        {/* Col 3 — CTA + Hamburger */}
-        <div className="flex items-center justify-end gap-2">
+        {/* Col 3 — CTA + Hamburger (pinned to col 3 so the hamburger stays far-right on mobile, where the hidden nav would otherwise shift it into col 2) */}
+        <div className="col-start-3 xl:col-start-auto flex items-center justify-end gap-2">
           <div className="hidden xl:flex">
             <Link
               className="group inline-flex w-fit shrink-0 items-center justify-center gap-1 whitespace-nowrap font-favorit uppercase transition-colors hover:cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/60 bg-white text-black min-h-9 px-4 py-2.5 text-xs leading-none"
