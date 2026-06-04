@@ -191,7 +191,7 @@ section>div:first-child {
 }
 
 #products>div:first-child {
-  padding: 1.25rem 2rem 2rem !important;
+  padding: 0 2rem 2rem !important;
   min-height: unset !important;
 }
 
@@ -3637,14 +3637,16 @@ header.header-scrolled .header-inner {
 .showcase-bento .bento-grid {
   display: grid !important;
   grid-template-columns: 1fr;
-  gap: 1px;
-  padding: 0 !important;
-  background-color: var(--color-border);
+  gap: 1.25rem;
+  padding: 3rem 2rem !important;
+  background-color: transparent;
 }
 
 @media (min-width: 900px) {
   .showcase-bento .bento-grid {
     grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    padding: 4rem 2.5rem !important;
   }
 }
 
@@ -3657,14 +3659,15 @@ header.header-scrolled .header-inner {
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.008)),
     var(--color-surface);
+  border: 1px solid var(--color-border);
   overflow: visible !important;
-  transition: background-color 0.4s ease, transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.4s ease !important;
   will-change: transform, background-color;
 }
 
 .bento-card:hover {
   background-color: var(--color-surface-card);
-  transform: translateY(-3px);
+  transform: scale(1.03) translateY(-2px);
   border-color: rgba(61, 110, 78, 0.2);
 }
 
@@ -5238,33 +5241,6 @@ a.legal-link:hover {
   transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.8s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 
-/* Pointer-driven 3D tilt for the home-page cards.
-   --h-* = hover tilt (set from cursor position in JS); the side under the
-   cursor rotates toward the viewer, centre → uniform translateZ pop.
-   --p-* = the pillars' ambient scroll-driven float. */
-.pillar-card {
-  transform:
-    translate3d(0, var(--p-ty, 0px), 0)
-    rotateX(calc(var(--p-rx, 0deg) + var(--h-rx, 0deg)))
-    rotateY(calc(var(--p-ry, 0deg) + var(--h-ry, 0deg)))
-    translateZ(var(--h-tz, 0px)) !important;
-  transition: transform 0.18s ease-out, box-shadow 0.4s ease !important;
-}
-
-.bento-card {
-  transform:
-    rotateX(var(--h-rx, 0deg))
-    rotateY(var(--h-ry, 0deg))
-    translateZ(var(--h-tz, 0px)) !important;
-  transition: transform 0.18s ease-out, background-color 0.4s ease !important;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .pillar-card,
-  .bento-card {
-    transform: none !important;
-  }
-}
 
 /* Specific glare container class */
 .card-glare-overlay {
@@ -5296,7 +5272,7 @@ a.legal-link:hover {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 480px;
+  height: 380px;
 }
 
 .stack-card {

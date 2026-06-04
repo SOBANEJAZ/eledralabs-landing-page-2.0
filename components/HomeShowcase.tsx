@@ -221,33 +221,7 @@ function useSectionProgress<T extends HTMLElement>() {
 /* centred the whole card pops up uniformly (rx = ry = 0, translateZ). */
 /* ------------------------------------------------------------------ */
 
-function usePointerTilt<T extends HTMLElement>(
-  { max = 10, lift = 22 }: { max?: number; lift?: number } = {},
-) {
-  const ref = useRef<T>(null)
 
-  const onPointerMove = (e: React.PointerEvent<T>) => {
-    if (e.pointerType === 'touch') return
-    const el = ref.current
-    if (!el) return
-    const r = el.getBoundingClientRect()
-    const px = (e.clientX - r.left) / r.width - 0.5 // -0.5 (left)  …  0.5 (right)
-    const py = (e.clientY - r.top) / r.height - 0.5 // -0.5 (top)   …  0.5 (bottom)
-    el.style.setProperty('--h-rx', `${(py * max).toFixed(2)}deg`)
-    el.style.setProperty('--h-ry', `${(-px * max).toFixed(2)}deg`)
-    el.style.setProperty('--h-tz', `${lift}px`)
-  }
-
-  const reset = () => {
-    const el = ref.current
-    if (!el) return
-    el.style.setProperty('--h-rx', '0deg')
-    el.style.setProperty('--h-ry', '0deg')
-    el.style.setProperty('--h-tz', '0px')
-  }
-
-  return { ref, onPointerMove, onPointerLeave: reset, onPointerCancel: reset }
-}
 
 /* ------------------------------------------------------------------ */
 /* Component: Manifesto                                                */
@@ -488,23 +462,17 @@ function PillarCard({
   tilt: number
   isCompact: boolean
 }) {
-  const t = usePointerTilt<HTMLAnchorElement>({ max: 11, lift: 26 })
   return (
     <Link
-      ref={t.ref}
       href={pl.href}
       className={`pillar-card pillar-card-${i + 1} group`}
-      onPointerMove={isCompact ? undefined : t.onPointerMove}
-      onPointerLeave={t.onPointerLeave}
-      onPointerCancel={t.onPointerCancel}
       style={{
         ['--pillar-glow' as string]: i === 0 ? 'rgba(168, 134, 88, 0.18)' : i === 1 ? 'rgba(104, 117, 95, 0.18)' : 'rgba(129, 118, 98, 0.16)',
         ['--pillar-line' as string]: i === 0 ? '#b79a72' : i === 1 ? '#8f9a86' : '#a79a84',
         ['--pillar-chip' as string]: i === 0 ? 'rgba(168, 134, 88, 0.1)' : i === 1 ? 'rgba(104, 117, 95, 0.1)' : 'rgba(129, 118, 98, 0.09)',
-        // Ambient scroll-driven float (replaced by the pointer tilt while hovering)
-        ['--p-ty' as string]: isCompact ? '0px' : `-${lift.toFixed(2)}px`,
-        ['--p-rx' as string]: isCompact ? '0deg' : `${(-lift * 0.05).toFixed(2)}deg`,
-        ['--p-ry' as string]: isCompact ? '0deg' : `${tilt.toFixed(2)}deg`,
+        transform: isCompact
+          ? undefined
+          : `perspective(1000px) translate3d(0, -${lift}px, 0) rotateX(${(-lift * 0.05).toFixed(2)}deg) rotateY(${tilt}deg)`,
       }}
     >
       <div className="pillar-card-inner">
@@ -865,16 +833,10 @@ function ScrollStory() {
 /* ------------------------------------------------------------------ */
 
 function BentoSplit() {
-  const tSolutions = usePointerTilt<HTMLAnchorElement>({ max: 8, lift: 22 })
-  const tProducts = usePointerTilt<HTMLAnchorElement>({ max: 8, lift: 22 })
   return (
     <section id="home-bento" className="showcase-section showcase-bento">
       <div className="bento-grid">
         <Link
-          ref={tSolutions.ref}
-          onPointerMove={tSolutions.onPointerMove}
-          onPointerLeave={tSolutions.onPointerLeave}
-          onPointerCancel={tSolutions.onPointerCancel}
           href="/solutions"
           className="bento-card bento-card-solutions group"
         >
@@ -913,10 +875,6 @@ function BentoSplit() {
         </Link>
 
         <Link
-          ref={tProducts.ref}
-          onPointerMove={tProducts.onPointerMove}
-          onPointerLeave={tProducts.onPointerLeave}
-          onPointerCancel={tProducts.onPointerCancel}
           href="/products"
           className="bento-card bento-card-products group"
         >

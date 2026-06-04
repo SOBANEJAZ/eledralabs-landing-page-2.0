@@ -283,7 +283,7 @@ export default function CardStack({
         }}
       />
       {/* Section label */}
-      <div className="text-center mb-20 md:mb-28 relative z-10 pointer-events-none">
+      <div className="text-center mb-2 relative z-10 pointer-events-none">
         <p className="font-favorit text-2xs text-white/30 uppercase tracking-widest mb-2">
           Intelligence Stack — Click to focus capability
         </p>
@@ -299,7 +299,7 @@ export default function CardStack({
           position: 'relative',
           width: '100%',
           maxWidth: `${activeSpreadX * 2 + cardWidth}px`,
-          height: windowWidth <= 768 ? '320px' : '480px',
+          height: windowWidth <= 768 ? '320px' : '380px',
           transition: 'max-width 0.5s cubic-bezier(0.22, 1, 0.36, 1)',
         }}
       >
