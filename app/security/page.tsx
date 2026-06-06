@@ -55,8 +55,8 @@ export default function SecurityPage() {
           <ul>
             <li>
               Email details to{' '}
-              <Link className="legal-link" href="mailto:security@eledralabs.com">
-                security@eledralabs.com
+              <Link className="legal-link" href="mailto:contact@eledralabs.com">
+                contact@eledralabs.com
               </Link>
               .
             </li>

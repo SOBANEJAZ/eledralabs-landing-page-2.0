@@ -307,6 +307,17 @@ export default function Contact() {
             </button>
           </form>
         )}
+
+        {/* Direct email — for users who prefer to reach us without the form */}
+        <p className="text-center font-favorit text-xs uppercase tracking-wider text-white/40">
+          Prefer email? Reach us directly at{' '}
+          <a
+            href="mailto:contact@eledralabs.com"
+            className="text-white/70 underline underline-offset-4 transition-colors hover:text-white"
+          >
+            contact@eledralabs.com
+          </a>
+        </p>
       </div>
     </section>
   )

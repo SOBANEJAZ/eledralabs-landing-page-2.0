@@ -73,8 +73,8 @@ export default function TermsOfServicePage() {
           <h2>8. Contact</h2>
           <p>
             Questions about these Terms? Reach us at{' '}
-            <Link className="legal-link" href="mailto:info@eledralabs.com">
-              info@eledralabs.com
+            <Link className="legal-link" href="mailto:contact@eledralabs.com">
+              contact@eledralabs.com
             </Link>
             .
           </p>

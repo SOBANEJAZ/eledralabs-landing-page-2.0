@@ -74,8 +74,8 @@ export default function PrivacyPolicyPage() {
           <h2>8. Contact</h2>
           <p>
             For privacy questions or to exercise your rights, contact{' '}
-            <Link className="legal-link" href="mailto:support@eledralabs.com">
-              support@eledralabs.com
+            <Link className="legal-link" href="mailto:contact@eledralabs.com">
+              contact@eledralabs.com
             </Link>
             .
           </p>

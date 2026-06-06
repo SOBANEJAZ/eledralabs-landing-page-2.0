@@ -174,7 +174,7 @@ export default function Footer() {
                 Instagram
               </a>
               <a
-                href="mailto:hello@eledralabs.com"
+                href="mailto:contact@eledralabs.com"
                 className="text-white/60 hover:text-white text-sm uppercase transition-colors"
               >
                 Email Us
