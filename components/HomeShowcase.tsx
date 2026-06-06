@@ -243,7 +243,7 @@ function Manifesto() {
       </div>
       <div className="showcase-manifesto-inner">
         <p className="font-favorit text-2xs text-white/30 uppercase tracking-widest manifesto-eyebrow">
-          Eledralabs — Manifesto
+          EledraLabs — Manifesto
         </p>
         <div className="manifesto-quote-block">
         <h2 className="manifesto-title">
@@ -935,7 +935,7 @@ function AtmosphericCTA() {
       <div className="atmos-inner">
         <div className="atmos-content">
           <p className="font-favorit text-2xs text-white/35 uppercase tracking-widest">
-            Eledralabs — Precision AI
+            EledraLabs — Precision AI
           </p>
           <h2 className="atmos-title">
             Reduce <span className="atmos-title-accent">operational drag.</span>

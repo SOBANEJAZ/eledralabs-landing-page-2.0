@@ -116,7 +116,7 @@ export default function Footer() {
           
           {/* Brand Info — spans wider on desktop */}
           <div className="flex flex-col gap-5 md:col-span-2">
-            <Link aria-label="Eledralabs home" href="/" className="inline-block">
+            <Link aria-label="EledraLabs home" href="/" className="inline-block">
               <img
                 alt="Logo"
                 width="240"

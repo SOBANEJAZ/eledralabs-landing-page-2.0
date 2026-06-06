@@ -2,9 +2,9 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 
 export const metadata: Metadata = {
-  title: 'Security — Eledralabs',
+  title: 'Security — EledraLabs',
   description:
-    'How Eledralabs protects its website: encrypted connections, minimal data collection, trusted providers, and responsible disclosure.',
+    'How EledraLabs protects its website: encrypted connections, minimal data collection, trusted providers, and responsible disclosure.',
 }
 
 export default function SecurityPage() {
@@ -12,7 +12,7 @@ export default function SecurityPage() {
     <div className="px-5">
       <main className="legal-container">
         <div className="legal-content">
-          <h1>Security at Eledralabs</h1>
+          <h1>Security at EledraLabs</h1>
           <div className="legal-meta">Last Updated: June 6, 2026</div>
 
           <p>

@@ -189,7 +189,7 @@ export default function Solutions() {
           <div className="pointer-events-none absolute inset-x-0 top-0 h-full bg-linear-to-b from-surface to-transparent" />
           <div className="relative z-10">
             <p className="hidden font-favorit text-2xs text-white/30 uppercase tracking-widest">
-              Eledralabs — Industry Solutions
+              EledraLabs — Industry Solutions
             </p>
             <p className="font-sans text-7 leading-120">
               <span className="text-white">Solutions.</span>

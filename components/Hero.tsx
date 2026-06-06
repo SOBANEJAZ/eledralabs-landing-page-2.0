@@ -75,11 +75,11 @@ export default function Hero() {
         style={{ height: 'calc(100vh - 4rem)', minHeight: '480px' }}
       >
         <div className="eledra-hero-panel pointer-events-auto relative flex w-full flex-col items-start font-sans">
-          <h1 className="eledra-hero-title">Eledralabs</h1>
+          <h1 className="eledra-hero-title">EledraLabs</h1>
 
           <div className="eledra-hero-divider" aria-hidden="true" />
 
-          <ul className="eledra-hero-services" aria-label="Eledra Labs services">
+          <ul className="eledra-hero-services" aria-label="EledraLabs services">
             {services.map((service) => (
               <li key={service.label} className="eledra-hero-service">
                 <span className="eledra-hero-service-icon">{service.icon}</span>

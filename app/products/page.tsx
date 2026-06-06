@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Products from '@/components/Products'
 
 export const metadata: Metadata = {
-  title: 'Products — Eledralabs',
+  title: 'Products — EledraLabs',
   description:
     'Developer-centric AI tools and infrastructure: Custom LLM Chatbots, Voice AI Agents, IT Service Automation, and AI Workflow Automation.',
 }

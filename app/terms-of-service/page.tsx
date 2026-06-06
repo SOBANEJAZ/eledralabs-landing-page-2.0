@@ -2,9 +2,9 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 
 export const metadata: Metadata = {
-  title: 'Terms of Service — Eledralabs',
+  title: 'Terms of Service — EledraLabs',
   description:
-    'The terms governing your use of the Eledralabs website and its contact and informational features.',
+    'The terms governing your use of the EledraLabs website and its contact and informational features.',
 }
 
 export default function TermsOfServicePage() {
@@ -16,16 +16,16 @@ export default function TermsOfServicePage() {
           <div className="legal-meta">Last Updated: June 6, 2026</div>
 
           <p>
-            These Terms of Service (&ldquo;Terms&rdquo;) govern your use of the Eledralabs website
+            These Terms of Service (&ldquo;Terms&rdquo;) govern your use of the EledraLabs website
             and its contact and informational features (the &ldquo;Site&rdquo;), provided by Eledra
-            Labs, Inc. (&ldquo;Eledralabs&rdquo;, &ldquo;we&rdquo;, &ldquo;us&rdquo;, or
+            Labs, Inc. (&ldquo;EledraLabs&rdquo;, &ldquo;we&rdquo;, &ldquo;us&rdquo;, or
             &ldquo;our&rdquo;). By using the Site, you agree to these Terms. If you do not agree,
             please do not use the Site.
           </p>
 
           <h2>1. Using the Site</h2>
           <p>
-            The Site is provided for general information about Eledralabs and our services. You may
+            The Site is provided for general information about EledraLabs and our services. You may
             browse it and contact us through the forms provided. We may change, suspend, or remove
             any part of the Site at any time.
           </p>
@@ -41,7 +41,7 @@ export default function TermsOfServicePage() {
 
           <h2>3. Intellectual Property</h2>
           <p>
-            The Site&apos;s content, design, and branding belong to Eledralabs. You may not
+            The Site&apos;s content, design, and branding belong to EledraLabs. You may not
             reproduce or create derivative works from them without our written consent.
           </p>
 
@@ -54,7 +54,7 @@ export default function TermsOfServicePage() {
           <h2>5. Disclaimer and Liability</h2>
           <p>
             The Site is provided &ldquo;as is&rdquo; without warranties of any kind. To the maximum
-            extent permitted by law, Eledralabs is not liable for any indirect or consequential
+            extent permitted by law, EledraLabs is not liable for any indirect or consequential
             damages arising from your use of the Site.
           </p>
 

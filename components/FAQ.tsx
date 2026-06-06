@@ -5,13 +5,13 @@ import { useState, useRef } from 'react'
 const faqItems = [
   {
     num: '01',
-    question: 'What frameworks and architecture does Eledralabs utilize for web engineering?',
+    question: 'What frameworks and architecture does EledraLabs utilize for web engineering?',
     answer:
       'We design bespoke client-side web platforms and modular architectures using raw vanilla assets, high-performance edge execution pipelines, and zero-compile dynamic loading to ensure sub-millisecond initial content paints and absolute resilience under high operational traffic.',
   },
   {
     num: '02',
-    question: 'How do Eledralabs\' custom AI voice agents operate over telephony nodes?',
+    question: 'How do EledraLabs\' custom AI voice agents operate over telephony nodes?',
     answer:
       'Our AI Voice Agents are deployed on highly resilient communication platforms coupled with sub-100ms ultra-low latency text-to-speech models and advanced call routing trees to perform telephony diagnostics, appointment bookings, and hot-triage call forwarding.',
   },
@@ -29,13 +29,13 @@ const faqItems = [
   },
   {
     num: '05',
-    question: 'How long does it take to integrate Eledralabs automations into an existing stack?',
+    question: 'How long does it take to integrate EledraLabs automations into an existing stack?',
     answer:
       'Minor pipeline customisation and server hooks take between 2 to 5 business days. Enterprise-grade database synchronisation, fully custom LLM training integrations, and automated telecommunication routing models typically take 2 to 3 weeks from kickoff to deployment.',
   },
   {
     num: '06',
-    question: 'Can Eledralabs agents interface with proprietary enterprise databases?',
+    question: 'Can EledraLabs agents interface with proprietary enterprise databases?',
     answer:
       'Yes, we write tailored interface layers and connection wrappers for Postgres, MongoDB, Oracle, and SAP databases. All queries are executed through parameterized schema interfaces with multi-region backup systems and real-time observability logs.',
     hidden: true,

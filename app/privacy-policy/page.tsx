@@ -2,9 +2,9 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 
 export const metadata: Metadata = {
-  title: 'Privacy Policy — Eledralabs',
+  title: 'Privacy Policy — EledraLabs',
   description:
-    'How Eledralabs collects, uses, and protects information on our website, including contact form submissions and analytics.',
+    'How EledraLabs collects, uses, and protects information on our website, including contact form submissions and analytics.',
 }
 
 export default function PrivacyPolicyPage() {
@@ -16,7 +16,7 @@ export default function PrivacyPolicyPage() {
           <div className="legal-meta">Last Updated: June 6, 2026</div>
 
           <p>
-            This Privacy Policy explains how Eledra Labs, Inc. (&ldquo;Eledralabs&rdquo;,
+            This Privacy Policy explains how Eledra Labs, Inc. (&ldquo;EledraLabs&rdquo;,
             &ldquo;we&rdquo;, &ldquo;us&rdquo;, or &ldquo;our&rdquo;) handles information when you
             use our website. By using the site, you agree to this Policy.
           </p>

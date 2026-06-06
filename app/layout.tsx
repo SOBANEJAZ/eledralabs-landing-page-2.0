@@ -12,27 +12,27 @@ import './responsive.css'
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://eledralabs.com'),
-  title: 'Eledralabs - Precision Automation for Your Stack',
+  title: 'EledraLabs - Precision Automation for Your Stack',
   description:
     'Architectural automation. We build precision-engineered Web and AI workflows that reduce operational drag and automate critical systems.',
   openGraph: {
-    title: 'Eledra Labs',
+    title: 'EledraLabs',
     description: 'AI Automation & Software Solutions',
     url: 'https://eledralabs.com',
-    siteName: 'Eledra Labs',
+    siteName: 'EledraLabs',
     images: [
       {
         url: 'https://eledralabs.com/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'Eledra Labs - AI Automation & Software Solutions',
+        alt: 'EledraLabs - AI Automation & Software Solutions',
       },
     ],
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Eledra Labs',
+    title: 'EledraLabs',
     description: 'AI Automation & Software Solutions',
     images: ['https://eledralabs.com/og-image.png'],
   },

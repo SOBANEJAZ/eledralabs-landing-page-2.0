@@ -242,7 +242,7 @@ const platform = [
   },
   {
     title: 'Secure Infrastructure',
-    desc: 'All Eledralabs products run on hardened infrastructure with end-to-end encryption, role-based access controls, full audit logging, and zero-trust network architecture.',
+    desc: 'All EledraLabs products run on hardened infrastructure with end-to-end encryption, role-based access controls, full audit logging, and zero-trust network architecture.',
     badges: [
       { label: 'SOC 2 Type II Certified' },
       { label: 'HIPAA Compliant' },
@@ -254,7 +254,7 @@ const platform = [
   },
   {
     title: 'Enterprise Integrations',
-    desc: 'Connect Eledralabs to your existing stack via REST API, webhooks, or native connectors. Full SDK support for Python, Node.js, and Go.',
+    desc: 'Connect EledraLabs to your existing stack via REST API, webhooks, or native connectors. Full SDK support for Python, Node.js, and Go.',
     integrationGroups: [
       { name: 'CRM', items: ['Salesforce', 'HubSpot', 'Pipedrive', 'Zoho'] },
       { name: 'Comms', items: ['Slack', 'Teams', 'Twilio', 'Intercom'] },
@@ -513,8 +513,8 @@ export default function Products() {
         <div className="flex flex-col justify-end gap-8 p-6 md:p-10 relative overflow-hidden" style={{ minHeight: '20rem' }}>
           <div className="relative z-10 flex flex-col gap-4 max-w-4xl">
             <div className="flex items-center gap-2">
-              <span className="font-favorit text-2xs text-[#10b981] bg-[#10b981]/10 px-2 py-0.5 uppercase tracking-widest rounded-sm border border-[#10b981]/25">
-                Eledralabs — Platform Suite
+              <span className="font-favorit text-2xs text-[#10b981] bg-[#10b981]/15 border border-[#10b981]/25 px-2.5 py-0.5 uppercase tracking-widest rounded-sm border border-[#10b981]/25">
+                EledraLabs — Platform Suite
               </span>
             </div>
 
@@ -807,7 +807,7 @@ export default function Products() {
             </p>
           </div>
           <p className="text-white/45 font-sans text-sm max-w-xs text-left md:text-right">
-            Every Eledralabs production service begins with a technical scoping blueprint.
+            Every EledraLabs production service begins with a technical scoping blueprint.
           </p>
         </div>
 
@@ -1210,7 +1210,7 @@ export default function Products() {
                     Built API-first.
                   </h3>
                   <p className="font-sans text-sm text-white/50 leading-relaxed max-w-lg">
-                    Every Eledralabs system is built as a highly structured API. Deploy, trigger, monitor, and configure automations utilizing typed SDKs and real-time streaming endpoints.
+                    Every EledraLabs system is built as a highly structured API. Deploy, trigger, monitor, and configure automations utilizing typed SDKs and real-time streaming endpoints.
                   </p>
 
                   <ul className="flex flex-col gap-3 mt-4">
@@ -1368,7 +1368,7 @@ export default function Products() {
                 </p>
               </div>
               <p className="text-white/45 font-sans text-sm max-w-xs text-left md:text-right">
-                Every Eledralabs production service begins with a technical scoping blueprint.
+                Every EledraLabs production service begins with a technical scoping blueprint.
               </p>
             </div>
 

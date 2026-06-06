@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import FAQ from '@/components/FAQ'
 
 export const metadata: Metadata = {
-  title: 'FAQ — Eledralabs',
+  title: 'FAQ — EledraLabs',
   description:
     'Frequently asked questions about Eledra Labs\' AI automation, voice agents, LLM chatbots, and IT service automation platforms.',
 }
