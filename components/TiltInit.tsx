@@ -5,7 +5,13 @@ import { useEffect } from 'react'
 export default function TiltInit() {
   useEffect(() => {
     if (typeof window === 'undefined') return
-    if (window.matchMedia('(pointer: coarse)').matches || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    // Skip on touch devices (no real hover/cursor). We intentionally do NOT
+    // gate on prefers-reduced-motion: this is a user-initiated hover
+    // micro-interaction, not auto-playing motion. Gating it here made the cards
+    // look "broken" on any OS that reports reduce-motion system-wide — e.g.
+    // Windows with "Animation effects" turned off, where every browser then
+    // reports reduce-motion and the effect silently disappeared.
+    if (window.matchMedia('(pointer: coarse)').matches) return
 
     const CARD_SELECTORS = [
       '.pillar-card',

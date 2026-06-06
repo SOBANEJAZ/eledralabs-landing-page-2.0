@@ -4720,12 +4720,11 @@ header.header-scrolled .header-inner {
 /* Respect reduced motion */
 @media (prefers-reduced-motion: reduce) {
 
-  .pillar-card,
-  .pillar-card * {
-    transition: none !important;
-    animation: none !important;
-  }
-
+  /* NOTE: the .pillar-card hover tilt is a user-initiated micro-interaction
+     (driven by usePointerTilt / TiltInit) and is intentionally NOT disabled
+     here — only the auto-playing decorative motion below is reduced. Disabling
+     the tilt made the cards appear broken on OSes that report reduce-motion
+     system-wide (e.g. Windows with animation effects off). */
   .particle,
   .dust,
   .story-blink-cursor,
@@ -5240,7 +5239,6 @@ a.legal-link:hover {
   /* Premium, elegant, slow easing transitions */
   transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.8s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
-
 
 /* Specific glare container class */
 .card-glare-overlay {
