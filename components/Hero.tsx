@@ -1,4 +1,4 @@
-import Link from 'next/link'
+import HeroExploreButton from '@/components/HeroExploreButton'
 
 const services = [
   {
@@ -88,12 +88,12 @@ export default function Hero() {
             ))}
           </ul>
 
-          <Link href="#home-manifesto" className="eledra-hero-cta">
+          <HeroExploreButton targetId="home-manifesto" className="eledra-hero-cta">
             Explore More
             <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
               <path d="M3 9H14M10 5L14 9L10 13" stroke="currentColor" strokeLinecap="square" />
             </svg>
-          </Link>
+          </HeroExploreButton>
         </div>
       </div>
     </section>
