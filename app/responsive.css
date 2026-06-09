@@ -5,7 +5,9 @@
   body {
     width: 100%;
     max-width: 100%;
-    overflow-x: hidden;
+    /* clip, not hidden — hidden on <body> breaks position: sticky
+       (the /solutions deck pin) by making body a scroll container */
+    overflow-x: clip;
   }
 
   body * {

@@ -109,7 +109,10 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   transition: opacity 0.15s ease-in-out;
-  overflow-x: hidden;
+  /* clip, not hidden: hidden turns <body> into a scroll container and
+     silently breaks every position: sticky descendant (the /solutions
+     deck pin). clip gives the same horizontal clipping without that. */
+  overflow-x: clip;
 }
 
 /* ============================================
@@ -5297,3 +5300,481 @@ a.legal-link:hover {
   }
 }
 
+
+/* ═══════════════════════════════════════════════════════════════
+   SOLUTIONS 3D DECK
+   Scroll-pinned industry cards (components/Solutions.tsx).
+   Transforms/opacity are written per-frame by the component —
+   do not add CSS transitions on them here.
+═══════════════════════════════════════════════════════════════ */
+
+.sol3d-wrap {
+  position: relative;
+}
+
+.sol3d-pin {
+  position: sticky;
+  top: 5.25rem;
+  height: calc(100vh - 6rem);
+  min-height: 540px;
+}
+
+.sol3d-stage {
+  position: absolute;
+  inset: 0;
+  perspective: 1200px;
+  perspective-origin: 50% 40%;
+}
+
+.sol3d-stage::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 70% 55% at 50% 42%, rgba(255, 255, 255, 0.028), transparent 70%),
+    radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: auto, 26px 26px;
+  pointer-events: none;
+}
+
+/* ---------------- Card ---------------- */
+
+.sol3d-card {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  translate: -50% -50%;
+  width: min(1060px, calc(100% - 1rem));
+  max-height: calc(100% - 1.5rem);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.9rem, 1.6vh, 1.5rem);
+  padding: clamp(1.25rem, 2.2vw, 2.25rem);
+  background:
+    linear-gradient(165deg, #181818 0%, #111111 52%, #0e0e0e 100%);
+  border: 1px solid var(--color-border);
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  backface-visibility: hidden;
+  will-change: transform, opacity;
+  overflow: hidden;
+}
+
+/* depth dimmer — driven via --dim from the scroll loop */
+.sol3d-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: #0a0a0a;
+  opacity: var(--dim, 0);
+  pointer-events: none;
+}
+
+/* resting stack pose before hydration (overridden by inline styles) */
+.sol3d-card:nth-child(2) { transform: translate3d(0, -30px, -130px); --dim: 0.22; }
+.sol3d-card:nth-child(3) { transform: translate3d(0, -60px, -260px); --dim: 0.44; }
+.sol3d-card:nth-child(4) { transform: translate3d(0, -90px, -390px); opacity: 0; }
+.sol3d-card:nth-child(5) { transform: translate3d(0, -120px, -520px); opacity: 0; }
+
+/* corner brackets — same instrument motif as the hero marquee */
+.sol3d-corner {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border: 0 solid rgba(255, 255, 255, 0.3);
+  pointer-events: none;
+}
+.sol3d-corner-tl { top: 8px; left: 8px; border-top-width: 1px; border-left-width: 1px; }
+.sol3d-corner-tr { top: 8px; right: 8px; border-top-width: 1px; border-right-width: 1px; }
+.sol3d-corner-bl { bottom: 8px; left: 8px; border-bottom-width: 1px; border-left-width: 1px; }
+.sol3d-corner-br { bottom: 8px; right: 8px; border-bottom-width: 1px; border-right-width: 1px; }
+
+.sol3d-watermark {
+  position: absolute;
+  top: -1.5rem;
+  right: 0.5rem;
+  font-family: var(--font-favorit);
+  font-size: clamp(7rem, 12vw, 11rem);
+  line-height: 1;
+  color: rgba(255, 255, 255, 0.035);
+  user-select: none;
+  pointer-events: none;
+}
+
+.sol3d-illustration {
+  position: absolute;
+  right: -2%;
+  bottom: -6%;
+  height: 72%;
+  width: auto;
+  opacity: 0.09;
+  mix-blend-mode: screen;
+  -webkit-mask-image: linear-gradient(to left, #000 35%, transparent 95%);
+  mask-image: linear-gradient(to left, #000 35%, transparent 95%);
+  pointer-events: none;
+}
+
+/* ---------------- Card content ---------------- */
+
+.sol3d-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  position: relative;
+  z-index: 2;
+}
+
+.sol3d-chip {
+  font-family: var(--font-favorit);
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--color-accent-green) 55%, #ffffff 45%);
+  border: 1px solid var(--color-accent-green-border);
+  background: var(--color-accent-green-soft);
+  padding: 0.35rem 0.6rem;
+  white-space: nowrap;
+}
+
+.sol3d-tagline {
+  font-family: var(--font-favorit);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.35);
+  text-align: right;
+}
+
+.sol3d-main {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: clamp(1.25rem, 3vw, 3rem);
+  flex: 1;
+  min-height: 0;
+  position: relative;
+  z-index: 2;
+}
+
+.sol3d-left {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.7rem, 1.4vh, 1.1rem);
+  min-width: 0;
+}
+
+.sol3d-sector {
+  font-family: var(--font-sans);
+  font-size: clamp(1.8rem, 3vw, 2.8rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  font-weight: 500;
+  color: #ffffff;
+}
+
+.sol3d-problem {
+  font-family: var(--font-sans);
+  font-size: clamp(0.85rem, 0.95vw, 0.95rem);
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.58);
+}
+
+.sol3d-metrics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(1.1rem, 2.4vw, 2.4rem);
+  margin-top: auto;
+  padding-top: 0.5rem;
+}
+
+.sol3d-metric {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.sol3d-metric-value {
+  font-family: var(--font-sans);
+  font-size: clamp(1.4rem, 2vw, 1.9rem);
+  font-weight: 700;
+  line-height: 1;
+  color: #ffffff;
+}
+
+.sol3d-metric-label {
+  font-family: var(--font-favorit);
+  font-size: 0.62rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.38);
+  max-width: 11rem;
+}
+
+.sol3d-right {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+}
+
+.sol3d-sol {
+  display: flex;
+  gap: 0.9rem;
+  padding-block: clamp(0.7rem, 1.6vh, 1.15rem);
+}
+
+.sol3d-sol + .sol3d-sol {
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.sol3d-sol-num {
+  font-family: var(--font-favorit);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  color: rgba(61, 110, 78, 0.95);
+  padding-top: 0.2rem;
+}
+
+.sol3d-sol-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-width: 0;
+}
+
+.sol3d-sol-title {
+  font-family: var(--font-sans);
+  font-size: clamp(0.92rem, 1vw, 1.02rem);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+  color: #ffffff;
+}
+
+.sol3d-sol-body {
+  font-family: var(--font-sans);
+  font-size: clamp(0.78rem, 0.85vw, 0.85rem);
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.48);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.sol3d-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  padding-top: clamp(0.7rem, 1.4vh, 1rem);
+  position: relative;
+  z-index: 2;
+}
+
+.sol3d-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.sol3d-tag {
+  font-family: var(--font-favorit);
+  font-size: 0.6rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.32);
+  border: 1px solid var(--color-border);
+  padding: 0.3rem 0.5rem;
+  white-space: nowrap;
+}
+
+.sol3d-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: var(--font-favorit);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(61, 110, 78, 0.95);
+  transition: color 0.2s ease;
+  white-space: nowrap;
+}
+
+.sol3d-cta:hover {
+  color: #ffffff;
+}
+
+/* ---------------- Rail / HUD ---------------- */
+
+.sol3d-rail {
+  position: absolute;
+  right: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  z-index: 60;
+}
+
+.sol3d-rail-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 0.6rem;
+  font-family: var(--font-favorit);
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-align: left;
+  color: rgba(255, 255, 255, 0.3);
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid transparent;
+  backdrop-filter: blur(8px);
+  cursor: pointer;
+  transition: color 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.sol3d-rail-item:hover {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.sol3d-rail-item.is-active {
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.sol3d-rail-num {
+  color: rgba(61, 110, 78, 0.9);
+}
+
+.sol3d-rail-item.is-active .sol3d-rail-num {
+  color: color-mix(in srgb, var(--color-accent-green) 45%, #ffffff 55%);
+}
+
+.sol3d-hud {
+  position: absolute;
+  left: 1rem;
+  bottom: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  z-index: 60;
+  font-family: var(--font-favorit);
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.sol3d-track {
+  width: 140px;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+}
+
+.sol3d-fill {
+  height: 100%;
+  background: rgba(255, 255, 255, 0.7);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+}
+
+.sol3d-hint {
+  position: absolute;
+  right: 1rem;
+  bottom: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  z-index: 60;
+  font-family: var(--font-favorit);
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.4);
+  pointer-events: none;
+}
+
+.sol3d-hint svg {
+  animation: sol3d-bob 1.8s ease-in-out infinite;
+}
+
+@keyframes sol3d-bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(3px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sol3d-hint svg {
+    animation: none;
+  }
+}
+
+@media (max-width: 1279px) {
+  .sol3d-rail {
+    display: none;
+  }
+}
+
+/* ---------------- Compact: unroll the deck ---------------- */
+
+@media (max-width: 899px), (max-height: 599px) {
+  .sol3d-wrap {
+    height: auto !important;
+  }
+
+  .sol3d-pin {
+    position: static;
+    height: auto;
+    min-height: 0;
+  }
+
+  .sol3d-stage {
+    position: static;
+    perspective: none;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .sol3d-stage::before {
+    display: none;
+  }
+
+  .sol3d-card {
+    position: static;
+    translate: none;
+    transform: none !important;
+    opacity: 1 !important;
+    width: 100%;
+    max-height: none;
+  }
+
+  .sol3d-card::after {
+    display: none;
+  }
+
+  .sol3d-main {
+    grid-template-columns: 1fr;
+  }
+
+  .sol3d-sol-body {
+    -webkit-line-clamp: unset;
+    display: block;
+    overflow: visible;
+  }
+
+  .sol3d-tagline,
+  .sol3d-rail,
+  .sol3d-hud,
+  .sol3d-hint {
+    display: none;
+  }
+}
