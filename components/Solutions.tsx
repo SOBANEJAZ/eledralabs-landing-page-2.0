@@ -21,7 +21,7 @@ type Industry = {
 const industries: Industry[] = [
   {
     id: 'healthcare',
-    hue: '#2dd4bf',
+    hue: '#2563eb',
     sector: 'Healthcare',
     short: 'Healthcare',
     tagline: 'HIPAA-compliant AI for patient-facing operations',
@@ -51,7 +51,7 @@ const industries: Industry[] = [
   },
   {
     id: 'real-estate',
-    hue: '#d4f33b',
+    hue: '#16a34a',
     sector: 'Real Estate',
     short: 'Real Estate',
     tagline: 'AI that qualifies leads while you show properties',
@@ -81,7 +81,7 @@ const industries: Industry[] = [
   },
   {
     id: 'local-business',
-    hue: '#fbbf24',
+    hue: '#d97706',
     sector: 'Local Trades & Services',
     short: 'Local Trades',
     tagline: 'Never miss a job — 24/7 dispatch and booking',
@@ -142,7 +142,7 @@ const industries: Industry[] = [
   },
   {
     id: 'hospitality',
-    hue: '#a78bfa',
+    hue: '#dc2626',
     sector: 'Hospitality & Restaurants',
     short: 'Hospitality',
     tagline: 'Bookings, queries, and reviews — fully automated',

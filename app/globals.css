@@ -5339,27 +5339,15 @@ a.legal-link:hover {
   --solst-line: rgba(255, 255, 255, 0.16);
 }
 
-/* each panel supplies its own --solst-accent-strong hue inline; the
-   readable text accent is derived from it */
+/* each panel supplies its own --solst-accent-strong hue inline; text
+   accents stay close to the solid hue — just enough white mixed in to
+   read on the dark surface, no pastel wash */
 .solst-panel {
   --solst-accent: color-mix(
     in srgb,
-    var(--solst-accent-strong, var(--color-accent-green)) 62%,
-    #ffffff 38%
+    var(--solst-accent-strong, var(--color-accent-green)) 78%,
+    #ffffff 22%
   );
-}
-
-/* faint per-industry ambiance in the panel's upper-right corner */
-.solst-panel::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(
-    ellipse 55% 45% at 82% 4%,
-    color-mix(in srgb, var(--solst-accent-strong, transparent) 9%, transparent),
-    transparent 70%
-  );
-  pointer-events: none;
 }
 
 /* covered panel dims as the next one slides over it */
@@ -5427,11 +5415,8 @@ a.legal-link:hover {
   right: 0;
   bottom: 0;
   height: 3px;
-  background: linear-gradient(
-    90deg,
-    var(--solst-accent-strong, var(--color-accent-green)),
-    color-mix(in srgb, var(--solst-accent-strong, var(--color-accent-green)) 45%, transparent)
-  );
+  /* one solid rule in the industry hue — no gradient fade */
+  background: var(--solst-accent-strong, var(--color-accent-green));
   transform: scaleX(var(--enter, 1));
   transform-origin: 0 50%;
   z-index: 6;
