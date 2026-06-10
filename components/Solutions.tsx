@@ -405,30 +405,6 @@ export default function Solutions() {
       {/* 3D industry deck */}
       <SolutionsStack />
 
-      {/* Sector not listed? band */}
-      <div className="border border-border mb-5 md:mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div className="flex flex-col gap-2">
-          <p className="font-favorit text-2xs text-white/30 uppercase tracking-widest">Not listed?</p>
-          <p className="font-sans text-white text-lg md:text-xl leading-normal font-medium">
-            We also build for legal, education, logistics, and financial-services teams.
-          </p>
-          <p className="font-sans text-sm md:text-[15px] text-white/50 leading-relaxed max-w-xl">
-            Every engagement starts with a 30-minute operations map. If it&apos;s repetitive, customer-facing,
-            or after-hours — there is almost certainly a workflow worth automating.
-          </p>
-        </div>
-        <Link
-          href="/contact"
-          className="inline-flex w-fit items-center gap-1 font-favorit uppercase text-white min-h-7 px-3 py-2 text-xs leading-none shrink-0"
-          style={{ backgroundColor: 'var(--color-accent-green)' }}
-        >
-          Map my workflows
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-            <path d="M4.75 9.125L7.875 6L4.75 2.875" stroke="currentColor" strokeLinecap="square" />
-          </svg>
-        </Link>
-      </div>
-
       {/* Testimonials — monochrome */}
       <div className="border border-border grid grid-cols-1 xl:grid-cols-[minmax(0,2fr)_minmax(360px,1fr)]">
         {testimonials.map((t, i) => (
