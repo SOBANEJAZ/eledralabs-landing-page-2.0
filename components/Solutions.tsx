@@ -306,6 +306,9 @@ function SolutionsStack() {
 
                 <div className="solst-cell solst-cell-impact">
                   <span className="solst-cell-label">03 — Impact</span>
+                  <div className="solst-media">
+                    <img src={ind.img} alt={`${ind.sector} solution preview`} loading="lazy" />
+                  </div>
                   <div className="solst-metrics">
                     {ind.metrics.map((m) => (
                       <div key={m.label} className="solst-metric">

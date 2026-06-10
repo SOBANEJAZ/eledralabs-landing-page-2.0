@@ -5460,6 +5460,9 @@ a.legal-link:hover {
   gap: clamp(0.6rem, 1.4vh, 1rem);
   padding: clamp(0.9rem, 1.8vh, 1.5rem) clamp(0.9rem, 1.6vw, 1.5rem);
   min-width: 0;
+  /* grid items default to min-height auto — the media frame's intrinsic
+     image height would inflate the row and overflow the panel */
+  min-height: 0;
 }
 
 .solst-cell + .solst-cell {
@@ -5542,6 +5545,25 @@ a.legal-link:hover {
 
 .solst-cell-impact {
   justify-content: space-between;
+}
+
+/* framed industry illustration (same assets as main's industry blocks) */
+.solst-media {
+  flex: 1;
+  min-height: 0;
+  border: 1px solid var(--solst-line);
+  background: rgba(0, 0, 0, 0.18);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.solst-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
 }
 
 .solst-metrics {
@@ -5673,5 +5695,11 @@ a.legal-link:hover {
     flex-direction: row;
     flex-wrap: wrap;
     gap: 1.4rem;
+  }
+
+  .solst-media {
+    flex: 0 0 auto;
+    height: clamp(160px, 28vh, 240px);
+    width: 100%;
   }
 }
