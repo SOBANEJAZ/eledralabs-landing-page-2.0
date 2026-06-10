@@ -277,6 +277,9 @@ function SolutionsStack() {
               ))}
             </div>
 
+            {/* accent baseline — draws in with the panel's entry progress */}
+            <span className="solst-baseline" aria-hidden="true" />
+
             <div className="solst-inner">
               <div className="solst-meta">
                 <span className="solst-meta-id">{`0${i + 1} / 0${N} — Industry`}</span>
