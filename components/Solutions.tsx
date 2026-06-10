@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 
 type Industry = {
   id: string
@@ -183,125 +183,53 @@ const testimonials = [
 ]
 
 /* ------------------------------------------------------------------ */
-/* The 3D deck                                                         */
+/* Stacked editorial panels (reference: huehaus.design)                */
 /*                                                                     */
-/* A tall scroll runway pins a viewport-height stage. The five         */
-/* industry cards live in one 3D scene: the active card faces you,     */
-/* the rest wait stacked behind it in depth. Scrolling peels the       */
-/* active card up and over the viewer while the next one steps         */
-/* forward — fully scroll-driven, so reversing the wheel replays it    */
-/* backwards. Under 900px (or very short viewports) the deck unrolls   */
-/* into a plain vertical list and no transforms are applied.           */
+/* Each industry is a full-viewport flat panel pinned with position:   */
+/* sticky. Scrolling slides the next panel up OVER the pinned one —    */
+/* the covered panel presses back (scales down, dims) while the        */
+/* incoming panel's giant industry word parallaxes into place. Panels  */
+/* alternate dark / paper tones for hard editorial contrast, carry a   */
+/* pixel-notched top edge, and run a slow capability ticker. All       */
+/* motion is scroll-position-driven (no pinned scroll-jacking), so it  */
+/* works identically on touch; the ticker is the only auto-playing     */
+/* piece and pauses under prefers-reduced-motion.                      */
 /* ------------------------------------------------------------------ */
 
-const SEGMENT_VH = 85 // scroll distance (vh) spent per card transition
-const HOLD = 0.32     // fraction of each segment the card holds still before peeling
+const clamp01 = (v: number) => Math.min(1, Math.max(0, v))
 
-const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3)
-
-function SolutionsDeck() {
+function SolutionsStack() {
   const N = industries.length
-  const wrapRef = useRef<HTMLDivElement>(null)
-  const cardRefs = useRef<(HTMLElement | null)[]>([])
-  const lastStyles = useRef<string[]>([])
-  const fillRef = useRef<HTMLDivElement>(null)
-  const hintRef = useRef<HTMLDivElement>(null)
-  const [active, setActive] = useState(0)
-  const [compact, setCompact] = useState(false)
+  const panelRefs = useRef<(HTMLElement | null)[]>([])
+  const lastVars = useRef<string[]>([])
 
   useEffect(() => {
-    const mq = window.matchMedia('(max-width: 899px), (max-height: 599px)')
-    const apply = () => setCompact(mq.matches)
-    apply()
-    mq.addEventListener('change', apply)
-    return () => mq.removeEventListener('change', apply)
-  }, [])
-
-  useEffect(() => {
-    if (compact) {
-      // unroll: hand layout back to CSS
-      for (const el of cardRefs.current) {
-        if (!el) continue
-        el.style.transform = ''
-        el.style.opacity = ''
-        el.style.visibility = ''
-        el.style.pointerEvents = ''
-        el.style.removeProperty('--dim')
-        el.removeAttribute('inert')
-      }
-      lastStyles.current = []
-      return
-    }
-
     let raf = 0
     let pending = false
 
     const compute = () => {
       pending = false
-      const wrap = wrapRef.current
-      if (!wrap) return
-      const rect = wrap.getBoundingClientRect()
       const vh = window.innerHeight
-      const runway = rect.height - vh
-      const P = runway > 0 ? Math.min(1, Math.max(0, -rect.top / runway)) : 0
-
-      // deck progress with a reading hold at the start of each segment
-      const raw = P * (N - 1)
-      const seg = Math.min(N - 2, Math.floor(raw))
-      const u = raw - seg
-      const peel = Math.max(0, (u - HOLD) / (1 - HOLD))
-      const D = seg + peel
+      const stickyTop =
+        5.25 * parseFloat(getComputedStyle(document.documentElement).fontSize || '16')
+      const range = Math.max(1, vh - stickyTop)
+      const rects = panelRefs.current.map((el) => (el ? el.getBoundingClientRect() : null))
 
       for (let i = 0; i < N; i++) {
-        const el = cardRefs.current[i]
-        if (!el) continue
-        const rel = i - D
-
-        let y = 0
-        let z = 0
-        let rx = 0
-        let s = 1
-        let o = 1
-        let dim = 0
-
-        if (rel < 0) {
-          // peeling away — up and over the viewer
-          const p = Math.min(1, -rel)
-          const e = easeOutCubic(p)
-          y = -(p * p) * vh * 1.04
-          z = e * 260
-          rx = -e * 16
-          s = 1 + e * 0.04
-          o = p < 0.5 ? 1 : Math.max(0, 1 - (p - 0.5) / 0.38)
-        } else {
-          // waiting in the stack behind
-          y = -rel * 30
-          z = -rel * 130
-          dim = Math.min(0.6, rel * 0.22)
-          o = rel <= 2.05 ? 1 : Math.max(0, 1 - (rel - 2.05) / 0.9)
-        }
-
-        const css =
-          `translate3d(0px, ${y.toFixed(1)}px, ${z.toFixed(1)}px) ` +
-          `rotateX(${rx.toFixed(2)}deg) scale(${s.toFixed(3)})`
-        const hidden = o <= 0.012
-        const frontmost = rel > -0.5 && rel < 0.5
-        const styleKey = `${css}|${o.toFixed(3)}|${dim.toFixed(3)}|${hidden}|${frontmost}`
-        if (lastStyles.current[i] === styleKey) continue
-        lastStyles.current[i] = styleKey
-
-        el.style.transform = css
-        el.style.opacity = o.toFixed(3)
-        el.style.visibility = hidden ? 'hidden' : ''
-        el.style.pointerEvents = frontmost ? '' : 'none'
-        el.style.setProperty('--dim', dim.toFixed(3))
-        el.toggleAttribute('inert', !frontmost)
+        const el = panelRefs.current[i]
+        const rect = rects[i]
+        if (!el || !rect) continue
+        // 0 → 1 while this panel slides up into its pinned position
+        const enter = clamp01(1 - (rect.top - stickyTop) / range)
+        // 0 → 1 while the NEXT panel slides up to cover this one
+        const next = rects[i + 1]
+        const press = next ? clamp01(1 - (next.top - stickyTop) / range) : 0
+        const key = `${enter.toFixed(3)}|${press.toFixed(3)}`
+        if (lastVars.current[i] === key) continue
+        lastVars.current[i] = key
+        el.style.setProperty('--enter', enter.toFixed(3))
+        el.style.setProperty('--press', press.toFixed(3))
       }
-
-      if (fillRef.current) fillRef.current.style.transform = `scaleX(${P.toFixed(4)})`
-      if (hintRef.current) hintRef.current.style.opacity = String(Math.max(0, 1 - raw * 1.6).toFixed(2))
-      const idx = Math.min(N - 1, Math.round(D))
-      setActive((prev) => (prev === idx ? prev : idx))
     }
 
     const onScroll = () => {
@@ -318,138 +246,93 @@ function SolutionsDeck() {
       window.removeEventListener('resize', onScroll)
       cancelAnimationFrame(raf)
     }
-  }, [compact, N])
-
-  const scrollToCard = useCallback(
-    (i: number) => {
-      const wrap = wrapRef.current
-      if (!wrap) return
-      const vh = window.innerHeight
-      const wrapTop = wrap.getBoundingClientRect().top + window.scrollY
-      const runway = wrap.offsetHeight - vh
-      // land a hair into the segment so the card is in its hold phase
-      const top = wrapTop + (runway * i) / (N - 1) + (i > 0 ? 2 : 0)
-
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const lenis = (window as any).lenis
-      if (lenis && typeof lenis.scrollTo === 'function') {
-        lenis.scrollTo(top, { duration: 1.1 })
-      } else {
-        window.scrollTo({ top, behavior: 'smooth' })
-      }
-    },
-    [N],
-  )
+  }, [N])
 
   return (
-    <div
-      ref={wrapRef}
-      className="sol3d-wrap"
-      style={compact ? undefined : { height: `${(N - 1) * SEGMENT_VH + 100}vh` }}
-    >
-      <div className="sol3d-pin">
-        {/* Stage */}
-        <div className="sol3d-stage">
-          {industries.map((ind, i) => (
-            <article
-              key={ind.id}
-              ref={(el) => {
-                cardRefs.current[i] = el
-              }}
-              className="sol3d-card"
-              style={{ zIndex: (N - i) * 10 }}
-            >
-              {/* corner brackets */}
-              <span className="sol3d-corner sol3d-corner-tl" aria-hidden="true" />
-              <span className="sol3d-corner sol3d-corner-tr" aria-hidden="true" />
-              <span className="sol3d-corner sol3d-corner-bl" aria-hidden="true" />
-              <span className="sol3d-corner sol3d-corner-br" aria-hidden="true" />
+    <div className="solst">
+      {industries.map((ind, i) => {
+        const tone = i % 2 === 0 ? 'solst-dark' : 'solst-light'
+        const tickerItems = [
+          ...ind.solutions.map((s) => s.title),
+          ...ind.compliance,
+          ...(ind.trades ?? []),
+        ]
+        const tickerLine = tickerItems.join('  ▪  ') + '  ▪  '
+        return (
+          <section
+            key={ind.id}
+            ref={(el) => {
+              panelRefs.current[i] = el
+            }}
+            className={`solst-panel ${tone}`}
+            style={{ zIndex: 10 + i }}
+            aria-label={ind.sector}
+          >
+            {/* pixel-notched top edge eats into the panel below it */}
+            <div className="solst-pixel-edge" aria-hidden="true">
+              {Array.from({ length: 22 }).map((_, b) => (
+                <span key={b} />
+              ))}
+            </div>
 
-              {/* ghost index + illustration */}
-              <span className="sol3d-watermark" aria-hidden="true">{`0${i + 1}`}</span>
-              <img className="sol3d-illustration" src={ind.img} alt="" aria-hidden="true" />
-
-              <div className="sol3d-card-top">
-                <span className="sol3d-chip">{`Industry 0${i + 1} / 0${N}`}</span>
-                <span className="sol3d-tagline">{ind.tagline}</span>
+            <div className="solst-inner">
+              <div className="solst-meta">
+                <span className="solst-meta-id">{`0${i + 1} / 0${N} — Industry`}</span>
+                <span className="solst-meta-tag">{ind.tagline}</span>
               </div>
 
-              <div className="sol3d-main">
-                <div className="sol3d-left">
-                  <h2 className="sol3d-sector">{ind.sector}</h2>
-                  <p className="sol3d-problem">{ind.problem}</p>
-                  <div className="sol3d-metrics">
-                    {ind.metrics.map((m) => (
-                      <div key={m.label} className="sol3d-metric">
-                        <span className="sol3d-metric-value">{m.value}</span>
-                        <span className="sol3d-metric-label">{m.label}</span>
+              <h2 className="solst-word">{ind.short}</h2>
+
+              <div className="solst-cells">
+                <div className="solst-cell">
+                  <span className="solst-cell-label">01 — The problem</span>
+                  <p className="solst-problem">{ind.problem}</p>
+                </div>
+
+                <div className="solst-cell">
+                  <span className="solst-cell-label">02 — What we deploy</span>
+                  <div className="solst-sols">
+                    {ind.solutions.map((sol, j) => (
+                      <div key={sol.title} className="solst-sol">
+                        <span className="solst-sol-num">{`0${j + 1}`}</span>
+                        <div className="solst-sol-copy">
+                          <h3 className="solst-sol-title">{sol.title}</h3>
+                          <p className="solst-sol-body">{sol.body}</p>
+                        </div>
                       </div>
                     ))}
                   </div>
                 </div>
 
-                <div className="sol3d-right">
-                  {ind.solutions.map((sol, j) => (
-                    <div key={sol.title} className="sol3d-sol">
-                      <span className="sol3d-sol-num">{`0${j + 1}`}</span>
-                      <div className="sol3d-sol-copy">
-                        <h3 className="sol3d-sol-title">{sol.title}</h3>
-                        <p className="sol3d-sol-body">{sol.body}</p>
+                <div className="solst-cell solst-cell-impact">
+                  <span className="solst-cell-label">03 — Impact</span>
+                  <div className="solst-metrics">
+                    {ind.metrics.map((m) => (
+                      <div key={m.label} className="solst-metric">
+                        <span className="solst-metric-value">{m.value}</span>
+                        <span className="solst-metric-label">{m.label}</span>
                       </div>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
+                  <Link href="/contact" className="solst-cta">
+                    Get a custom quote
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                      <path d="M4.75 9.125L7.875 6L4.75 2.875" stroke="currentColor" strokeLinecap="square" />
+                    </svg>
+                  </Link>
                 </div>
               </div>
 
-              <div className="sol3d-foot">
-                <div className="sol3d-tags">
-                  {[...ind.compliance, ...(ind.trades ?? [])].slice(0, 6).map((c) => (
-                    <span key={c} className="sol3d-tag">
-                      {c}
-                    </span>
-                  ))}
+              <div className="solst-ticker">
+                <div className="solst-ticker-track">
+                  <span>{tickerLine}</span>
+                  <span aria-hidden="true">{tickerLine}</span>
                 </div>
-                <Link href="/contact" className="sol3d-cta">
-                  Get a custom quote
-                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                    <path d="M4.75 9.125L7.875 6L4.75 2.875" stroke="currentColor" strokeLinecap="square" />
-                  </svg>
-                </Link>
               </div>
-            </article>
-          ))}
-        </div>
-
-        {/* Right rail — sector index */}
-        <nav className="sol3d-rail" aria-label="Industries">
-          {industries.map((ind, i) => (
-            <button
-              key={ind.id}
-              type="button"
-              className={`sol3d-rail-item${active === i ? ' is-active' : ''}`}
-              onClick={() => scrollToCard(i)}
-              aria-current={active === i ? 'true' : undefined}
-            >
-              <span className="sol3d-rail-num">{`0${i + 1}`}</span>
-              <span className="sol3d-rail-name">{ind.short}</span>
-            </button>
-          ))}
-        </nav>
-
-        {/* HUD: progress + scroll hint */}
-        <div className="sol3d-hud" aria-hidden="true">
-          <span className="sol3d-hud-index">{`0${active + 1} / 0${N}`}</span>
-          <div className="sol3d-track">
-            <div ref={fillRef} className="sol3d-fill" />
-          </div>
-        </div>
-        <div ref={hintRef} className="sol3d-hint" aria-hidden="true">
-          Scroll to explore
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-            <path d="M2.875 4.75L6 7.875L9.125 4.75" stroke="currentColor" strokeLinecap="square" />
-          </svg>
-        </div>
-      </div>
+            </div>
+          </section>
+        )
+      })}
     </div>
   )
 }
@@ -505,7 +388,7 @@ export default function Solutions() {
       </div>
 
       {/* 3D industry deck */}
-      <SolutionsDeck />
+      <SolutionsStack />
 
       {/* Sector not listed? band */}
       <div className="border border-border mb-5 md:mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">

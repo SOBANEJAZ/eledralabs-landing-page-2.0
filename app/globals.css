@@ -5302,297 +5302,269 @@ a.legal-link:hover {
 
 
 /* ═══════════════════════════════════════════════════════════════
-   SOLUTIONS 3D DECK
-   Scroll-pinned industry cards (components/Solutions.tsx).
-   Transforms/opacity are written per-frame by the component —
-   do not add CSS transitions on them here.
+   SOLUTIONS STACKED PANELS (components/Solutions.tsx)
+   Huehaus-style cover-stacking: each industry panel pins via
+   position: sticky and the next slides up over it. --enter and
+   --press (0..1) are written per-frame by the component — never
+   add CSS transitions on the properties they drive.
 ═══════════════════════════════════════════════════════════════ */
 
-.sol3d-wrap {
+.solst {
   position: relative;
 }
 
-.sol3d-pin {
+.solst-panel {
   position: sticky;
   top: 5.25rem;
-  height: calc(100vh - 6rem);
-  min-height: 540px;
+  height: calc(100svh - 5.75rem);
+  min-height: 560px;
+  background: var(--solst-bg);
+  color: var(--solst-fg);
+  border: 1px solid var(--solst-line);
+  /* keep visible: the pixel-notched edge sits above the panel box, and
+     anything spilling below is covered by the next (higher z) panel */
+  overflow: visible;
 }
 
-.sol3d-stage {
-  position: absolute;
-  inset: 0;
-  perspective: 1200px;
-  perspective-origin: 50% 40%;
+.solst-dark {
+  --solst-bg: #0e0e0e;
+  --solst-fg: #ffffff;
+  --solst-fg-soft: rgba(255, 255, 255, 0.58);
+  --solst-fg-mute: rgba(255, 255, 255, 0.38);
+  --solst-line: rgba(255, 255, 255, 0.14);
+  --solst-accent: color-mix(in srgb, var(--color-accent-green) 55%, #ffffff 45%);
 }
 
-.sol3d-stage::before {
+.solst-light {
+  --solst-bg: #e9e6e0;
+  --solst-fg: #0e0e0e;
+  --solst-fg-soft: rgba(14, 14, 14, 0.66);
+  --solst-fg-mute: rgba(14, 14, 14, 0.45);
+  --solst-line: rgba(14, 14, 14, 0.22);
+  --solst-accent: #2e5a3e;
+}
+
+/* covered panel dims as the next one slides over it */
+.solst-panel::after {
   content: '';
   position: absolute;
   inset: 0;
-  background:
-    radial-gradient(ellipse 70% 55% at 50% 42%, rgba(255, 255, 255, 0.028), transparent 70%),
-    radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-  background-size: auto, 26px 26px;
+  background: #000000;
+  opacity: calc(var(--press, 0) * 0.5);
   pointer-events: none;
+  z-index: 5;
 }
 
-/* ---------------- Card ---------------- */
-
-.sol3d-card {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  translate: -50% -50%;
-  width: min(1060px, calc(100% - 1rem));
-  max-height: calc(100% - 1.5rem);
+/* press-back: covered content recedes upward and shrinks slightly.
+   overflow clips the word's entry parallax to the panel box while the
+   pixel edge (a sibling, not a child) stays visible above it. */
+.solst-inner {
+  height: 100%;
   display: flex;
   flex-direction: column;
-  gap: clamp(0.9rem, 1.6vh, 1.5rem);
-  padding: clamp(1.25rem, 2.2vw, 2.25rem);
-  background:
-    linear-gradient(165deg, #181818 0%, #111111 52%, #0e0e0e 100%);
-  border: 1px solid var(--color-border);
-  box-shadow:
-    0 30px 80px rgba(0, 0, 0, 0.55),
-    inset 0 1px 0 rgba(255, 255, 255, 0.05);
-  backface-visibility: hidden;
-  will-change: transform, opacity;
+  gap: clamp(0.8rem, 1.6vh, 1.4rem);
+  padding: clamp(1.1rem, 2vw, 2rem) clamp(1.1rem, 2.2vw, 2.4rem) 0;
+  transform: translateY(calc(var(--press, 0) * -3rem)) scale(calc(1 - var(--press, 0) * 0.04));
+  transform-origin: 50% 18%;
   overflow: hidden;
 }
 
-/* depth dimmer — driven via --dim from the scroll loop */
-.sol3d-card::after {
-  content: '';
+/* ---------------- Pixel-notched top edge ---------------- */
+
+.solst-pixel-edge {
   position: absolute;
-  inset: 0;
-  background: #0a0a0a;
-  opacity: var(--dim, 0);
+  top: -2.4rem;
+  left: 0;
+  right: 0;
+  height: 2.4rem;
+  display: grid;
+  grid-template-columns: repeat(22, 1fr);
+  align-items: end;
   pointer-events: none;
 }
 
-/* resting stack pose before hydration (overridden by inline styles) */
-.sol3d-card:nth-child(2) { transform: translate3d(0, -30px, -130px); --dim: 0.22; }
-.sol3d-card:nth-child(3) { transform: translate3d(0, -60px, -260px); --dim: 0.44; }
-.sol3d-card:nth-child(4) { transform: translate3d(0, -90px, -390px); opacity: 0; }
-.sol3d-card:nth-child(5) { transform: translate3d(0, -120px, -520px); opacity: 0; }
-
-/* corner brackets — same instrument motif as the hero marquee */
-.sol3d-corner {
-  position: absolute;
-  width: 14px;
-  height: 14px;
-  border: 0 solid rgba(255, 255, 255, 0.3);
-  pointer-events: none;
-}
-.sol3d-corner-tl { top: 8px; left: 8px; border-top-width: 1px; border-left-width: 1px; }
-.sol3d-corner-tr { top: 8px; right: 8px; border-top-width: 1px; border-right-width: 1px; }
-.sol3d-corner-bl { bottom: 8px; left: 8px; border-bottom-width: 1px; border-left-width: 1px; }
-.sol3d-corner-br { bottom: 8px; right: 8px; border-bottom-width: 1px; border-right-width: 1px; }
-
-.sol3d-watermark {
-  position: absolute;
-  top: -1.5rem;
-  right: 0.5rem;
-  font-family: var(--font-favorit);
-  font-size: clamp(7rem, 12vw, 11rem);
-  line-height: 1;
-  color: rgba(255, 255, 255, 0.035);
-  user-select: none;
-  pointer-events: none;
+.solst-pixel-edge span {
+  background: var(--solst-bg);
+  height: 0;
 }
 
-.sol3d-illustration {
-  position: absolute;
-  right: -2%;
-  bottom: -6%;
-  height: 72%;
-  width: auto;
-  opacity: 0.09;
-  mix-blend-mode: screen;
-  -webkit-mask-image: linear-gradient(to left, #000 35%, transparent 95%);
-  mask-image: linear-gradient(to left, #000 35%, transparent 95%);
-  pointer-events: none;
+.solst-pixel-edge span:nth-child(3n) { height: 1.2rem; }
+.solst-pixel-edge span:nth-child(4n) { height: 2.4rem; }
+.solst-pixel-edge span:nth-child(7n) { height: 0.6rem; }
+.solst-pixel-edge span:nth-child(5n + 2) { height: 1.8rem; }
+.solst-pixel-edge span:nth-child(11n + 1) { height: 2.4rem; }
+
+.solst-panel:first-child .solst-pixel-edge {
+  display: none;
 }
 
-/* ---------------- Card content ---------------- */
+/* ---------------- Meta strip ---------------- */
 
-.sol3d-card-top {
+.solst-meta {
   display: flex;
-  align-items: center;
+  align-items: baseline;
   justify-content: space-between;
   gap: 1rem;
-  position: relative;
-  z-index: 2;
-}
-
-.sol3d-chip {
+  border-bottom: 1px solid var(--solst-line);
+  padding-bottom: 0.7rem;
   font-family: var(--font-favorit);
   font-size: 0.65rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: color-mix(in srgb, var(--color-accent-green) 55%, #ffffff 45%);
-  border: 1px solid var(--color-accent-green-border);
-  background: var(--color-accent-green-soft);
-  padding: 0.35rem 0.6rem;
+}
+
+.solst-meta-id {
+  color: var(--solst-accent);
   white-space: nowrap;
 }
 
-.sol3d-tagline {
-  font-family: var(--font-favorit);
-  font-size: 0.65rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.35);
+.solst-meta-tag {
+  color: var(--solst-fg-mute);
   text-align: right;
 }
 
-.sol3d-main {
-  display: grid;
-  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
-  gap: clamp(1.25rem, 3vw, 3rem);
+/* ---------------- Giant industry word ---------------- */
+
+.solst-word {
+  font-family: var(--font-favorit);
+  font-weight: 500;
+  text-transform: uppercase;
+  font-size: clamp(3rem, 9.2vw, 9.5rem);
+  line-height: 0.92;
+  letter-spacing: -0.03em;
+  color: var(--solst-fg);
+  white-space: nowrap;
+  /* deep parallax: lags the panel on the way in, drifts up under press */
+  transform: translateY(calc((1 - var(--enter, 1)) * 12rem - var(--press, 0) * 4rem));
+  will-change: transform;
+}
+
+/* ---------------- Bordered content cells ---------------- */
+
+.solst-cells {
   flex: 1;
   min-height: 0;
-  position: relative;
-  z-index: 2;
+  display: grid;
+  grid-template-columns: minmax(0, 4fr) minmax(0, 5fr) minmax(0, 3fr);
+  border: 1px solid var(--solst-line);
+  /* scroll-linked settle-in, slightly behind the word */
+  opacity: clamp(0, calc(var(--enter, 1) * 1.8 - 0.8), 1);
+  transform: translateY(calc((1 - var(--enter, 1)) * 4rem));
+  will-change: transform, opacity;
 }
 
-.sol3d-left {
+.solst-cell {
   display: flex;
   flex-direction: column;
-  gap: clamp(0.7rem, 1.4vh, 1.1rem);
+  gap: clamp(0.6rem, 1.4vh, 1rem);
+  padding: clamp(0.9rem, 1.8vh, 1.5rem) clamp(0.9rem, 1.6vw, 1.5rem);
   min-width: 0;
 }
 
-.sol3d-sector {
-  font-family: var(--font-sans);
-  font-size: clamp(1.8rem, 3vw, 2.8rem);
-  line-height: 1.05;
-  letter-spacing: -0.02em;
-  font-weight: 500;
-  color: #ffffff;
+.solst-cell + .solst-cell {
+  border-left: 1px solid var(--solst-line);
 }
 
-.sol3d-problem {
-  font-family: var(--font-sans);
-  font-size: clamp(0.85rem, 0.95vw, 0.95rem);
-  line-height: 1.65;
-  color: rgba(255, 255, 255, 0.58);
-}
-
-.sol3d-metrics {
-  display: flex;
-  flex-wrap: wrap;
-  gap: clamp(1.1rem, 2.4vw, 2.4rem);
-  margin-top: auto;
-  padding-top: 0.5rem;
-}
-
-.sol3d-metric {
-  display: flex;
-  flex-direction: column;
-  gap: 0.3rem;
-}
-
-.sol3d-metric-value {
-  font-family: var(--font-sans);
-  font-size: clamp(1.4rem, 2vw, 1.9rem);
-  font-weight: 700;
-  line-height: 1;
-  color: #ffffff;
-}
-
-.sol3d-metric-label {
+.solst-cell-label {
   font-family: var(--font-favorit);
   font-size: 0.62rem;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.38);
-  max-width: 11rem;
+  color: var(--solst-accent);
 }
 
-.sol3d-right {
+.solst-problem {
+  font-family: var(--font-sans);
+  font-size: clamp(0.85rem, 0.95vw, 0.98rem);
+  line-height: 1.65;
+  color: var(--solst-fg-soft);
+}
+
+.solst-sols {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  min-width: 0;
+  justify-content: space-between;
+  flex: 1;
 }
 
-.sol3d-sol {
+.solst-sol {
   display: flex;
-  gap: 0.9rem;
-  padding-block: clamp(0.7rem, 1.6vh, 1.15rem);
+  gap: 0.8rem;
+  padding-block: clamp(0.4rem, 1vh, 0.7rem);
 }
 
-.sol3d-sol + .sol3d-sol {
-  border-top: 1px solid rgba(255, 255, 255, 0.07);
+.solst-sol + .solst-sol {
+  border-top: 1px solid var(--solst-line);
 }
 
-.sol3d-sol-num {
+.solst-sol-num {
   font-family: var(--font-favorit);
-  font-size: 0.65rem;
+  font-size: 0.62rem;
   letter-spacing: 0.1em;
-  color: rgba(61, 110, 78, 0.95);
+  color: var(--solst-fg-mute);
   padding-top: 0.2rem;
 }
 
-.sol3d-sol-copy {
+.solst-sol-copy {
+  min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 0.35rem;
-  min-width: 0;
+  gap: 0.25rem;
 }
 
-.sol3d-sol-title {
+.solst-sol-title {
   font-family: var(--font-sans);
-  font-size: clamp(0.92rem, 1vw, 1.02rem);
+  font-size: clamp(0.9rem, 1vw, 1rem);
   font-weight: 500;
   letter-spacing: -0.01em;
-  line-height: 1.3;
-  color: #ffffff;
+  line-height: 1.25;
+  color: var(--solst-fg);
 }
 
-.sol3d-sol-body {
+.solst-sol-body {
   font-family: var(--font-sans);
-  font-size: clamp(0.78rem, 0.85vw, 0.85rem);
-  line-height: 1.55;
-  color: rgba(255, 255, 255, 0.48);
+  font-size: clamp(0.76rem, 0.83vw, 0.84rem);
+  line-height: 1.5;
+  color: var(--solst-fg-soft);
   display: -webkit-box;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
 
-.sol3d-foot {
-  display: flex;
-  align-items: center;
+.solst-cell-impact {
   justify-content: space-between;
-  gap: 1rem;
-  flex-wrap: wrap;
-  border-top: 1px solid rgba(255, 255, 255, 0.07);
-  padding-top: clamp(0.7rem, 1.4vh, 1rem);
-  position: relative;
-  z-index: 2;
 }
 
-.sol3d-tags {
+.solst-metrics {
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
+  flex-direction: column;
+  gap: clamp(0.7rem, 1.6vh, 1.2rem);
 }
 
-.sol3d-tag {
+.solst-metric {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.solst-metric-value {
+  font-family: var(--font-sans);
+  font-size: clamp(1.5rem, 2.2vw, 2.1rem);
+  font-weight: 700;
+  line-height: 1;
+  color: var(--solst-fg);
+}
+
+.solst-metric-label {
   font-family: var(--font-favorit);
-  font-size: 0.6rem;
+  font-size: 0.62rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.32);
-  border: 1px solid var(--color-border);
-  padding: 0.3rem 0.5rem;
-  white-space: nowrap;
+  color: var(--solst-fg-mute);
 }
 
-.sol3d-cta {
+.solst-cta {
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
@@ -5600,181 +5572,87 @@ a.legal-link:hover {
   font-size: 0.7rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: rgba(61, 110, 78, 0.95);
+  color: var(--solst-accent);
   transition: color 0.2s ease;
   white-space: nowrap;
 }
 
-.sol3d-cta:hover {
-  color: #ffffff;
+.solst-cta:hover {
+  color: var(--solst-fg);
 }
 
-/* ---------------- Rail / HUD ---------------- */
+/* ---------------- Capability ticker ---------------- */
 
-.sol3d-rail {
-  position: absolute;
-  right: 0.5rem;
-  top: 50%;
-  transform: translateY(-50%);
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  z-index: 60;
-}
-
-.sol3d-rail-item {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.45rem 0.6rem;
-  font-family: var(--font-favorit);
-  font-size: 0.62rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  text-align: left;
-  color: rgba(255, 255, 255, 0.3);
-  background: rgba(0, 0, 0, 0.35);
-  border: 1px solid transparent;
-  backdrop-filter: blur(8px);
-  cursor: pointer;
-  transition: color 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
-}
-
-.sol3d-rail-item:hover {
-  color: rgba(255, 255, 255, 0.75);
-}
-
-.sol3d-rail-item.is-active {
-  color: #ffffff;
-  border-color: rgba(255, 255, 255, 0.18);
-  background: rgba(255, 255, 255, 0.06);
-}
-
-.sol3d-rail-num {
-  color: rgba(61, 110, 78, 0.9);
-}
-
-.sol3d-rail-item.is-active .sol3d-rail-num {
-  color: color-mix(in srgb, var(--color-accent-green) 45%, #ffffff 55%);
-}
-
-.sol3d-hud {
-  position: absolute;
-  left: 1rem;
-  bottom: 0.9rem;
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  z-index: 60;
-  font-family: var(--font-favorit);
-  font-size: 0.65rem;
-  letter-spacing: 0.12em;
-  color: rgba(255, 255, 255, 0.45);
-}
-
-.sol3d-track {
-  width: 140px;
-  height: 2px;
-  background: rgba(255, 255, 255, 0.1);
+.solst-ticker {
+  border-top: 1px solid var(--solst-line);
+  margin-inline: calc(clamp(1.1rem, 2.2vw, 2.4rem) * -1);
+  padding-block: 0.75rem;
   overflow: hidden;
 }
 
-.sol3d-fill {
-  height: 100%;
-  background: rgba(255, 255, 255, 0.7);
-  transform: scaleX(0);
-  transform-origin: 0 50%;
-}
-
-.sol3d-hint {
-  position: absolute;
-  right: 1rem;
-  bottom: 0.9rem;
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  z-index: 60;
+.solst-ticker-track {
+  display: inline-flex;
+  white-space: nowrap;
   font-family: var(--font-favorit);
-  font-size: 0.65rem;
-  letter-spacing: 0.12em;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.4);
-  pointer-events: none;
+  color: var(--solst-fg-mute);
+  animation: solst-ticker 36s linear infinite;
+  will-change: transform;
 }
 
-.sol3d-hint svg {
-  animation: sol3d-bob 1.8s ease-in-out infinite;
+.solst-ticker-track span {
+  padding-left: 1ch;
 }
 
-@keyframes sol3d-bob {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(3px); }
+@keyframes solst-ticker {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(-50%, 0, 0); }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .sol3d-hint svg {
+  .solst-ticker-track {
     animation: none;
   }
 }
 
-@media (max-width: 1279px) {
-  .sol3d-rail {
-    display: none;
-  }
-}
+/* ---------------- Compact ---------------- */
 
-/* ---------------- Compact: unroll the deck ---------------- */
-
-@media (max-width: 899px), (max-height: 599px) {
-  .sol3d-wrap {
-    height: auto !important;
-  }
-
-  .sol3d-pin {
-    position: static;
-    height: auto;
-    min-height: 0;
-  }
-
-  .sol3d-stage {
-    position: static;
-    perspective: none;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-
-  .sol3d-stage::before {
-    display: none;
-  }
-
-  .sol3d-card {
-    position: static;
-    translate: none;
-    transform: none !important;
-    opacity: 1 !important;
-    width: 100%;
-    max-height: none;
-  }
-
-  .sol3d-card::after {
-    display: none;
-  }
-
-  .sol3d-main {
+@media (max-width: 1023px) {
+  .solst-cells {
     grid-template-columns: 1fr;
+    overflow: hidden;
   }
 
-  .sol3d-sol-body {
-    -webkit-line-clamp: unset;
-    display: block;
-    overflow: visible;
+  .solst-cell + .solst-cell {
+    border-left: none;
+    border-top: 1px solid var(--solst-line);
   }
 
-  .sol3d-tagline,
-  .sol3d-rail,
-  .sol3d-hud,
-  .sol3d-hint {
-    display: none;
+  .solst-word {
+    font-size: clamp(2.4rem, 11.5vw, 6rem);
+  }
+
+  .solst-panel {
+    height: auto;
+    min-height: calc(100svh - 5.75rem);
+  }
+
+  .solst-inner {
+    padding-bottom: 0;
+  }
+
+  .solst-problem {
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .solst-metrics {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1.4rem;
   }
 }
