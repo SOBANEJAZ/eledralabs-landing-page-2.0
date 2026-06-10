@@ -296,9 +296,17 @@ function SolutionsStack() {
               <h2 className="solst-word">{ind.short}</h2>
 
               <div className="solst-cells">
-                <div className="solst-cell">
+                <div className="solst-cell solst-cell-problem">
                   <span className="solst-cell-label">01 — The problem</span>
                   <p className="solst-problem">{ind.problem}</p>
+                  {/* compliance/trade chips fill the cell's lower whitespace */}
+                  <div className="solst-tags">
+                    {[...ind.compliance, ...(ind.trades ?? [])].slice(0, 6).map((c) => (
+                      <span key={c} className="solst-tag">
+                        {c}
+                      </span>
+                    ))}
+                  </div>
                 </div>
 
                 <div className="solst-cell">

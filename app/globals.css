@@ -5581,13 +5581,37 @@ a.legal-link:hover {
   line-height: 1.6;
   color: var(--solst-fg-soft);
   display: -webkit-box;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 4;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
 
 .solst-cell-impact {
   justify-content: space-between;
+}
+
+/* problem cell: paragraph on top, capability chips anchored to the foot */
+.solst-cell-problem {
+  justify-content: flex-start;
+}
+
+.solst-tags {
+  margin-top: auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  padding-top: 0.8rem;
+}
+
+.solst-tag {
+  font-family: var(--font-favorit);
+  font-size: 0.64rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--solst-fg-mute);
+  border: 1px solid var(--solst-line);
+  padding: 0.32rem 0.55rem;
+  white-space: nowrap;
 }
 
 /* framed industry illustration (same assets as main's industry blocks).
@@ -5701,6 +5725,16 @@ a.legal-link:hover {
 
   .solst-problem {
     font-size: clamp(0.95rem, 1.1vw, 1.1rem);
+  }
+
+  .solst-tags {
+    padding-top: 0.5rem;
+    gap: 0.35rem;
+  }
+
+  .solst-tag {
+    padding: 0.26rem 0.45rem;
+    font-size: 0.6rem;
   }
 }
 
