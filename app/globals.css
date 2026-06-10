@@ -5368,8 +5368,8 @@ a.legal-link:hover {
   height: 100%;
   display: flex;
   flex-direction: column;
-  gap: clamp(0.8rem, 1.6vh, 1.4rem);
-  padding: clamp(1.1rem, 2vw, 2rem) clamp(1.1rem, 2.2vw, 2.4rem) 0;
+  gap: clamp(0.55rem, 1.1vh, 0.95rem);
+  padding: clamp(0.9rem, 1.5vw, 1.5rem) clamp(1.1rem, 2.2vw, 2.4rem) 0;
   transform: translateY(calc(var(--press, 0) * -3rem)) scale(calc(1 - var(--press, 0) * 0.04));
   transform-origin: 50% 18%;
   overflow: hidden;
@@ -5489,7 +5489,7 @@ a.legal-link:hover {
   flex: 1;
   min-height: 0;
   display: grid;
-  grid-template-columns: minmax(0, 3.2fr) minmax(0, 4.6fr) minmax(0, 4.2fr);
+  grid-template-columns: minmax(0, 3fr) minmax(0, 4.2fr) minmax(0, 4.8fr);
   border: 1px solid var(--solst-line);
   /* scroll-linked settle-in, slightly behind the word */
   opacity: clamp(0, calc(var(--enter, 1) * 1.8 - 0.8), 1);
@@ -5500,8 +5500,8 @@ a.legal-link:hover {
 .solst-cell {
   display: flex;
   flex-direction: column;
-  gap: clamp(0.6rem, 1.4vh, 1rem);
-  padding: clamp(0.9rem, 1.8vh, 1.5rem) clamp(0.9rem, 1.6vw, 1.5rem);
+  gap: clamp(0.5rem, 1.1vh, 0.85rem);
+  padding: clamp(0.7rem, 1.3vh, 1.1rem) clamp(0.9rem, 1.6vw, 1.5rem);
   min-width: 0;
   /* grid items default to min-height auto — the media frame's intrinsic
      image height would inflate the row and overflow the panel */
@@ -5605,7 +5605,7 @@ a.legal-link:hover {
   display: block;
   width: 100%;
   height: auto;
-  max-height: 44vh;
+  max-height: 56vh;
   object-fit: cover;
   object-position: top;
 }
