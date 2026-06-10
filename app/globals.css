@@ -5442,7 +5442,7 @@ a.legal-link:hover {
   flex: 1;
   min-height: 0;
   display: grid;
-  grid-template-columns: minmax(0, 4fr) minmax(0, 5fr) minmax(0, 3fr);
+  grid-template-columns: minmax(0, 3.2fr) minmax(0, 4.6fr) minmax(0, 4.2fr);
   border: 1px solid var(--solst-line);
   /* scroll-linked settle-in, slightly behind the word */
   opacity: clamp(0, calc(var(--enter, 1) * 1.8 - 0.8), 1);
@@ -5543,29 +5543,31 @@ a.legal-link:hover {
   justify-content: space-between;
 }
 
-/* framed industry illustration (same assets as main's industry blocks) */
+/* framed industry illustration (same assets as main's industry blocks).
+   The frame follows the image's own aspect ratio — full cell width,
+   natural height — with a viewport cap that crops from the top edge
+   only on short screens. */
 .solst-media {
-  flex: 1;
-  min-height: 0;
   border: 1px solid var(--solst-line);
   background: rgba(0, 0, 0, 0.18);
   overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .solst-media img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
   display: block;
+  width: 100%;
+  height: auto;
+  max-height: 44vh;
+  object-fit: cover;
+  object-position: top;
 }
 
+/* metrics run horizontally beneath the illustration, like main */
 .solst-metrics {
   display: flex;
-  flex-direction: column;
-  gap: clamp(0.7rem, 1.6vh, 1.2rem);
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: clamp(0.8rem, 1.6vh, 1.2rem) clamp(1.2rem, 2vw, 2rem);
 }
 
 .solst-metric {
@@ -5576,7 +5578,7 @@ a.legal-link:hover {
 
 .solst-metric-value {
   font-family: var(--font-sans);
-  font-size: clamp(2rem, 2.9vw, 2.9rem);
+  font-size: clamp(1.7rem, 2.3vw, 2.4rem);
   font-weight: 700;
   line-height: 1;
   color: var(--solst-fg);
@@ -5687,15 +5689,4 @@ a.legal-link:hover {
     overflow: hidden;
   }
 
-  .solst-metrics {
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 1.4rem;
-  }
-
-  .solst-media {
-    flex: 0 0 auto;
-    height: clamp(160px, 28vh, 240px);
-    width: 100%;
-  }
 }
