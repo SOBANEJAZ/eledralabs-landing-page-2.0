@@ -5408,8 +5408,8 @@ a.legal-link:hover {
   border-bottom: 1px solid var(--solst-line);
   padding-bottom: 0.7rem;
   font-family: var(--font-favorit);
-  font-size: 0.65rem;
-  letter-spacing: 0.12em;
+  font-size: 0.74rem;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
 }
 
@@ -5426,12 +5426,13 @@ a.legal-link:hover {
 /* ---------------- Giant industry word ---------------- */
 
 .solst-word {
-  font-family: var(--font-favorit);
-  font-weight: 500;
+  /* OCRX — the loaded-but-unused OCR display face; pure terminal-instrument */
+  font-family: 'OCRX', var(--font-favorit);
+  font-weight: 400;
   text-transform: uppercase;
-  font-size: clamp(3rem, 9.2vw, 9.5rem);
-  line-height: 0.92;
-  letter-spacing: -0.03em;
+  font-size: clamp(3.2rem, 10.2vw, 10.5rem);
+  line-height: 0.95;
+  letter-spacing: 0.01em;
   color: var(--solst-fg);
   white-space: nowrap;
   /* deep parallax: lags the panel on the way in, drifts up under press */
@@ -5467,17 +5468,24 @@ a.legal-link:hover {
 
 .solst-cell-label {
   font-family: var(--font-favorit);
-  font-size: 0.62rem;
-  letter-spacing: 0.12em;
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--solst-accent);
 }
 
 .solst-problem {
   font-family: var(--font-sans);
-  font-size: clamp(0.85rem, 0.95vw, 0.98rem);
-  line-height: 1.65;
+  font-size: clamp(1.02rem, 1.25vw, 1.3rem);
+  line-height: 1.7;
+  letter-spacing: -0.01em;
+  font-weight: 400;
   color: var(--solst-fg-soft);
+}
+
+/* opening words carry the voice */
+.solst-problem::first-line {
+  color: var(--solst-fg);
 }
 
 .solst-sols {
@@ -5498,11 +5506,11 @@ a.legal-link:hover {
 }
 
 .solst-sol-num {
-  font-family: var(--font-favorit);
-  font-size: 0.62rem;
+  font-family: 'OCRX', var(--font-favorit);
+  font-size: 0.85rem;
   letter-spacing: 0.1em;
-  color: var(--solst-fg-mute);
-  padding-top: 0.2rem;
+  color: var(--solst-accent);
+  padding-top: 0.25rem;
 }
 
 .solst-sol-copy {
@@ -5514,20 +5522,20 @@ a.legal-link:hover {
 
 .solst-sol-title {
   font-family: var(--font-sans);
-  font-size: clamp(0.9rem, 1vw, 1rem);
+  font-size: clamp(1.1rem, 1.35vw, 1.45rem);
   font-weight: 500;
-  letter-spacing: -0.01em;
-  line-height: 1.25;
+  letter-spacing: -0.015em;
+  line-height: 1.2;
   color: var(--solst-fg);
 }
 
 .solst-sol-body {
   font-family: var(--font-sans);
-  font-size: clamp(0.76rem, 0.83vw, 0.84rem);
-  line-height: 1.5;
+  font-size: clamp(0.86rem, 0.95vw, 0.98rem);
+  line-height: 1.6;
   color: var(--solst-fg-soft);
   display: -webkit-box;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -5549,17 +5557,17 @@ a.legal-link:hover {
 }
 
 .solst-metric-value {
-  font-family: var(--font-sans);
-  font-size: clamp(1.5rem, 2.2vw, 2.1rem);
-  font-weight: 700;
+  font-family: 'OCRX', var(--font-favorit);
+  font-size: clamp(2rem, 2.9vw, 2.9rem);
+  font-weight: 400;
   line-height: 1;
   color: var(--solst-fg);
 }
 
 .solst-metric-label {
   font-family: var(--font-favorit);
-  font-size: 0.62rem;
-  letter-spacing: 0.06em;
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--solst-fg-mute);
 }
@@ -5567,10 +5575,10 @@ a.legal-link:hover {
 .solst-cta {
   display: inline-flex;
   align-items: center;
-  gap: 0.35rem;
+  gap: 0.4rem;
   font-family: var(--font-favorit);
-  font-size: 0.7rem;
-  letter-spacing: 0.08em;
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--solst-accent);
   transition: color 0.2s ease;
@@ -5593,9 +5601,9 @@ a.legal-link:hover {
 .solst-ticker-track {
   display: inline-flex;
   white-space: nowrap;
-  font-family: var(--font-favorit);
-  font-size: 0.72rem;
-  letter-spacing: 0.14em;
+  font-family: 'OCRX', var(--font-favorit);
+  font-size: 0.85rem;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--solst-fg-mute);
   animation: solst-ticker 36s linear infinite;
@@ -5614,6 +5622,17 @@ a.legal-link:hover {
 @media (prefers-reduced-motion: reduce) {
   .solst-ticker-track {
     animation: none;
+  }
+}
+
+/* shorter laptops: tighten copy so the cells never clip */
+@media (max-height: 840px) {
+  .solst-sol-body {
+    -webkit-line-clamp: 2;
+  }
+
+  .solst-problem {
+    font-size: clamp(0.95rem, 1.1vw, 1.1rem);
   }
 }
 
