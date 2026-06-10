@@ -5335,13 +5335,9 @@ a.legal-link:hover {
   --solst-accent: color-mix(in srgb, var(--color-accent-green) 55%, #ffffff 45%);
 }
 
-.solst-light {
-  --solst-bg: #e9e6e0;
-  --solst-fg: #0e0e0e;
-  --solst-fg-soft: rgba(14, 14, 14, 0.66);
-  --solst-fg-mute: rgba(14, 14, 14, 0.45);
-  --solst-line: rgba(14, 14, 14, 0.22);
-  --solst-accent: #2e5a3e;
+.solst-dark-alt {
+  --solst-bg: #151515;
+  --solst-line: rgba(255, 255, 255, 0.16);
 }
 
 /* covered panel dims as the next one slides over it */

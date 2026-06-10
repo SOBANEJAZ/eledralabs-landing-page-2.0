@@ -251,7 +251,9 @@ function SolutionsStack() {
   return (
     <div className="solst">
       {industries.map((ind, i) => {
-        const tone = i % 2 === 0 ? 'solst-dark' : 'solst-light'
+        // all panels stay on the dark theme; alternates lift the surface a
+        // step so the cover transition between panels stays readable
+        const tone = i % 2 === 0 ? 'solst-dark' : 'solst-dark solst-dark-alt'
         const tickerItems = [
           ...ind.solutions.map((s) => s.title),
           ...ind.compliance,
