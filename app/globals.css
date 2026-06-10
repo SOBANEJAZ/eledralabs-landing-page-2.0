@@ -5426,13 +5426,13 @@ a.legal-link:hover {
 /* ---------------- Giant industry word ---------------- */
 
 .solst-word {
-  /* OCRX — the loaded-but-unused OCR display face; pure terminal-instrument */
-  font-family: 'OCRX', var(--font-favorit);
-  font-weight: 400;
+  /* Geist — the same display stack as the site's other big statements */
+  font-family: var(--font-sans);
+  font-weight: 700;
   text-transform: uppercase;
   font-size: clamp(3.2rem, 10.2vw, 10.5rem);
-  line-height: 0.95;
-  letter-spacing: 0.01em;
+  line-height: 0.9;
+  letter-spacing: -0.03em;
   color: var(--solst-fg);
   white-space: nowrap;
   /* deep parallax: lags the panel on the way in, drifts up under press */
@@ -5509,11 +5509,11 @@ a.legal-link:hover {
 }
 
 .solst-sol-num {
-  font-family: 'OCRX', var(--font-favorit);
-  font-size: 0.85rem;
+  font-family: var(--font-favorit);
+  font-size: 0.72rem;
   letter-spacing: 0.1em;
   color: var(--solst-accent);
-  padding-top: 0.25rem;
+  padding-top: 0.35rem;
 }
 
 .solst-sol-copy {
@@ -5579,9 +5579,9 @@ a.legal-link:hover {
 }
 
 .solst-metric-value {
-  font-family: 'OCRX', var(--font-favorit);
+  font-family: var(--font-sans);
   font-size: clamp(2rem, 2.9vw, 2.9rem);
-  font-weight: 400;
+  font-weight: 700;
   line-height: 1;
   color: var(--solst-fg);
 }
@@ -5623,8 +5623,8 @@ a.legal-link:hover {
 .solst-ticker-track {
   display: inline-flex;
   white-space: nowrap;
-  font-family: 'OCRX', var(--font-favorit);
-  font-size: 0.85rem;
+  font-family: var(--font-favorit);
+  font-size: 0.78rem;
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--solst-fg-mute);
