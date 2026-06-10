@@ -5404,6 +5404,13 @@ a.legal-link:hover {
   display: none;
 }
 
+/* invisible runway between panels — the previous panel stays pinned and
+   readable for this much scroll before the next one rises to cover it */
+.solst-dwell {
+  height: 55vh;
+  pointer-events: none;
+}
+
 /* ---------------- Accent baseline ---------------- */
 
 /* the bright signature line at the foot of every industry block,
@@ -5700,6 +5707,10 @@ a.legal-link:hover {
 /* ---------------- Compact ---------------- */
 
 @media (max-width: 1023px) {
+  .solst-dwell {
+    height: 30vh;
+  }
+
   .solst-cells {
     grid-template-columns: 1fr;
     overflow: hidden;

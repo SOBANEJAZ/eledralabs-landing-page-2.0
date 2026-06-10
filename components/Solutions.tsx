@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { useEffect, useRef } from 'react'
+import { Fragment, useEffect, useRef } from 'react'
 
 type Industry = {
   id: string
@@ -268,8 +268,8 @@ function SolutionsStack() {
         ]
         const tickerLine = tickerItems.join('  ▪  ') + '  ▪  '
         return (
+          <Fragment key={ind.id}>
           <section
-            key={ind.id}
             ref={(el) => {
               panelRefs.current[i] = el
             }}
@@ -346,6 +346,10 @@ function SolutionsStack() {
               </div>
             </div>
           </section>
+          {/* reading dwell: extra runway while this panel is pinned, so the
+              next one doesn't start covering it immediately */}
+          {i < N - 1 && <div className="solst-dwell" aria-hidden="true" />}
+          </Fragment>
         )
       })}
     </div>
