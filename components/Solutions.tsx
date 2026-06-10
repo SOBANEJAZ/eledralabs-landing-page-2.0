@@ -14,11 +14,14 @@ type Industry = {
   compliance: string[]
   trades?: string[]
   img: string
+  /* per-industry accent hue — drives labels, baseline, cursor, glow */
+  hue: string
 }
 
 const industries: Industry[] = [
   {
     id: 'healthcare',
+    hue: '#2dd4bf',
     sector: 'Healthcare',
     short: 'Healthcare',
     tagline: 'HIPAA-compliant AI for patient-facing operations',
@@ -48,6 +51,7 @@ const industries: Industry[] = [
   },
   {
     id: 'real-estate',
+    hue: '#d4f33b',
     sector: 'Real Estate',
     short: 'Real Estate',
     tagline: 'AI that qualifies leads while you show properties',
@@ -77,6 +81,7 @@ const industries: Industry[] = [
   },
   {
     id: 'local-business',
+    hue: '#fbbf24',
     sector: 'Local Trades & Services',
     short: 'Local Trades',
     tagline: 'Never miss a job — 24/7 dispatch and booking',
@@ -107,6 +112,7 @@ const industries: Industry[] = [
   },
   {
     id: 'ecommerce',
+    hue: '#ff5a1f',
     sector: 'E-commerce & Retail',
     short: 'E-commerce',
     tagline: 'Recover carts, deflect tickets, scale support',
@@ -136,6 +142,7 @@ const industries: Industry[] = [
   },
   {
     id: 'hospitality',
+    hue: '#a78bfa',
     sector: 'Hospitality & Restaurants',
     short: 'Hospitality',
     tagline: 'Bookings, queries, and reviews — fully automated',
@@ -267,7 +274,7 @@ function SolutionsStack() {
               panelRefs.current[i] = el
             }}
             className={`solst-panel ${tone}`}
-            style={{ zIndex: 10 + i }}
+            style={{ zIndex: 10 + i, ['--solst-accent-strong' as string]: ind.hue }}
             aria-label={ind.sector}
           >
             {/* pixel-notched top edge eats into the panel below it */}

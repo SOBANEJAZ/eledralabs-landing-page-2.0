@@ -5332,12 +5332,34 @@ a.legal-link:hover {
   --solst-fg-soft: rgba(255, 255, 255, 0.58);
   --solst-fg-mute: rgba(255, 255, 255, 0.38);
   --solst-line: rgba(255, 255, 255, 0.14);
-  --solst-accent: color-mix(in srgb, var(--color-accent-green) 55%, #ffffff 45%);
 }
 
 .solst-dark-alt {
   --solst-bg: #151515;
   --solst-line: rgba(255, 255, 255, 0.16);
+}
+
+/* each panel supplies its own --solst-accent-strong hue inline; the
+   readable text accent is derived from it */
+.solst-panel {
+  --solst-accent: color-mix(
+    in srgb,
+    var(--solst-accent-strong, var(--color-accent-green)) 62%,
+    #ffffff 38%
+  );
+}
+
+/* faint per-industry ambiance in the panel's upper-right corner */
+.solst-panel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 55% 45% at 82% 4%,
+    color-mix(in srgb, var(--solst-accent-strong, transparent) 9%, transparent),
+    transparent 70%
+  );
+  pointer-events: none;
 }
 
 /* covered panel dims as the next one slides over it */
@@ -5423,7 +5445,8 @@ a.legal-link:hover {
   align-items: baseline;
   justify-content: space-between;
   gap: 1rem;
-  border-bottom: 1px solid var(--solst-line);
+  border-bottom: 1px solid
+    color-mix(in srgb, var(--solst-accent-strong, transparent) 30%, var(--solst-line));
   padding-bottom: 0.7rem;
   font-family: var(--font-favorit);
   font-size: 0.74rem;
@@ -5456,6 +5479,16 @@ a.legal-link:hover {
   /* deep parallax: lags the panel on the way in, drifts up under press */
   transform: translateY(calc((1 - var(--enter, 1)) * 12rem - var(--press, 0) * 4rem));
   will-change: transform;
+}
+
+/* terminal cursor block in the industry's hue */
+.solst-word::after {
+  content: '';
+  display: inline-block;
+  width: 0.13em;
+  height: 0.62em;
+  margin-left: 0.1em;
+  background: var(--solst-accent-strong, var(--color-accent-green));
 }
 
 /* ---------------- Bordered content cells ---------------- */
@@ -5570,7 +5603,8 @@ a.legal-link:hover {
    natural height — with a viewport cap that crops from the top edge
    only on short screens. */
 .solst-media {
-  border: 1px solid var(--solst-line);
+  border: 1px solid
+    color-mix(in srgb, var(--solst-accent-strong, transparent) 25%, var(--solst-line));
   background: rgba(0, 0, 0, 0.18);
   overflow: hidden;
 }
