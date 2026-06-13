@@ -280,14 +280,14 @@ function Testimonials() {
                   color: '#000',
                 }}
               >
-                S
+                J
               </div>
               <div className="flex flex-col font-sans">
                 <p
                   className="text-18 text-black leading-normal"
                   style={{ color: '#000000', fontWeight: 600 }}
                 >
-                  Saloni
+                  Josh
                 </p>
               </div>
             </div>

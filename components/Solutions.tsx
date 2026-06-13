@@ -160,9 +160,9 @@ const testimonials = [
   {
     quote:
       "Eledra Labs automated our entire customer workflow — every lead is now qualified, routed, and followed up within seconds. It's like adding a full operations team without the headcount.",
-    author: 'Saloni R.',
+    author: 'Josh R.',
     role: 'Operations Lead',
-    initials: 'SR',
+    initials: 'JR',
   },
   {
     quote:
