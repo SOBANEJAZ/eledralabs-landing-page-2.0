@@ -1,12 +1,8 @@
-'use client'
-
 import Link from 'next/link'
-import { Fragment, useEffect, useRef } from 'react'
 
 type Industry = {
   id: string
   sector: string
-  short: string
   tagline: string
   problem: string
   solutions: { title: string; body: string }[]
@@ -14,16 +10,12 @@ type Industry = {
   compliance: string[]
   trades?: string[]
   img: string
-  /* per-industry accent hue — drives labels, baseline, cursor, glow */
-  hue: string
 }
 
 const industries: Industry[] = [
   {
     id: 'healthcare',
-    hue: '#2563eb',
     sector: 'Healthcare',
-    short: 'Healthcare',
     tagline: 'HIPAA-compliant AI for patient-facing operations',
     problem:
       'Clinical staff spend 30–40% of their day on administrative work — scheduling calls, answering repetitive patient questions, chasing insurance approvals. Every hour spent on logistics is an hour not spent on care.',
@@ -51,9 +43,7 @@ const industries: Industry[] = [
   },
   {
     id: 'real-estate',
-    hue: '#16a34a',
     sector: 'Real Estate',
-    short: 'Real Estate',
     tagline: 'AI that qualifies leads while you show properties',
     problem:
       'The average lead goes cold in under 5 minutes. Agents in showings miss calls, lose leads, and spend hours on manual CRM data entry. Speed-to-lead determines who wins in real estate — and humans cannot always be first.',
@@ -81,9 +71,7 @@ const industries: Industry[] = [
   },
   {
     id: 'local-business',
-    hue: '#d97706',
     sector: 'Local Trades & Services',
-    short: 'Local Trades',
     tagline: 'Never miss a job — 24/7 dispatch and booking',
     problem:
       'Plumbers, HVAC technicians, and electricians lose thousands per month to missed calls during jobs. After-hours calls go to voicemail. Scheduling is done manually via text. Dispatch is chaos — and every missed call is a competitor opportunity.',
@@ -112,9 +100,7 @@ const industries: Industry[] = [
   },
   {
     id: 'ecommerce',
-    hue: '#ff5a1f',
     sector: 'E-commerce & Retail',
-    short: 'E-commerce',
     tagline: 'Recover carts, deflect tickets, scale support',
     problem:
       'Cart abandonment runs 70%+, and support volume scales with every new SKU and channel. Tier-1 questions — order status, returns, sizing, restocks — devour the queue while real escalations wait. Hiring linearly is not a strategy.',
@@ -142,9 +128,7 @@ const industries: Industry[] = [
   },
   {
     id: 'hospitality',
-    hue: '#dc2626',
     sector: 'Hospitality & Restaurants',
-    short: 'Hospitality',
     tagline: 'Bookings, queries, and reviews — fully automated',
     problem:
       'Hosts and front-of-house teams field reservation calls, dietary questions, and review responses in the middle of service. Bookings get lost. Tables sit empty. A 4-star review goes unanswered for a week — and rankings drop.',
@@ -188,185 +172,6 @@ const testimonials = [
     initials: 'SO',
   },
 ]
-
-/* ------------------------------------------------------------------ */
-/* Stacked editorial panels (reference: huehaus.design)                */
-/*                                                                     */
-/* Each industry is a full-viewport flat panel pinned with position:   */
-/* sticky. Scrolling slides the next panel up OVER the pinned one —    */
-/* the covered panel presses back (scales down, dims) while the        */
-/* incoming panel's giant industry word parallaxes into place. Panels  */
-/* alternate dark / paper tones for hard editorial contrast, carry a   */
-/* pixel-notched top edge, and run a slow capability ticker. All       */
-/* motion is scroll-position-driven (no pinned scroll-jacking), so it  */
-/* works identically on touch; the ticker is the only auto-playing     */
-/* piece and pauses under prefers-reduced-motion.                      */
-/* ------------------------------------------------------------------ */
-
-const clamp01 = (v: number) => Math.min(1, Math.max(0, v))
-
-function SolutionsStack() {
-  const N = industries.length
-  const panelRefs = useRef<(HTMLElement | null)[]>([])
-  const lastVars = useRef<string[]>([])
-
-  useEffect(() => {
-    let raf = 0
-    let pending = false
-
-    const compute = () => {
-      pending = false
-      const vh = window.innerHeight
-      const stickyTop =
-        5.25 * parseFloat(getComputedStyle(document.documentElement).fontSize || '16')
-      const range = Math.max(1, vh - stickyTop)
-      const rects = panelRefs.current.map((el) => (el ? el.getBoundingClientRect() : null))
-
-      for (let i = 0; i < N; i++) {
-        const el = panelRefs.current[i]
-        const rect = rects[i]
-        if (!el || !rect) continue
-        // 0 → 1 while this panel slides up into its pinned position
-        const enter = clamp01(1 - (rect.top - stickyTop) / range)
-        // 0 → 1 while the NEXT panel slides up to cover this one
-        const next = rects[i + 1]
-        const press = next ? clamp01(1 - (next.top - stickyTop) / range) : 0
-        const key = `${enter.toFixed(3)}|${press.toFixed(3)}`
-        if (lastVars.current[i] === key) continue
-        lastVars.current[i] = key
-        el.style.setProperty('--enter', enter.toFixed(3))
-        el.style.setProperty('--press', press.toFixed(3))
-      }
-    }
-
-    const onScroll = () => {
-      if (pending) return
-      pending = true
-      raf = requestAnimationFrame(compute)
-    }
-
-    compute()
-    window.addEventListener('scroll', onScroll, { passive: true })
-    window.addEventListener('resize', onScroll)
-    return () => {
-      window.removeEventListener('scroll', onScroll)
-      window.removeEventListener('resize', onScroll)
-      cancelAnimationFrame(raf)
-    }
-  }, [N])
-
-  return (
-    <div className="solst">
-      {industries.map((ind, i) => {
-        // all panels stay on the dark theme; alternates lift the surface a
-        // step so the cover transition between panels stays readable
-        const tone = i % 2 === 0 ? 'solst-dark' : 'solst-dark solst-dark-alt'
-        const tickerItems = [
-          ...ind.solutions.map((s) => s.title),
-          ...ind.compliance,
-          ...(ind.trades ?? []),
-        ]
-        const tickerLine = tickerItems.join('  ▪  ') + '  ▪  '
-        return (
-          <Fragment key={ind.id}>
-          <section
-            ref={(el) => {
-              panelRefs.current[i] = el
-            }}
-            className={`solst-panel ${tone}`}
-            style={{ zIndex: 10 + i, ['--solst-accent-strong' as string]: ind.hue }}
-            aria-label={ind.sector}
-          >
-            {/* pixel-notched top edge eats into the panel below it */}
-            <div className="solst-pixel-edge" aria-hidden="true">
-              {Array.from({ length: 22 }).map((_, b) => (
-                <span key={b} />
-              ))}
-            </div>
-
-            {/* accent baseline — draws in with the panel's entry progress */}
-            <span className="solst-baseline" aria-hidden="true" />
-
-            <div className="solst-inner">
-              <div className="solst-meta">
-                <span className="solst-meta-id">{`0${i + 1} / 0${N} — Industry`}</span>
-                <span className="solst-meta-tag">{ind.tagline}</span>
-              </div>
-
-              <h2 className="solst-word">{ind.short}</h2>
-
-              <div className="solst-cells">
-                <div className="solst-cell solst-cell-problem">
-                  <span className="solst-cell-label">01 — The problem</span>
-                  <p className="solst-problem">{ind.problem}</p>
-                  {/* compliance/trade chips fill the cell's lower whitespace */}
-                  <div className="solst-tags">
-                    {[...ind.compliance, ...(ind.trades ?? [])].slice(0, 6).map((c) => (
-                      <span key={c} className="solst-tag">
-                        {c}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="solst-cell">
-                  <span className="solst-cell-label">02 — What we deploy</span>
-                  <div className="solst-sols">
-                    {ind.solutions.map((sol, j) => (
-                      <div key={sol.title} className="solst-sol">
-                        <span className="solst-sol-num">{`0${j + 1}`}</span>
-                        <div className="solst-sol-copy">
-                          <h3 className="solst-sol-title">{sol.title}</h3>
-                          <p className="solst-sol-body">{sol.body}</p>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="solst-cell solst-cell-impact">
-                  <span className="solst-cell-label">03 — Impact</span>
-                  <div className="solst-media">
-                    <img src={ind.img} alt={`${ind.sector} solution preview`} loading="lazy" />
-                  </div>
-                  <div className="solst-metrics">
-                    {ind.metrics.map((m) => (
-                      <div key={m.label} className="solst-metric">
-                        <span className="solst-metric-value">{m.value}</span>
-                        <span className="solst-metric-label">{m.label}</span>
-                      </div>
-                    ))}
-                  </div>
-                  <Link href="/contact" className="solst-cta">
-                    Get a custom quote
-                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                      <path d="M4.75 9.125L7.875 6L4.75 2.875" stroke="currentColor" strokeLinecap="square" />
-                    </svg>
-                  </Link>
-                </div>
-              </div>
-
-              <div className="solst-ticker">
-                <div className="solst-ticker-track">
-                  <span>{tickerLine}</span>
-                  <span aria-hidden="true">{tickerLine}</span>
-                </div>
-              </div>
-            </div>
-          </section>
-          {/* reading dwell: extra runway while this panel is pinned, so the
-              next one doesn't start covering it immediately */}
-          {i < N - 1 && <div className="solst-dwell" aria-hidden="true" />}
-          </Fragment>
-        )
-      })}
-    </div>
-  )
-}
-
-/* ------------------------------------------------------------------ */
-/* Page                                                                */
-/* ------------------------------------------------------------------ */
 
 export default function Solutions() {
   return (
@@ -414,8 +219,118 @@ export default function Solutions() {
         </div>
       </div>
 
-      {/* 3D industry deck */}
-      <SolutionsStack />
+      {/* Industry Sections */}
+      {industries.map((ind) => (
+        <div key={ind.id} id={`solutions-${ind.id}`} className="border border-border mb-5 md:mb-8 scroll-mt-24">
+          {/* Industry Header — 2 col split */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 border-b border-border">
+            <div className="sol-industry-copy flex flex-col gap-4 border-b lg:border-b-0 lg:border-r border-border">
+              <div className="flex items-center gap-3">
+                <span className="border border-border px-1.5 py-0.5 font-favorit text-2xs uppercase text-white/35">
+                  Industry
+                </span>
+              </div>
+              <h2
+                className="font-sans text-white leading-110"
+                style={{ fontSize: 'clamp(1.6rem, 2.8vw, 2.4rem)' }}
+              >
+                {ind.sector}
+              </h2>
+              <p className="font-favorit text-2xs text-white/35 uppercase tracking-wider">{ind.tagline}</p>
+              <p className="font-sans text-sm md:text-base text-white/60 leading-relaxed max-w-2xl">{ind.problem}</p>
+            </div>
+            {/* Metrics panel */}
+            <div className="sol-industry-media flex flex-col">
+              <div className="sol-industry-image-frame relative overflow-hidden border-b border-border">
+                <img
+                  src={ind.img}
+                  alt={ind.sector}
+                  className="sol-industry-image block w-full h-auto object-contain"
+                  style={{ display: 'block' }}
+                />
+              </div>
+              <div className="sol-industry-metrics flex flex-wrap gap-x-8 gap-y-4 p-5">
+                {ind.metrics.map((m) => (
+                  <div key={m.label} className="flex flex-col gap-1">
+                    <span
+                      className="font-sans text-white font-bold leading-none"
+                      style={{ fontSize: 'clamp(1.6rem, 2.5vw, 2.2rem)' }}
+                    >
+                      {m.value}
+                    </span>
+                    <span className="font-favorit text-2xs text-white/40 uppercase">{m.label}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Solution cards — 3 col */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 border-b border-border">
+            {ind.solutions.map((sol, j) => (
+              <div
+                key={sol.title}
+                className={`sol-feature-card flex flex-col gap-3.5${j < ind.solutions.length - 1 ? ' border-b lg:border-b-0 lg:border-r border-border' : ''
+                  }`}
+              >
+                <h4 className="font-sans text-white text-base md:text-lg font-medium leading-snug tracking-tight">{sol.title}</h4>
+                <p className="font-sans text-sm text-white/50 leading-relaxed">{sol.body}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* Compliance / trades tags + CTA */}
+          <div className="flex items-center justify-between gap-4 flex-wrap sol-tags-row">
+            <div className="flex flex-wrap gap-2">
+              {ind.compliance.map((c) => (
+                <span key={c} className="border border-border px-2 py-1 font-favorit text-2xs text-white/30 uppercase">
+                  {c}
+                </span>
+              ))}
+              {ind.trades &&
+                ind.trades.map((t) => (
+                  <span key={t} className="border border-border px-2 py-1 font-favorit text-2xs text-white/18 uppercase">
+                    {t}
+                  </span>
+                ))}
+            </div>
+            <Link
+              href="/contact"
+              className="inline-flex items-center gap-1 font-favorit uppercase text-xs hover:text-white transition-colors shrink-0"
+              style={{ color: 'rgba(61, 110, 78, 0.8)' }}
+            >
+              Get a custom quote
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                <path d="M4.75 9.125L7.875 6L4.75 2.875" stroke="currentColor" strokeLinecap="square" />
+              </svg>
+            </Link>
+          </div>
+        </div>
+      ))}
+
+      {/* Sector not listed? band */}
+      <div className="border border-border mb-5 md:mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div className="flex flex-col gap-2">
+          <p className="font-favorit text-2xs text-white/30 uppercase tracking-widest">Not listed?</p>
+          <p className="font-sans text-white text-lg md:text-xl leading-normal font-medium">
+            We also build for legal, education, logistics, and financial-services teams.
+          </p>
+          <p className="font-sans text-sm md:text-[15px] text-white/50 leading-relaxed max-w-xl">
+            Every engagement starts with a 30-minute operations map. If it&apos;s repetitive, customer-facing,
+            or after-hours — there is almost certainly a workflow worth automating.
+          </p>
+        </div>
+        <Link
+          href="/contact"
+          className="inline-flex w-fit items-center gap-1 font-favorit uppercase text-white min-h-7 px-3 py-2 text-xs leading-none shrink-0"
+          style={{ backgroundColor: 'var(--color-accent-green)' }}
+        >
+          Map my workflows
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+            <path d="M4.75 9.125L7.875 6L4.75 2.875" stroke="currentColor" strokeLinecap="square" />
+          </svg>
+        </Link>
+      </div>
 
       {/* Testimonials — monochrome */}
       <div className="border border-border grid grid-cols-1 xl:grid-cols-[minmax(0,2fr)_minmax(360px,1fr)]">
@@ -423,9 +338,8 @@ export default function Solutions() {
           <Link
             key={t.author}
             href="/contact"
-            className={`group relative flex flex-col p-5 overflow-hidden gap-8 xl:gap-0 xl:justify-between${
-              i < testimonials.length - 1 ? ' border-b xl:border-b-0 xl:border-r border-border' : ''
-            }`}
+            className={`group relative flex flex-col p-5 overflow-hidden gap-8 xl:gap-0 xl:justify-between${i < testimonials.length - 1 ? ' border-b xl:border-b-0 xl:border-r border-border' : ''
+              }`}
             style={i === 0 ? { background: '#d4f33b', color: '#000000' } : { background: '#ff5a1f', color: '#ffffff' }}
           >
             <p
