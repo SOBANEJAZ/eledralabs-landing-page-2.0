@@ -246,15 +246,15 @@ function Manifesto() {
           EledraLabs — Manifesto
         </p>
         <div className="manifesto-quote-block">
-        <h2 className="manifesto-title">
-          <span className="repel-line manifesto-line" style={{ display: 'block' }}>
-            We pay for every lesson with
-          </span>
-          <span className="repel-line manifesto-line" style={{ display: 'block' }}>
-            either <span className="manifesto-accent">time</span> or <span className="manifesto-accent">money</span>.
-          </span>
-        </h2>
-        <p className="manifesto-author">- Alex Hormozi</p>
+          <h2 className="manifesto-title">
+            <span className="repel-line manifesto-line" style={{ display: 'block' }}>
+              We pay for every lesson with
+            </span>
+            <span className="repel-line manifesto-line" style={{ display: 'block' }}>
+              either <span className="manifesto-accent">time</span> or <span className="manifesto-accent">money</span>.
+            </span>
+          </h2>
+          <p className="manifesto-author">- Alex Hormozi</p>
         </div>
       </div>
     </section>
@@ -307,14 +307,14 @@ function Testimonials() {
                   color: '#000',
                 }}
               >
-                J
+                S
               </div>
               <div className="flex flex-col font-sans">
                 <p
                   className="text-18 text-black leading-normal"
                   style={{ color: '#000000', fontWeight: 600 }}
                 >
-                  Josh
+                  Saloni
                 </p>
               </div>
             </div>
@@ -541,7 +541,7 @@ function ScrollStory() {
   const [rotateY, setRotateY] = useState(18)
   const [rotateX, setRotateX] = useState(-12)
   const [isDragging, setIsDragging] = useState(false)
-  
+
   const dragStartRef = useRef({ x: 0, y: 0 })
   const rotateStartRef = useRef({ x: 0, y: 0 })
 
@@ -593,7 +593,7 @@ function ScrollStory() {
   // Mouse / Touch Event Handlers
   const handleStart = (clientX: number, clientY: number) => {
     setIsDragging(true)
-    
+
     dragStartRef.current = { x: clientX, y: clientY }
     rotateStartRef.current = { x: rotateX, y: rotateY }
   }
@@ -603,13 +603,13 @@ function ScrollStory() {
 
     const deltaX = clientX - dragStartRef.current.x
     const deltaY = clientY - dragStartRef.current.y
-    
+
     // Sensitivity factor mapping screen pixels to rotation degrees
     const sensitivity = 0.28
-    
+
     const newY = rotateStartRef.current.y + deltaX * sensitivity
     const newX = rotateStartRef.current.x - deltaY * sensitivity
-    
+
     setRotateY(newY)
     setRotateX(newX)
   }
@@ -651,7 +651,7 @@ function ScrollStory() {
         </div>
 
         {/* Rotatable Cuboid Viewport */}
-        <div 
+        <div
           className="cuboid-viewport-container select-none cursor-grab active:cursor-grabbing"
           onPointerDown={(e) => {
             if (e.pointerType !== 'touch') e.preventDefault()
@@ -660,7 +660,7 @@ function ScrollStory() {
           }}
         >
           <div className="cuboid-scene">
-            <div 
+            <div
               className="cuboid-box"
               style={{
                 transform: `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`,
@@ -807,16 +807,16 @@ function ScrollStory() {
                     <span className="cube-phase-badge">ELEDRA PIPELINE</span>
                   </div>
                   <div className="cube-card-body flex flex-col justify-between h-full pt-2">
-                  <div>
-                    <h3 className="cube-card-title cube-card-title-warm">Auto Launch</h3>
-                    <p className="cube-card-desc">
-                      Configure your next system upgrade. Book a call to launch your operational automation pipeline.
-                    </p>
-                  </div>
-                  <Link href="/contact" className="cube-cta-button font-favorit group mt-2">
-                    <span>&gt; CONNECT_NOW</span>
-                    <span className="group-hover:translate-x-1 transition-transform inline-block ml-1">→</span>
-                  </Link>
+                    <div>
+                      <h3 className="cube-card-title cube-card-title-warm">Auto Launch</h3>
+                      <p className="cube-card-desc">
+                        Configure your next system upgrade. Book a call to launch your operational automation pipeline.
+                      </p>
+                    </div>
+                    <Link href="/contact" className="cube-cta-button font-favorit group mt-2">
+                      <span>&gt; CONNECT_NOW</span>
+                      <span className="group-hover:translate-x-1 transition-transform inline-block ml-1">→</span>
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -931,7 +931,7 @@ function AtmosphericCTA() {
           <span key={i} className={`dust dust-${i % 8}`} />
         ))}
       </div>
-      
+
       <div className="atmos-inner">
         <div className="atmos-content">
           <p className="font-favorit text-2xs text-white/35 uppercase tracking-widest">
